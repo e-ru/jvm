@@ -1,0 +1,14 @@
+plugins {
+    id 'java-library'
+}
+
+dependencies {
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.2'
+	implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.16'
+
+    implementation 'com.google.guava:guava:27.0.1-jre' 
+
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.4.2'
+	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.4.2'
+}
+

@@ -1,0 +1,26 @@
+plugins {
+	id 'java'
+    id 'application'
+}
+
+application {
+	mainClassName = 'de.rudisch.restsql.Main'
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': mainClassName
+        )
+    }
+}
+
+dependencies {
+    // This dependency is used internally, and not exposed to consumers on their own compile classpath.
+    implementation 'com.google.guava:guava:26.0-jre'
+
+    // Use JUnit test framework
+    testImplementation 'junit:junit:4.12'
+}
+ 
+
