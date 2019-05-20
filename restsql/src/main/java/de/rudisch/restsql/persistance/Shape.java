@@ -1,9 +1,10 @@
+/* Licensed under Apache-2.0 */
 package de.rudisch.restsql.persistance;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Shape {
+public final class Shape {
 	private final String name;
 	private final int dimension;
 	private final String area;
@@ -13,7 +14,7 @@ public class Shape {
 		this.dimension = dimension;
 		this.area = area;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -25,18 +26,18 @@ public class Shape {
 	public String getArea() {
 		return area;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Shape [name=" + name + ", dimension=" + dimension + ", area=" + area + "]";
 	}
-	
+
 	public static Shape fromParams(String name, int dimension, String area) {
 		return new Shape(name, dimension, area);
 	}
-	
+
 	public static Shape fromResultSet(ResultSet resultSet) throws SQLException {
-		return new Shape(resultSet.getString("name"), resultSet.getInt("dimensions"), 
+		return new Shape(resultSet.getString("name"), resultSet.getInt("dimensions"),
 				resultSet.getString("area"));
 	}
 }

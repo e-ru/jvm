@@ -4,16 +4,15 @@ package eu.rudisch.database;
 import java.sql.Types;
 
 enum DatabaseTypes {
-    CHAR(Types.CHAR), INTEGER(Types.INTEGER);
+	CHAR(Types.CHAR), INTEGER(Types.INTEGER);
 
-    private final int id;
+	private final int id;
 
-    DatabaseTypes(int id) {
-	this.id = id;
-    }
+	DatabaseTypes(int id) {
+		this.id = id;
+	}
 
-    public int getValue() {
-	return id;
-    }
-
+	public int getValue() {
+		return id;
+	}
 }

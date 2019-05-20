@@ -5,5 +5,5 @@ import java.sql.SQLException;
 
 @FunctionalInterface
 interface IDatabaseFunction<T, R> {
-    R apply(T t) throws SQLException;
+	R apply(T t) throws SQLException;
 }

@@ -5,5 +5,5 @@ import java.sql.SQLException;
 
 @FunctionalInterface
 public interface IDatabaseConsumer<T> {
-    void accept(T t) throws SQLException;
+	void accept(T t) throws SQLException;
 }
