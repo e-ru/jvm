@@ -15,7 +15,7 @@ public class Main {
 	 * @param args cmd line args
 	 */
 	public static void main(String[] args) {
-		SqlService sqlService = new SqlService("com.mysql.cj.jdbc.Driver",
+		SqlService sqlService = new SqlService(
 				"jdbc:mysql://172.18.0.3:3306/mathematics",
 				"sqluser",
 				"sqluserpw");

@@ -86,6 +86,7 @@ public class ShapePersistance {
 				resultSet -> addShapes(resultSet),
 				SELECT_SHAPE + "WHERE sku = ?",
 				name));
+
 		return shapes.size() == 1 ? shapes.get(0) : null;
 	}
 

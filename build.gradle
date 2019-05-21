@@ -5,103 +5,89 @@ import org.eclipse.text.edits.TextEdit;
 
 buildscript {
 	repositories {
-	  jcenter()
-	  maven {
-			url "https://plugins.gradle.org/m2/"
-		  }
-	}
-	dependencies {
-	  classpath 'org.eclipse.jdt:org.eclipse.jdt.core:3.12.2'
-	}
-}
-
-
-plugins {
-	id "com.diffplug.gradle.spotless" version "3.23.0" apply false
-}
-
-subprojects {
-
-	repositories {
-		// Use jcenter for resolving your dependencies.
-		// You can declare any Maven/Ivy/file repository here.
 		jcenter()
-	}
-
-	apply plugin: 'java'
-	apply plugin: "com.diffplug.gradle.spotless"
-	apply plugin: 'checkstyle'
-	apply plugin: 'eclipse'
-
-	spotless {
-		java {
-			licenseHeader '/* Licensed under Apache-2.0 */'	// License header
-			//licenseHeaderFile 'spotless.license.java'		// License header file
-
-			importOrderFile '../config/spotless.importorder' // An import ordering file, exported from Eclipse
-
-			removeUnusedImports() // removes any unused imports
-
-			eclipse().configFile '../config/spotless.xml'	// XML file dumped out by the Eclipse formatter
+		maven {
+			url 'https://plugins.gradle.org/m2/'
 		}
 	}
+	dependencies {
+		classpath 'org.eclipse.jdt:org.eclipse.jdt.core:3.12.2'
+	}
+}
+
+plugins {
+	id 'com.github.spotbugs' version '2.0.0'
+}
+
+configure(subprojects) {
+	apply plugin: 'java'
+	apply plugin: 'checkstyle'
+	apply plugin: 'eclipse'
+	apply plugin: 'com.github.spotbugs'
 
 	checkstyle {
 		toolVersion '8.20'
 		configDir file("$rootProject.projectDir/config/checkstyle")
 	}
 
-	configure(subprojects) {
-		checkstyleMain {
-			source ='src/main/java'
-		}
-		checkstyleTest {
-			source ='src/test/java'
-		}
-		spotbugs {
-			toolVersion = '3.1.12'
-			sourceSets = [sourceSets.main]
-			ignoreFailures = true
-			reportsDir = file("$project.buildDir/findbugsReports")
-			effort = "max"
-			reportLevel = "high"
-			visitors = [
-				"FindSqlInjection",
-				"SwitchFallthrough"
-			]
-			omitVisitors = ["FindNonShortCircuit"]
-			includeFilter = file("$rootProject.projectDir/config/findbugs/includeFilter.xml")
-			excludeFilter = file("$rootProject.projectDir/config/findbugs/excludeFilter.xml")
-		}
+	spotbugs {
+		toolVersion = '3.1.12'
+		sourceSets = [sourceSets.main]
+		ignoreFailures = true
+		reportsDir = file("$project.buildDir/findbugsReports")
+		effort = 'max'
+		reportLevel = 'high'
+		visitors = [
+			'FindSqlInjection',
+			'SwitchFallthrough'
+		]
+		omitVisitors = ['FindNonShortCircuit']
+		//		includeFilter = file("$rootProject.projectDir/config/findbugs/includeFilter.xml")
+		excludeFilter = file("$rootProject.projectDir/config/findbugs/excludeFilter.xml")
+	}
 
-		eclipse {
-			classpath {
-				downloadSources=true
-			}
-			jdt.file.withProperties {
-				it['org.eclipse.jdt.core.compiler.problem.potentiallyUnclosedCloseable'] = 'ignore'
-				it['org.eclipse.jdt.core.compiler.problem.missingSerialVersion'] = 'ignore'
-				it['org.eclipse.jdt.core.compiler.problem.unhandledWarningToken'] = 'ignore'
-				it['org.eclipse.jdt.core.formatter.use_on_off_tags'] = 'true'
-				it['org.eclipse.jdt.core.formatter.lineSplit'] = '120'
-				it['org.eclipse.jdt.core.formatter.comment.line_length'] = '120'
-				it['org.eclipse.jdt.core.formatter.join_wrapped_lines'] = 'false'
-				it['org.eclipse.jdt.core.formatter.join_lines_in_comments'] = 'false'
-				it['org.eclipse.jdt.core.formatter.comment.align_tags_descriptions_grouped'] = 'true'
-				it['org.eclipse.jdt.core.compiler.problem.forbiddenReference'] = 'info'
-			}
-		}
-
-		eclipseJdt.doLast {
-			File f = file('.settings/org.eclipse.core.resources.prefs')
-			f.write('eclipse.preferences.version=1\n')
-			f.append('encoding/<project>=UTF-8')
-		}
-
-		dependencies {
-			spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.7.1'
+	tasks.withType(com.github.spotbugs.SpotBugsTask) {
+		reports {
+			xml.enabled = false
+			html.enabled = true
 		}
 	}
+
+	eclipse {
+		classpath {
+			downloadSources=true
+		}
+		jdt.file.withProperties {
+			it['org.eclipse.jdt.core.compiler.problem.potentiallyUnclosedCloseable'] = 'ignore'
+			it['org.eclipse.jdt.core.compiler.problem.missingSerialVersion'] = 'ignore'
+			it['org.eclipse.jdt.core.compiler.problem.unhandledWarningToken'] = 'ignore'
+			it['org.eclipse.jdt.core.formatter.use_on_off_tags'] = 'true'
+			it['org.eclipse.jdt.core.formatter.lineSplit'] = '120'
+			it['org.eclipse.jdt.core.formatter.comment.line_length'] = '120'
+			it['org.eclipse.jdt.core.formatter.join_wrapped_lines'] = 'false'
+			it['org.eclipse.jdt.core.formatter.join_lines_in_comments'] = 'false'
+			it['org.eclipse.jdt.core.formatter.comment.align_tags_descriptions_grouped'] = 'true'
+			it['org.eclipse.jdt.core.compiler.problem.forbiddenReference'] = 'info'
+			//			it['sp_cleanup.organize_imports'] = 'true'
+			//			it['sp_cleanup.format_source_code'] = 'true'
+			//			it['sp_cleanup.format_source_code_changes_only'] = 'false'
+		}
+	}
+
+	eclipseJdt.doLast {
+		File f = file('.settings/org.eclipse.core.resources.prefs')
+		f.write('eclipse.preferences.version=1\n')
+		f.append('encoding/<project>=UTF-8')
+	}
+
+	test {
+		useJUnitPlatform()
+	}
+}
+
+subprojects {
+	sourceCompatibility = 11
+	targetCompatibility = 11
 
 	task javaFormat(dependsOn: 'eclipse') {
 		doLast {
@@ -112,6 +98,11 @@ subprojects {
 
 		task allDeps(type: DependencyReportTask) {}
 	}
+
+	repositories {
+		jcenter()
+		maven { url "https://repo1.maven.org/maven2" }
+	}
 }
 
 def formatJavaFile(File f) {
@@ -120,7 +111,7 @@ def formatJavaFile(File f) {
 	options.put(JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, JavaCore.VERSION_1_8);
 	options.put(JavaCore.COMPILER_SOURCE, JavaCore.VERSION_1_8);
 	Properties props = new Properties();
-	props.load(new FileInputStream(".settings/org.eclipse.jdt.core.prefs"));
+	props.load(new FileInputStream('.settings/org.eclipse.jdt.core.prefs'));
 	for(Map.Entry<Object, Object> e : props.entrySet()) {
 		options.put(e.getKey(), e.getValue());
 	}

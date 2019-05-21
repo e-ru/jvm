@@ -3,12 +3,12 @@ package eu.rudisch.database;
 
 import java.sql.Types;
 
-enum DatabaseTypes {
+enum DatabaseType {
 	CHAR(Types.CHAR), INTEGER(Types.INTEGER);
 
 	private final int id;
 
-	DatabaseTypes(int id) {
+	DatabaseType(int id) {
 		this.id = id;
 	}
 

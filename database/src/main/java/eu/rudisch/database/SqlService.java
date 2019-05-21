@@ -2,12 +2,12 @@
 package eu.rudisch.database;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,31 +15,30 @@ public class SqlService {
 
 	private static final Logger LOG = LogManager.getLogger(SqlService.class);
 
-	private String driver;
 	private String url;
+	private String user;
+	private String password;
 
-	public SqlService(String driver, String connection, String user, String password) {
-		this.driver = driver;
-		this.url = String.format("%s?user=%s&password=%s", connection, user, password);
+	private BasicDataSource dataSource = null;
+
+	public SqlService(String url, String user, String password) {
+		this.url = url;
+		this.user = user;
+		this.password = password;
+		initDataSource();
 	}
 
-	/**
-	 * Executes a variable list of CRUD calls.
-	 * 
-	 * @param calls CRUD calls to execute
-	 * @return
-	 */
 	@SafeVarargs
 	public final boolean doCalls(IDatabaseConsumer<Connection>... calls) {
 		Connection con = null;
 		try {
-			con = connectTo();
+			con = getConnection();
 			con.setAutoCommit(false);
 			for (IDatabaseConsumer<Connection> call : calls) {
 				call.accept(con);
 			}
 			con.commit();
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (SQLException e) {
 			LOG.error("Failed to read database.", e);
 			rollback(con);
 			return false;
@@ -49,9 +48,19 @@ public class SqlService {
 		return true;
 	}
 
-	synchronized Connection connectTo() throws SQLException, ClassNotFoundException {
-		Class.forName(driver);
-		return DriverManager.getConnection(url);
+	void initDataSource() {
+		BasicDataSource ds = new BasicDataSource();
+		ds.setUrl(url);
+		ds.setUsername(user);
+		ds.setPassword(password);
+		ds.setMinIdle(5);
+		ds.setMaxIdle(10);
+		ds.setMaxOpenPreparedStatements(100);
+		dataSource = ds;
+	}
+
+	Connection getConnection() throws SQLException {
+		return dataSource.getConnection();
 	}
 
 	void rollback(Connection con) {
@@ -68,8 +77,7 @@ public class SqlService {
 			Object... params) {
 		PreparedStatement stmt = null;
 		try {
-			stmt = autoGenKeys ? con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
-					: con.prepareStatement(sql);
+			stmt = autoGenKeys ? con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS) : con.prepareStatement(sql);
 			for (int i = 0; i < params.length; i++) {
 				int k = i + 1;
 				Object o = params[i];
@@ -79,8 +87,8 @@ public class SqlService {
 					stmt.setLong(k, (Long) o);
 				} else if (o instanceof Boolean) {
 					stmt.setBoolean(k, (Boolean) o);
-				} else if (o instanceof DatabaseTypes) {
-					stmt.setNull(k, ((DatabaseTypes) o).getValue());
+				} else if (o instanceof DatabaseType) {
+					stmt.setNull(k, ((DatabaseType) o).getValue());
 				} else {
 					stmt.setObject(k, o);
 				}
@@ -91,14 +99,14 @@ public class SqlService {
 		return stmt;
 	}
 
-	private static <T> void execute(IDatabaseConsumer<T> consumer,
-			IDatabaseFunction<PreparedStatement, T> function, Connection con, String sql,
-			Object... params) {
+	private static <T> void execute(IDatabaseConsumer<T> consumer, IDatabaseFunction<PreparedStatement, T> function,
+			Connection con, boolean returnGeneratedKeys, String sql, Object... params) {
 		T res = null;
 		PreparedStatement stmt = null;
 		try {
-			stmt = prepareStatement(con, false, sql, params);
-			if (stmt.execute() && consumer != null) {
+			stmt = prepareStatement(con, returnGeneratedKeys, sql, params);
+			stmt.execute();
+			if (consumer != null && function != null) {
 				res = function.apply(stmt);
 				consumer.accept(res);
 			}
@@ -112,24 +120,32 @@ public class SqlService {
 		}
 	}
 
-	public static void query(Connection con, IDatabaseConsumer<ResultSet> consumer, String sql,
-			Object... params) {
-		execute(consumer, stmt -> stmt.getResultSet(), con, sql, params);
+	private static void updateCount(Connection con, IDatabaseConsumer<Integer> consumer, String sql, Object... params) {
+		execute(consumer, stmt -> stmt.getUpdateCount(), con, false, sql, params);
 	}
 
-	public static void insert(Connection con, IDatabaseConsumer<ResultSet> consumer, String sql,
-			Object... params) {
-		execute(consumer, stmt -> stmt.getGeneratedKeys(), con, sql, params);
+	public static void create(Connection con, IDatabaseConsumer<Integer> consumer, String sql, Object... params) {
+		updateCount(con, consumer, sql, params);
 	}
 
-	public static void update(Connection con, IDatabaseConsumer<Integer> consumer, String sql,
-			Object... params) {
-		execute(consumer, stmt -> stmt.getUpdateCount(), con, sql, params);
+	public static void drop(Connection con, IDatabaseConsumer<Integer> consumer, String sql, Object... params) {
+		updateCount(con, consumer, sql, params);
 	}
 
-	public static void delete(Connection con, IDatabaseConsumer<Integer> consumer, String sql,
-			Object... params) {
-		execute(consumer, stmt -> stmt.getUpdateCount(), con, sql, params);
+	public static void query(Connection con, IDatabaseConsumer<ResultSet> consumer, String sql, Object... params) {
+		execute(consumer, stmt -> stmt.getResultSet(), con, false, sql, params);
+	}
+
+	public static void insert(Connection con, IDatabaseConsumer<ResultSet> consumer, String sql, Object... params) {
+		execute(consumer, stmt -> stmt.getGeneratedKeys(), con, true, sql, params);
+	}
+
+	public static void update(Connection con, IDatabaseConsumer<Integer> consumer, String sql, Object... params) {
+		updateCount(con, consumer, sql, params);
+	}
+
+	public static void delete(Connection con, IDatabaseConsumer<Integer> consumer, String sql, Object... params) {
+		updateCount(con, consumer, sql, params);
 	}
 
 	private static void closeStatic(AutoCloseable autoCloseable) {

@@ -10,5 +10,7 @@
 rootProject.name = 'jvm'
 
 include 'database'
+include 'users-service-sql-native'
+include 'users-service-jpa'
 include 'server'
 include 'restsql'
