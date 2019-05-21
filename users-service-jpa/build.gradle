@@ -24,6 +24,7 @@ ext {
 
 dependencies {
 	implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.2'
+	implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.16'
 
 	implementation "org.eclipse.jetty:jetty-server:${jettyVersion}"
 	implementation "org.eclipse.jetty:jetty-servlet:${jettyVersion}"
