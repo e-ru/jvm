@@ -9,5 +9,14 @@
 		<class>eu.rudisch.users.persistance.model.Membership</class>
 		<class>eu.rudisch.users.persistance.model.Role</class>
 		<class>eu.rudisch.users.persistance.model.UserDetail</class>
+		<properties>
+			<property name="javax.persistence.jdbc.driver"
+				value="com.mysql.jdbc.Driver" />
+			<property name="javax.persistence.jdbc.url"
+				value="jdbc:mysql://172.18.0.3:3306/user" />
+			<property name="javax.persistence.jdbc.user" value="root" />
+			<property name="javax.persistence.jdbc.password"
+				value="test" />
+		</properties>
 	</persistence-unit>
 </persistence>

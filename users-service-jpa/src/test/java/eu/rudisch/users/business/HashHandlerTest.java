@@ -4,12 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import eu.rudisch.users.business.HashHandler.HashType;
 
-@ExtendWith(MockitoExtension.class)
 class HashHandlerTest {
 
 	private static final String PASSWORD = "test";
@@ -18,7 +15,6 @@ class HashHandlerTest {
 	@Test
 	void generateHashShouldReturnSHA256() {
 		HashHandler hashHandler = new HashHandler();
-
 		String genHash = PASSWORD;
 		genHash = hashHandler.generateHash(PASSWORD, HashType.SHA256);
 		assertEquals(HASH_SHA256, genHash);

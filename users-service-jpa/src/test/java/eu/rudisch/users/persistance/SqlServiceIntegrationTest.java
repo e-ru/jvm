@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import javax.persistence.PersistenceException;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -24,15 +25,10 @@ class SqlServiceIntegrationTest {
 
 	// use lombok in entities?
 
-	UserDetail creatUserDetail(String userName, String emailAddress) {
-		Role role = new Role();
-		role.setRole("member");
-
-		Account account = new Account();
-//		account.setEmailAddress(emailAddress);
-//		account.setPhoneNumber("0123455");
-
+	UserDetail creatUserDetail(String userName, String emailAddress, Account account, Role role) {
 		Membership membership = new Membership();
+		membership.setAccountEmailAddress(emailAddress);
+		membership.setAccountPhoneNumber("0123455");
 		membership.addAccount(account);
 		membership.addRole(role);
 
@@ -51,18 +47,43 @@ class SqlServiceIntegrationTest {
 		return userDetail;
 	}
 
+	@BeforeAll
+	static void init() {
+		SqlService sqlService = new SqlService("users-service-jpa-int");
+
+		Account account = new Account();
+		account.setName("internal");
+		sqlService.insertAccount(account);
+
+		account = new Account();
+		account.setName("external");
+		sqlService.insertAccount(account);
+
+		Role role = new Role();
+		role.setRole("user");
+		sqlService.insertRole(role);
+
+		role = new Role();
+		role.setRole("admin");
+		sqlService.insertRole(role);
+
+	}
+
 	@Test
 	@Order(1)
 	void shouldInsertTwoUsers() {
 		SqlService sqlService = new SqlService("users-service-jpa-int");
 
+		Role role = sqlService.getRole("user");
+		Account account = sqlService.getAccount("internal");
+
 		int id = 0;
-		UserDetail userDetail = creatUserDetail("bos", "bob@smith.com");
+		UserDetail userDetail = creatUserDetail("bos", "bob@smith.com", account, role);
 		id = sqlService.insertUserDetail(userDetail);
 		assertNotEquals(0, id);
 
 		id = 0;
-		userDetail = creatUserDetail("bos2", "bob@smith.com");
+		userDetail = creatUserDetail("bos2", "bob@smith.com", account, role);
 		id = sqlService.insertUserDetail(userDetail);
 		assertNotEquals(0, id);
 	}
@@ -71,9 +92,11 @@ class SqlServiceIntegrationTest {
 	@Order(2)
 	void shouldNotInsertSameUserTwice() {
 		SqlService sqlService = new SqlService("users-service-jpa-int");
+		Role role = sqlService.getRole("user");
+		Account account = sqlService.getAccount("internal");
 
 		int id = 0;
-		UserDetail userDetail = creatUserDetail("bos3", "bob@smith.com");
+		UserDetail userDetail = creatUserDetail("bos3", "bob@smith.com", account, role);
 		id = sqlService.insertUserDetail(userDetail);
 		assertNotEquals(0, id);
 
@@ -82,7 +105,7 @@ class SqlServiceIntegrationTest {
 		});
 
 		assertThrows(PersistenceException.class, () -> {
-			UserDetail userDetailDublicate = creatUserDetail("bos3", "bob@smith.com");
+			UserDetail userDetailDublicate = creatUserDetail("bos3", "bob@smith.com", account, role);
 			sqlService.insertUserDetail(userDetailDublicate);
 		});
 	}

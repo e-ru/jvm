@@ -36,7 +36,7 @@ public class Membership implements Serializable {
 	private String accountEmailAddress;
 
 	@Column(name = "account_phonenumber")
-	private String accountPphoneNumber;
+	private String accountPhoneNumber;
 
 	// bi-directional one-to-one association to UserDetail
 	@OneToOne
@@ -80,11 +80,11 @@ public class Membership implements Serializable {
 	}
 
 	public String getAccountPphoneNumber() {
-		return accountPphoneNumber;
+		return accountPhoneNumber;
 	}
 
-	public void setAccountPphoneNumber(String accountPphoneNumber) {
-		this.accountPphoneNumber = accountPphoneNumber;
+	public void setAccountPhoneNumber(String accountPhoneNumber) {
+		this.accountPhoneNumber = accountPhoneNumber;
 	}
 
 	public UserDetail getUserDetail() {
@@ -142,7 +142,7 @@ public class Membership implements Serializable {
 	@Override
 	public String toString() {
 		return "Membership [id=" + id + ", accountEmailAddress=" + accountEmailAddress + ", accountPphoneNumber="
-				+ accountPphoneNumber + "]";
+				+ accountPhoneNumber + "]";
 	}
 
 }
