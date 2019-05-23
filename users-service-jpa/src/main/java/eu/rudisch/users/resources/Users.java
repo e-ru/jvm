@@ -23,7 +23,6 @@ public class Users {
 	}
 
 	@GET
-	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUsers() {
 		return Response.ok("{\"text\": \"hello world\"}").build();
@@ -36,19 +35,19 @@ public class Users {
 		return Response.ok("{\"text\": \"hello world\"}").build();
 	}
 
-	@GET
-	@Path("/{username}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUserByUserName(@PathParam("username") String userName) {
-		return Response.ok("{\"text\": \"hello world\"}").build();
-	}
+//	@GET
+//	@Path("/{username}")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public Response getUserByUserName(@PathParam("username") String userName) {
+//		return Response.ok("{\"text\": \"hello world\"}").build();
+//	}
 
 	@PUT
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response putUserById(@PathParam("id") int id) {
-		return Response.ok("{\"text\": \"hello world\"}").build();
+		return null;
 	}
 
 	@PATCH
@@ -56,7 +55,7 @@ public class Users {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response patchUserById(@PathParam("id") int id) {
-		return Response.ok("{\"text\": \"hello world\"}").build();
+		return null;
 	}
 
 	@DELETE

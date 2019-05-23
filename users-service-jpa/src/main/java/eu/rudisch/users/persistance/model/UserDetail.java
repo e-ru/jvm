@@ -1,8 +1,6 @@
 package eu.rudisch.users.persistance.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,7 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -24,6 +22,8 @@ import javax.persistence.Table;
 public class UserDetail implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	// TODO add unique email field
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
@@ -35,15 +35,16 @@ public class UserDetail implements Serializable {
 	@Column(name = "last_name")
 	private String lastName;
 
-	// bi-directional many-to-one association to Login
-	@OneToMany(mappedBy = "userDetail", cascade = CascadeType.ALL)
-	private List<Login> logins = new ArrayList<>();;
+	// bi-directional one-to-one association to Login
+	@OneToOne(mappedBy = "userDetail", cascade = CascadeType.ALL)
+	private Login login;
 
-	// bi-directional many-to-one association to Membership
-	@OneToMany(mappedBy = "userDetail", cascade = CascadeType.ALL)
-	private List<Membership> memberships = new ArrayList<>();;
+	// bi-directional one-to-one association to Membership
+	@OneToOne(mappedBy = "userDetail", cascade = CascadeType.ALL)
+	private Membership membership;
 
 	public UserDetail() {
+
 	}
 
 	public int getId() {
@@ -70,54 +71,28 @@ public class UserDetail implements Serializable {
 		this.lastName = lastName;
 	}
 
-	public List<Login> getLogins() {
-		return this.logins;
+	public Login getLogin() {
+		return this.login;
 	}
 
-	public void setLogins(List<Login> logins) {
-		this.logins = logins;
-	}
-
-	public Login addLogin(Login login) {
-		getLogins().add(login);
+	public void setLogin(Login login) {
+		this.login = login;
 		login.setUserDetail(this);
-
-		return login;
 	}
 
-	public Login removeLogin(Login login) {
-		getLogins().remove(login);
-		login.setUserDetail(null);
-
-		return login;
+	public Membership getMembership() {
+		return this.membership;
 	}
 
-	public List<Membership> getMemberships() {
-		return this.memberships;
-	}
-
-	public void setMemberships(List<Membership> memberships) {
-		this.memberships = memberships;
-	}
-
-	public Membership addMembership(Membership membership) {
-		getMemberships().add(membership);
+	public void setMembership(Membership membership) {
+		this.membership = membership;
 		membership.setUserDetail(this);
-
-		return membership;
-	}
-
-	public Membership removeMembership(Membership membership) {
-		getMemberships().remove(membership);
-		membership.setUserDetail(null);
-
-		return membership;
 	}
 
 	@Override
 	public String toString() {
-		return "UserDetail [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", logins=" + logins
-				+ ", memberships=" + memberships + "]";
+		return "UserDetail [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", login=" + login
+				+ ", membership=" + membership + "]";
 	}
 
 }

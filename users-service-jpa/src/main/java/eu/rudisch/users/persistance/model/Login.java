@@ -8,8 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -37,7 +37,7 @@ public class Login implements Serializable {
 	private String passwordSalt;
 
 	// bi-directional many-to-one association to UserDetail
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 //	@Column(nullable = false)
 	private UserDetail userDetail;
@@ -88,6 +88,7 @@ public class Login implements Serializable {
 	@Override
 	public String toString() {
 		return "Login [id=" + id + ", userName=" + userName + ", passwordHash=" + passwordHash + ", passwordSalt="
-				+ passwordSalt + ", userDetail=" + userDetail + "]";
+				+ passwordSalt + "]";
 	}
+
 }

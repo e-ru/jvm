@@ -1,14 +1,16 @@
 package eu.rudisch.users.persistance.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -26,15 +28,12 @@ public class Account implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(name = "email_address")
-	private String emailAddress;
+	@Column(name = "name")
+	private String name;
 
-	@Column(name = "phone_number")
-	private String phoneNumber;
-
-	// bi-directional one-to-one association to Membership
-	@OneToOne(mappedBy = "account")
-	private Membership membership;
+	// bi-directional many-to-many association to Membership
+	@ManyToMany(mappedBy = "accounts")
+	private Set<Membership> memberships = new HashSet<>();
 
 	public Account() {
 	}
@@ -47,34 +46,30 @@ public class Account implements Serializable {
 		this.id = id;
 	}
 
-	public String getEmailAddress() {
-		return this.emailAddress;
+	public String getName() {
+		return name;
 	}
 
-	public void setEmailAddress(String emailAddress) {
-		this.emailAddress = emailAddress;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getPhoneNumber() {
-		return this.phoneNumber;
+	public Set<Membership> getMemberships() {
+		return this.memberships;
 	}
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+	public void setMemberships(Set<Membership> memberships) {
+		this.memberships = memberships;
 	}
 
-	public Membership getMembership() {
-		return this.membership;
+	public Membership addMembership(Membership membership) {
+		getMemberships().add(membership);
+		return membership;
 	}
 
-	public void setMembership(Membership membership) {
-		this.membership = membership;
-	}
-
-	@Override
-	public String toString() {
-		return "Account [id=" + id + ", emailAddress=" + emailAddress + ", phoneNumber=" + phoneNumber + ", membership="
-				+ membership + "]";
+	public Membership removeMembership(Membership membership) {
+		getMemberships().remove(membership);
+		return membership;
 	}
 
 }

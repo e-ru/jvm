@@ -1,14 +1,16 @@
 package eu.rudisch.users.persistance.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -28,9 +30,9 @@ public class Role implements Serializable {
 
 	private String role;
 
-	// bi-directional one-to-one association to Membership
-	@OneToOne(mappedBy = "role")
-	private Membership membership;
+	// bi-directional many-to-many association to Membership
+	@ManyToMany(mappedBy = "roles")
+	private Set<Membership> memberships = new HashSet<>();
 
 	public Role() {
 	}
@@ -51,17 +53,21 @@ public class Role implements Serializable {
 		this.role = role;
 	}
 
-	public Membership getMembership() {
-		return this.membership;
+	public Set<Membership> getMemberships() {
+		return this.memberships;
 	}
 
-	public void setMembership(Membership membership) {
-		this.membership = membership;
+	public void setMemberships(Set<Membership> memberships) {
+		this.memberships = memberships;
 	}
 
-	@Override
-	public String toString() {
-		return "Role [id=" + id + ", role=" + role + ", membership=" + membership + "]";
+	public Membership addMembership(Membership membership) {
+		getMemberships().add(membership);
+		return membership;
 	}
 
+	public Membership removeMembership(Membership membership) {
+		getMemberships().remove(membership);
+		return membership;
+	}
 }
