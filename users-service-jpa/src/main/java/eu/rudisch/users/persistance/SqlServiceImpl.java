@@ -1,7 +1,6 @@
 package eu.rudisch.users.persistance;
 
 import java.util.List;
-import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
 import javax.persistence.EntityManager;
@@ -18,16 +17,8 @@ public class SqlServiceImpl implements SqlService {
 
 	private EntityManagerFactory factory;
 
-	public SqlServiceImpl(Supplier<EntityManagerFactory> createFactory) {
-		factory = createFactory.get();
-	}
-
 	public SqlServiceImpl(String unitName) {
 		this.factory = Persistence.createEntityManagerFactory(unitName);
-	}
-
-	public SqlServiceImpl(FactoryCreator factoryCreator) {
-		this.factory = factoryCreator.createFactory();
 	}
 
 	<T> T insert(T t) {
@@ -170,9 +161,5 @@ public class SqlServiceImpl implements SqlService {
 	public void removeByUserName(String userName) {
 		UserDetail userDetail = getUserDetailByUserName(userName);
 		remove(userDetail);
-	}
-
-	public static SqlServiceImpl make(FactoryCreator creator) {
-		return new SqlServiceImpl(creator);
 	}
 }
