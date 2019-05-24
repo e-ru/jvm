@@ -26,9 +26,6 @@ public class Users {
 	@Inject
 	private SqlService sqlService;
 
-//	private static Supplier<EntityManagerFactory> factoryCreator2 = () -> Persistence
-//			.createEntityManagerFactory("users-service-jpa-int");
-
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -39,8 +36,6 @@ public class Users {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUsers() {
-//		SqlServiceImpl sqlService = new SqlServiceImpl(factoryCreator);
-
 		List<User> users = sqlService.getUserDetails().stream()
 				.map(userDetail -> User.fromUserDetail(userDetail))
 				.collect(Collectors.toList());
@@ -48,7 +43,6 @@ public class Users {
 		};
 
 		return Response.ok(list).build();
-//		return Response.ok("{\"text\": \"hello world\"}").build();
 	}
 
 	@GET

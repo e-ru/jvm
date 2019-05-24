@@ -105,7 +105,7 @@ public class Membership implements Serializable {
 
 	public Account removeAccount(Account account) {
 		getAccounts().remove(account);
-		account.removeMembership(null);
+		account.removeMembership(this);
 
 		return account;
 	}
@@ -127,7 +127,7 @@ public class Membership implements Serializable {
 
 	public Role removeRole(Role role) {
 		getRoles().remove(role);
-		role.removeMembership(null);
+		role.removeMembership(this);
 
 		return role;
 	}
