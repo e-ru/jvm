@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -45,18 +44,12 @@ public class Membership implements Serializable {
 	private UserDetail userDetail;
 
 	// bi-directional many-to-many association to Account
-	@ManyToMany(cascade = {
-			CascadeType.PERSIST,
-			CascadeType.MERGE
-	})
+	@ManyToMany
 	@JoinTable(name = "membership_account", joinColumns = @JoinColumn(name = "membership_id"), inverseJoinColumns = @JoinColumn(name = "account_id"))
 	private Set<Account> accounts = new HashSet<>();
 
 	// bi-directional many-to-many association to Role
-	@ManyToMany(cascade = {
-			CascadeType.PERSIST,
-			CascadeType.MERGE
-	})
+	@ManyToMany
 	@JoinTable(name = "membership_role", joinColumns = @JoinColumn(name = "membership_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 

@@ -6,7 +6,7 @@ import com.google.common.hash.Hashing;
 
 public class HashHandler {
 
-	enum HashType {
+	public enum HashType {
 		SHA256
 	}
 
