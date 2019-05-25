@@ -17,12 +17,26 @@ public class SqlServiceImpl implements SqlService {
 
 	private EntityManagerFactory factory;
 
+	private static String unitName = "users-service-jpa";
+
+	public SqlServiceImpl() {
+		this(unitName);
+	}
+
 	public SqlServiceImpl(String unitName) {
 		this.factory = Persistence.createEntityManagerFactory(unitName);
 	}
 
+	public void setFactory(EntityManagerFactory factory) {
+		this.factory = factory;
+	}
+
+	EntityManager getEntityManager() {
+		return factory.createEntityManager();
+	}
+
 	<T> T insert(T t) {
-		EntityManager em = factory.createEntityManager();
+		EntityManager em = getEntityManager();
 		em.getTransaction().begin();
 		em.persist(t);
 		em.getTransaction().commit();
@@ -38,7 +52,7 @@ public class SqlServiceImpl implements SqlService {
 	}
 
 	<T> T selectSingle(Class<T> clazz, String q, Object... params) {
-		EntityManager em = factory.createEntityManager();
+		EntityManager em = getEntityManager();// factory.createEntityManager();
 		TypedQuery<T> query = getTypedQuery(em, clazz, q, params);
 		T t = query.getSingleResult();
 		em.close();
@@ -46,7 +60,7 @@ public class SqlServiceImpl implements SqlService {
 	}
 
 	<T> List<T> selectList(Class<T> clazz, String q, Object... params) {
-		EntityManager em = factory.createEntityManager();
+		EntityManager em = getEntityManager();// factory.createEntityManager();
 		TypedQuery<T> query = getTypedQuery(em, clazz, q, params);
 		List<T> list = query.getResultList();
 		em.close();
@@ -71,7 +85,7 @@ public class SqlServiceImpl implements SqlService {
 
 	@Override
 	public UserDetail getUserDetailById(int i) {
-		EntityManager em = factory.createEntityManager();
+		EntityManager em = getEntityManager();// factory.createEntityManager();
 		UserDetail userDetail = em.find(UserDetail.class, i);
 		em.close();
 
@@ -124,7 +138,7 @@ public class SqlServiceImpl implements SqlService {
 
 	@Override
 	public UserDetail updateUserDetailById(int userDetailId, UserDetail userDetail) {
-		EntityManager em = factory.createEntityManager();
+		EntityManager em = getEntityManager();// factory.createEntityManager();
 		em.getTransaction().begin();
 		UserDetail toUpdate = em.find(UserDetail.class, userDetailId);
 		userDetail.getMembership().getAccounts().forEach(account -> toUpdate.getMembership().addAccount(account));
@@ -140,7 +154,7 @@ public class SqlServiceImpl implements SqlService {
 	public UserDetail updateUserDetailByUserName(String userName, UserDetail userDetail) {
 		UserDetail toUpdate = getUserDetailByUserName(userName);
 
-		EntityManager em = factory.createEntityManager();
+		EntityManager em = getEntityManager();// factory.createEntityManager();
 		em.getTransaction().begin();
 		userDetail.getMembership().getAccounts().forEach(account -> toUpdate.getMembership().addAccount(account));
 		userDetail.getMembership().getRoles().forEach(role -> toUpdate.getMembership().addRole(role));

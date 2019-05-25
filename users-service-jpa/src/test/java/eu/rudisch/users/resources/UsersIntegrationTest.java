@@ -63,8 +63,10 @@ class UsersIntegrationTest extends JerseyTest {
 		assertEquals(Status.OK.getStatusCode(), response.getStatus(), "Http Response should be 200: ");
 		assertEquals(MediaType.APPLICATION_JSON, response.getHeaderString(HttpHeaders.CONTENT_TYPE),
 				"Http Content-Type should be: ");
+
 		List<User> users = response.readEntity(new GenericType<List<User>>() {
 		});
+
 		assertEquals(2, users.size());
 	}
 
