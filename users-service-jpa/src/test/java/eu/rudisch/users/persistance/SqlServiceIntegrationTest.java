@@ -26,15 +26,9 @@ class SqlServiceIntegrationTest {
 
 	// use lombok in entities?
 
-//	static Supplier<EntityManagerFactory> factoryCreator;
-//	static FactoryCreator factoryCreator;
-
 	@BeforeAll
 	static void init() {
-//		factoryCreator = new FactoryCreatorSqlIntegrationTest();
-//		factoryCreator = () -> Persistence.createEntityManagerFactory("users-service-jpa-int");
 		SqlService sqlService = new SqlServiceImpl("users-service-jpa-int");
-//		SqlServiceImpl sqlService = new SqlServiceImpl(factoryCreator);
 
 		Account account = new Account();
 		account.setName("internal");

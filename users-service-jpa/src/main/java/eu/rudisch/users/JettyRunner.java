@@ -5,6 +5,7 @@ import static org.eclipse.jetty.servlet.ServletContextHandler.NO_SESSIONS;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.HandlerCollection;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.internal.inject.AbstractBinder;
@@ -18,11 +19,15 @@ public class JettyRunner {
 	private static final Logger LOG = LogManager.getLogger(JettyRunner.class);
 
 	public void startServer() {
-		Server server = new Server(8080);
+		Server server = new Server(8081);
+
+		HandlerCollection handlers = new HandlerCollection();
 
 		ServletContextHandler servletContextHandler = new ServletContextHandler(NO_SESSIONS);
+		servletContextHandler.setServer(server);
 
 		ResourceConfig resourceConfig = new ResourceConfig();
+		resourceConfig.packages("eu.rudisch.users.rest.resources");
 		AbstractBinder binder = new AbstractBinder() {
 
 			@Override
@@ -34,13 +39,17 @@ public class JettyRunner {
 		ServletHolder servlet = new ServletHolder("resources", new ServletContainer(resourceConfig));
 		servletContextHandler.addServlet(servlet, "/*");
 
-		servletContextHandler.setContextPath("/");
-		server.setHandler(servletContextHandler);
+		handlers.addHandler(servletContextHandler);
 
-		ServletHolder servletHolder = servletContextHandler.addServlet(ServletContainer.class, "/*");
+		server.setHandler(handlers);
 
-		servletHolder.setInitOrder(0);
-		servletHolder.setInitParameter("jersey.config.server.provider.packages", "eu.rudisch.users.resources");
+//		servletContextHandler.setContextPath("/");
+//		server.setHandler(servletContextHandler);
+//
+//		ServletHolder servletHolder = servletContextHandler.addServlet(ServletContainer.class, "/*");
+//
+//		servletHolder.setInitOrder(0);
+//		servletHolder.setInitParameter("jersey.config.server.provider.packages", "eu.rudisch.users.resources");
 
 		try {
 			server.start();
