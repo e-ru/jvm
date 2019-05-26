@@ -36,4 +36,16 @@ public final class TestUtils {
 
 		return userDetail;
 	}
+
+	public static Account getAccount(String accountName) {
+		Account account = new Account();
+		account.setName(accountName);
+		return account;
+	}
+
+	public static Role getRole(String roleName) {
+		Role role = new Role();
+		role.setRole(roleName);
+		return role;
+	}
 }

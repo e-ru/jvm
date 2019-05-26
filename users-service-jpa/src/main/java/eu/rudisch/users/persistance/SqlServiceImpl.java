@@ -1,12 +1,9 @@
 package eu.rudisch.users.persistance;
 
 import java.util.List;
-import java.util.stream.IntStream;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
 
 import eu.rudisch.users.persistance.model.Account;
 import eu.rudisch.users.persistance.model.Login;
@@ -14,6 +11,8 @@ import eu.rudisch.users.persistance.model.Role;
 import eu.rudisch.users.persistance.model.UserDetail;
 
 public class SqlServiceImpl implements SqlService {
+
+	private UserDetailDao userDetailDao;
 
 	private EntityManagerFactory factory;
 
@@ -24,58 +23,13 @@ public class SqlServiceImpl implements SqlService {
 	}
 
 	public SqlServiceImpl(String unitName) {
-		this.factory = Persistence.createEntityManagerFactory(unitName);
+		this.userDetailDao = new UserDetailDao(unitName);
+//		this.factory = Persistence.createEntityManagerFactory(unitName);
 	}
 
-	public void setFactory(EntityManagerFactory factory) {
-		this.factory = factory;
-	}
-
-	EntityManager getEntityManager() {
+	@Override
+	public EntityManager getEntityManager() {
 		return factory.createEntityManager();
-	}
-
-	<T> T insert(T t) {
-		EntityManager em = getEntityManager();
-		em.getTransaction().begin();
-		em.persist(t);
-		em.getTransaction().commit();
-		em.close();
-		return t;
-	}
-
-	<T> TypedQuery<T> getTypedQuery(EntityManager em, Class<T> clazz, String q, Object... params) {
-		TypedQuery<T> query = em.createQuery(q, clazz);
-		IntStream.range(0, params.length)
-				.forEach(i -> query.setParameter(i + 1, params[i]));
-		return query;
-	}
-
-	<T> T selectSingle(Class<T> clazz, String q, Object... params) {
-		EntityManager em = getEntityManager();// factory.createEntityManager();
-		TypedQuery<T> query = getTypedQuery(em, clazz, q, params);
-		T t = query.getSingleResult();
-		em.close();
-		return t;
-	}
-
-	<T> List<T> selectList(Class<T> clazz, String q, Object... params) {
-		EntityManager em = getEntityManager();// factory.createEntityManager();
-		TypedQuery<T> query = getTypedQuery(em, clazz, q, params);
-		List<T> list = query.getResultList();
-		em.close();
-		return list;
-	}
-
-	<T> void remove(T t) {
-		EntityManager em = factory.createEntityManager();
-		em.getTransaction().begin();
-		if (!em.contains(t)) {
-			t = em.merge(t);
-		}
-		em.remove(t);
-		em.getTransaction().commit();
-		em.close();
 	}
 
 	@Override
@@ -85,7 +39,7 @@ public class SqlServiceImpl implements SqlService {
 
 	@Override
 	public UserDetail getUserDetailById(int i) {
-		EntityManager em = getEntityManager();// factory.createEntityManager();
+		EntityManager em = getEntityManager();
 		UserDetail userDetail = em.find(UserDetail.class, i);
 		em.close();
 
@@ -138,37 +92,27 @@ public class SqlServiceImpl implements SqlService {
 
 	@Override
 	public UserDetail updateUserDetailById(int userDetailId, UserDetail userDetail) {
-		EntityManager em = getEntityManager();// factory.createEntityManager();
-		em.getTransaction().begin();
-		UserDetail toUpdate = em.find(UserDetail.class, userDetailId);
-		userDetail.getMembership().getAccounts().forEach(account -> toUpdate.getMembership().addAccount(account));
-		userDetail.getMembership().getRoles().forEach(role -> toUpdate.getMembership().addRole(role));
-		toUpdate.getMembership().setAccountEmailAddress(userDetail.getMembership().getAccountEmailAddress());
-		em.getTransaction().commit();
-		em.close();
-
-		return toUpdate;
+		return update(em -> em.find(UserDetail.class, userDetailId),
+				toUpdate -> updateUserDetailByUserDetail(toUpdate, userDetail));
 	}
 
 	@Override
 	public UserDetail updateUserDetailByUserName(String userName, UserDetail userDetail) {
-		UserDetail toUpdate = getUserDetailByUserName(userName);
+		return update(() -> getUserDetailByUserName(userName),
+				toUpdate -> updateUserDetailByUserDetail(toUpdate, userDetail));
+	}
 
-		EntityManager em = getEntityManager();// factory.createEntityManager();
-		em.getTransaction().begin();
-		userDetail.getMembership().getAccounts().forEach(account -> toUpdate.getMembership().addAccount(account));
-		userDetail.getMembership().getRoles().forEach(role -> toUpdate.getMembership().addRole(role));
-		toUpdate.getMembership().setAccountEmailAddress(userDetail.getMembership().getAccountEmailAddress());
-		em.getTransaction().commit();
-		em.close();
-
+	UserDetail updateUserDetailByUserDetail(UserDetail toUpdate, UserDetail newValue) {
+		newValue.getMembership().getAccounts().forEach(account -> toUpdate.getMembership().addAccount(account));
+		newValue.getMembership().getRoles().forEach(role -> toUpdate.getMembership().addRole(role));
+		toUpdate.getMembership().setAccountEmailAddress(newValue.getMembership().getAccountEmailAddress());
 		return toUpdate;
 	}
 
 	@Override
 	public void removeById(int i) {
 		UserDetail userDetail = getUserDetailById(i);
-		remove(userDetail);
+		userDetailDao.remove(userDetail);
 	}
 
 	@Override

@@ -79,7 +79,8 @@ public class Users {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response deleteUserById(@PathParam("id") int id) {
-		return Response.ok("{\"text\": \"hello world\"}").build();
+		sqlService.removeById(id);
+		return Response.noContent().build();
 	}
 
 }
