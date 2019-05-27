@@ -85,19 +85,6 @@ class UsersIntegrationTest extends JerseyTest {
 
 	@Test
 	void shouldDeleteOneUser() {
-		UserDetail userDetail = new UserDetail();
-		userDetail.setId(1);
-
-//		when(sqlService.getUserDetailById(1)).thenReturn(userDetail);
-//		doAnswer(new Answer<Void>() {
-//			public Void answer(InvocationOnMock invocation) {
-//				sqlService.remove(userDetail);
-//				return null;
-//			}
-//		}).when(sqlService).removeById(1);
-//		sqlService.removeById(1);
-//		verify(sqlService, times(1)).remove(userDetail);
-
 		Response response = target("/users/1").request().delete();
 		assertEquals(Status.NO_CONTENT.getStatusCode(), response.getStatus(), "Http Response should be 204: ");
 	}

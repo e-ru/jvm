@@ -10,30 +10,28 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
-public class UserDetailDao {
-
-	private static String unitName = "users-service-jpa";
+public class GenericDao {
 
 	private EntityManagerFactory factory;
 
-	public UserDetailDao() {
-		this(unitName);
-	}
-
-	public UserDetailDao(String unitName) {
+	public GenericDao(String unitName) {
 		this.factory = Persistence.createEntityManagerFactory(unitName);
 	}
 
-	public EntityManager getEntityManager() {
-		return factory.createEntityManager();
-	}
-
 	<T> T insert(T t) {
-		EntityManager em = getEntityManager();
+		EntityManager em = factory.createEntityManager();
 		em.getTransaction().begin();
 		em.persist(t);
 		em.getTransaction().commit();
 		em.close();
+		return t;
+	}
+
+	<T> T find(Class<T> clazz, int id) {
+		EntityManager em = factory.createEntityManager();
+		T t = em.find(clazz, id);
+		em.close();
+
 		return t;
 	}
 
@@ -45,7 +43,7 @@ public class UserDetailDao {
 	}
 
 	<T> T selectSingle(Class<T> clazz, String q, Object... params) {
-		EntityManager em = getEntityManager();
+		EntityManager em = factory.createEntityManager();
 		TypedQuery<T> query = getTypedQuery(em, clazz, q, params);
 		T t = query.getSingleResult();
 		em.close();
@@ -53,7 +51,7 @@ public class UserDetailDao {
 	}
 
 	<T> List<T> selectList(Class<T> clazz, String q, Object... params) {
-		EntityManager em = getEntityManager();
+		EntityManager em = factory.createEntityManager();
 		TypedQuery<T> query = getTypedQuery(em, clazz, q, params);
 		List<T> list = query.getResultList();
 		em.close();
@@ -61,13 +59,13 @@ public class UserDetailDao {
 	}
 
 	<T> T update(Function<EntityManager, T> getToUpdate, Function<T, T> updateFunc) {
-		EntityManager em = getEntityManager();
+		EntityManager em = factory.createEntityManager();
 		T t = getToUpdate.apply(em);
 		return applyUpdate(em, t, updateFunc);
 	}
 
 	<T> T update(Supplier<T> getToUpdate, Function<T, T> updateFunc) {
-		EntityManager em = getEntityManager();
+		EntityManager em = factory.createEntityManager();
 		T t = getToUpdate.get();
 		return applyUpdate(em, t, updateFunc);
 	}
@@ -81,7 +79,7 @@ public class UserDetailDao {
 	}
 
 	<T> void remove(T t) {
-		EntityManager em = getEntityManager();
+		EntityManager em = factory.createEntityManager();
 		em.getTransaction().begin();
 		if (!em.contains(t)) {
 			t = em.merge(t);

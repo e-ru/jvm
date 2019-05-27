@@ -22,7 +22,7 @@ import eu.rudisch.users.persistance.model.Role;
 import eu.rudisch.users.persistance.model.UserDetail;
 
 @TestMethodOrder(OrderAnnotation.class)
-class SqlServiceIntegrationTest {
+class SqlServiceImplIntegrationTest {
 
 	// use lombok in entities?
 

@@ -3,8 +3,6 @@ package eu.rudisch.users.resources;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
 import eu.rudisch.users.TestUtils;
 import eu.rudisch.users.persistance.SqlService;
 import eu.rudisch.users.persistance.model.Account;
@@ -121,12 +119,6 @@ public class SqlServiceResourceIntegrationTest implements SqlService {
 	public void removeByUserName(String userName) {
 		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	public EntityManager getEntityManager() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }
