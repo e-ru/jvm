@@ -25,6 +25,8 @@ public interface SqlService {
 
 	List<Role> getRoles();
 
+	List<Account> getAccounts();
+
 	UserDetail updateUserDetailById(int userDetailId, UserDetail userDetail);
 
 	UserDetail updateUserDetailByUserName(String userName, UserDetail userDetail);
@@ -32,4 +34,5 @@ public interface SqlService {
 	void removeById(int i);
 
 	void removeByUserName(String userName);
+
 }

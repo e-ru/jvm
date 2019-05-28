@@ -29,7 +29,6 @@ public class JettyRunner {
 		ResourceConfig resourceConfig = new ResourceConfig();
 		resourceConfig.packages("eu.rudisch.users.rest.resources");
 		AbstractBinder binder = new AbstractBinder() {
-
 			@Override
 			protected void configure() {
 				bind(SqlServiceImpl.class).to(SqlService.class);
@@ -42,14 +41,6 @@ public class JettyRunner {
 		handlers.addHandler(servletContextHandler);
 
 		server.setHandler(handlers);
-
-//		servletContextHandler.setContextPath("/");
-//		server.setHandler(servletContextHandler);
-//
-//		ServletHolder servletHolder = servletContextHandler.addServlet(ServletContainer.class, "/*");
-//
-//		servletHolder.setInitOrder(0);
-//		servletHolder.setInitParameter("jersey.config.server.provider.packages", "eu.rudisch.users.resources");
 
 		try {
 			server.start();

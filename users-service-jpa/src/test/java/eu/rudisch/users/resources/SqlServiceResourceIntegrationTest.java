@@ -11,75 +11,102 @@ import eu.rudisch.users.persistance.model.UserDetail;
 
 public class SqlServiceResourceIntegrationTest implements SqlService {
 
+	List<UserDetail> userDetails = new ArrayList<>();
+	List<Role> roles = new ArrayList<>();
+	List<Account> accounts = new ArrayList<>();
+
+	public SqlServiceResourceIntegrationTest() {
+		userDetails.add(TestUtils.creatUserDetail("bos", "bob@smith.com", getAccount("internal"), getRole("user")));
+		userDetails.add(TestUtils.creatUserDetail("bos2", "bob@smith.com", getAccount("internal"), getRole("user")));
+
+		Role role = new Role();
+		role.setRole("user");
+		roles.add(role);
+		role = new Role();
+		role.setRole("admin");
+		roles.add(role);
+
+		Account account = new Account();
+		account.setName("internal");
+		accounts.add(account);
+		account = new Account();
+		account.setName("external");
+		accounts.add(account);
+	}
+
 	@Override
 	public int insertUserDetail(UserDetail userDetail) {
-		return 0;
+		userDetail.setId(1);
+		return userDetail.getId();
 	}
 
 	@Override
 	public UserDetail getUserDetailById(int i) {
-		return null;
+		UserDetail userDetail = TestUtils.creatUserDetail("bos", "bob@smith.com", getAccount("internal"),
+				getRole("user"));
+		userDetail.setId(i);
+		return userDetail;
 	}
 
 	@Override
 	public UserDetail getUserDetailByUserName(String userName) {
-		// TODO Auto-generated method stub
-		return null;
+		return TestUtils.creatUserDetail(userName, "bob@smith.com", getAccount("internal"), getRole("user"));
 	}
 
 	@Override
 	public List<UserDetail> getUserDetails() {
-		Role role = new Role();
-		role.setRole("user");
-		Account account = new Account();
-		account.setName("internal");
-
-		List<UserDetail> userDetails = new ArrayList<>();
-		userDetails.add(TestUtils.creatUserDetail("bos", "bob@smith.com", account, role));
-		userDetails.add(TestUtils.creatUserDetail("bos2", "bob@smith.com", account, role));
 		return userDetails;
 	}
 
 	@Override
 	public int insertAccount(Account account) {
-		// TODO Auto-generated method stub
-		return 0;
+		account.setId(1);
+		return account.getId();
 	}
 
 	@Override
 	public int insertRole(Role role) {
-		// TODO Auto-generated method stub
-		return 0;
+		role.setId(1);
+		return role.getId();
 	}
 
 	@Override
 	public Role getRole(String roleName) {
-		// TODO Auto-generated method stub
-		return null;
+		Role role = new Role();
+		role.setRole(roleName);
+		return role;
 	}
 
 	@Override
 	public Account getAccount(String accountName) {
-		// TODO Auto-generated method stub
-		return null;
+		Account account = new Account();
+		account.setName(accountName);
+		return account;
 	}
 
 	@Override
 	public List<Role> getRoles() {
-		// TODO Auto-generated method stub
-		return null;
+		return roles;
 	}
 
 	@Override
 	public UserDetail updateUserDetailById(int userDetailId, UserDetail userDetail) {
-		// TODO Auto-generated method stub
-		return null;
+		UserDetail toUpdate = getUserDetailById(userDetailId);
+		userDetail.getMembership().getAccounts().forEach(account -> toUpdate.getMembership().addAccount(account));
+		userDetail.getMembership().getRoles().forEach(role -> toUpdate.getMembership().addRole(role));
+		toUpdate.getMembership().setAccountEmailAddress(userDetail.getMembership().getAccountEmailAddress());
+
+		return toUpdate;
 	}
 
 	@Override
 	public UserDetail updateUserDetailByUserName(String userName, UserDetail userDetail) {
-		// TODO Auto-generated method stub
-		return null;
+		UserDetail toUpdate = getUserDetailByUserName(userName);
+		userDetail.getMembership().getAccounts().forEach(account -> toUpdate.getMembership().addAccount(account));
+		userDetail.getMembership().getRoles().forEach(role -> toUpdate.getMembership().addRole(role));
+		toUpdate.getMembership().setAccountEmailAddress(userDetail.getMembership().getAccountEmailAddress());
+
+		return toUpdate;
 	}
 
 	@Override
