@@ -2,6 +2,8 @@ package eu.rudisch.users.resources;
 
 import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -87,6 +89,7 @@ class UsersIntegrationTest extends JerseyTest {
 	void shouldDeleteOneUser() {
 		Response response = target("/users/1").request().delete();
 		assertEquals(Status.NO_CONTENT.getStatusCode(), response.getStatus(), "Http Response should be 204: ");
+		verify(sqlService, times(1)).removeById(1);
 	}
 
 //	@Test

@@ -29,7 +29,7 @@ public class Users {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response postUser() {
+	public Response postUser(User user) {
 		return Response.ok("{\"text\": \"hello world\"}").build();
 	}
 

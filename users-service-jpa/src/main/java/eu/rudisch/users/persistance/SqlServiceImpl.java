@@ -49,9 +49,10 @@ public class SqlServiceImpl implements SqlService {
 	public UserDetail getUserDetailByUserName(String userName) {
 		UserDetail userDetail;
 		try {
-			userDetail = genericDao.selectSingle(Login.class,
+			Login login = genericDao.selectSingle(Login.class,
 					"SELECT l FROM Login l WHERE l.userName=?1",
-					userName).getUserDetail();
+					userName);
+			userDetail = login.getUserDetail();
 		} catch (Exception e) {
 			// TODO logging...
 			userDetail = null;
@@ -81,17 +82,15 @@ public class SqlServiceImpl implements SqlService {
 
 	@Override
 	public UserDetail updateUserDetailById(int userDetailId, UserDetail userDetail) {
-		return genericDao.update(em -> em.find(UserDetail.class, userDetailId),
-				toUpdate -> updateUserDetailByUserDetail(toUpdate, userDetail));
+		return genericDao.update(updateUserDetailByUserDetail(getUserDetailById(userDetailId), userDetail));
 	}
 
 	@Override
 	public UserDetail updateUserDetailByUserName(String userName, UserDetail userDetail) {
-		return genericDao.update(() -> getUserDetailByUserName(userName),
-				toUpdate -> updateUserDetailByUserDetail(toUpdate, userDetail));
+		return genericDao.update(updateUserDetailByUserDetail(getUserDetailByUserName(userName), userDetail));
 	}
 
-	UserDetail updateUserDetailByUserDetail(UserDetail toUpdate, UserDetail newValue) {
+	static UserDetail updateUserDetailByUserDetail(UserDetail toUpdate, UserDetail newValue) {
 		newValue.getMembership().getAccounts().forEach(account -> toUpdate.getMembership().addAccount(account));
 		newValue.getMembership().getRoles().forEach(role -> toUpdate.getMembership().addRole(role));
 		toUpdate.getMembership().setAccountEmailAddress(newValue.getMembership().getAccountEmailAddress());

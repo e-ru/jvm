@@ -89,8 +89,8 @@ public class SqlServiceImplTest {
 		verify(genericDao, times(1)).selectList(Role.class, "SELECT r FROM Role r");
 	}
 
-//	@Test
 // TODO: rework update methods
+	@Test
 	void shouldUpdate() {
 		sqlServiceImpl = new SqlServiceImpl(genericDao);
 		int updateId = 2;
@@ -99,11 +99,21 @@ public class SqlServiceImplTest {
 		Membership membership = new Membership();
 		membership.addAccount(new Account());
 		membership.addRole(new Role());
-		when(genericDao.update(() -> sqlServiceImpl.getUserDetailByUserName("bos"),
-				toUpdate -> sqlServiceImpl.updateUserDetailByUserDetail(toUpdate, newValues))).thenReturn(newValues);
+		newValues.setMembership(membership);
+		UserDetail toUpdate = new UserDetail();
+		toUpdate.setId(updateId);
+		toUpdate.setMembership(new Membership());
+		Login login = new Login();
+		login.setUserDetail(toUpdate);
+		toUpdate.setLogin(login);
+
+		when(genericDao.find(UserDetail.class, updateId)).thenReturn(toUpdate);
+		when(genericDao.selectSingle(Login.class, "SELECT l FROM Login l WHERE l.userName=?1", "bos"))
+				.thenReturn(login);
+		when(genericDao.update(toUpdate)).thenReturn(newValues);
 		sqlServiceImpl.updateUserDetailById(updateId, newValues);
-		verify(genericDao, times(1)).update(em -> em.find(UserDetail.class, updateId),
-				toUpdate -> sqlServiceImpl.updateUserDetailByUserDetail(toUpdate, newValues));
+		sqlServiceImpl.updateUserDetailByUserName("bos", newValues);
+		verify(genericDao, times(2)).update(toUpdate);
 	}
 
 	@Test

@@ -1,8 +1,6 @@
 package eu.rudisch.users.persistance;
 
 import java.util.List;
-import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
 import javax.persistence.EntityManager;
@@ -58,24 +56,13 @@ public class GenericDao {
 		return list;
 	}
 
-	<T> T update(Function<EntityManager, T> getToUpdate, Function<T, T> updateFunc) {
+	<T> T update(T toUpdate) {
 		EntityManager em = factory.createEntityManager();
-		T t = getToUpdate.apply(em);
-		return applyUpdate(em, t, updateFunc);
-	}
-
-	<T> T update(Supplier<T> getToUpdate, Function<T, T> updateFunc) {
-		EntityManager em = factory.createEntityManager();
-		T t = getToUpdate.get();
-		return applyUpdate(em, t, updateFunc);
-	}
-
-	<T> T applyUpdate(EntityManager em, T t, Function<T, T> updateFunc) {
 		em.getTransaction().begin();
-		t = updateFunc.apply(t);
+		toUpdate = em.merge(toUpdate);
 		em.getTransaction().commit();
 		em.close();
-		return t;
+		return toUpdate;
 	}
 
 	<T> void remove(T t) {
