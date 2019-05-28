@@ -18,6 +18,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import eu.rudisch.users.persistance.SqlService;
+import eu.rudisch.users.persistance.model.Account;
 import eu.rudisch.users.rest.model.User;
 
 @Path("/users")
@@ -30,6 +31,10 @@ public class Users {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response postUser(User user) {
+		// TODO: check if accounts are vaild
+		List<Account> accounts = sqlService.getAccounts();
+		accounts.forEach(a -> );
+		
 		return Response.ok("{\"text\": \"hello world\"}").build();
 	}
 

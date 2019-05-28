@@ -1,6 +1,7 @@
 package eu.rudisch.users.persistance.model;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import eu.rudisch.users.rest.model.User;
 
 /**
  * The persistent class for the user_details database table.
@@ -93,6 +96,16 @@ public class UserDetail implements Serializable {
 	public String toString() {
 		return "UserDetail [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", login=" + login
 				+ ", membership=" + membership + "]";
+	}
+
+	public static UserDetail fromUser(User user) {
+		Set<eu.rudisch.users.rest.model.Account> accounts = user.getAccounts();
+		Set<String> roles = user.getRoles();
+
+		Membership membership = new Membership();
+		accounts.forEach(account -> membership.addAccount(Account.fromRestAccount(account)));
+
+		return null;
 	}
 
 }

@@ -8,7 +8,9 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -27,6 +29,7 @@ import org.mockito.MockitoAnnotations;
 import eu.rudisch.users.TestUtils;
 import eu.rudisch.users.persistance.SqlService;
 import eu.rudisch.users.persistance.model.UserDetail;
+import eu.rudisch.users.rest.model.Account;
 import eu.rudisch.users.rest.model.User;
 import eu.rudisch.users.rest.resources.Users;
 
@@ -64,6 +67,14 @@ class UsersIntegrationTest extends JerseyTest {
 		} catch (Exception e) {
 			fail("Failed to setup test.");
 		}
+	}
+
+	@Test
+	void shouldCreateUser() {
+		User user = User.fromParameter("bob", "smith", Set.of(Account.fromParameter("itnernal", "b@s.eu", "1234")),
+				Set.of("member"));
+
+		Response response = target("/users").request().post(Entity.entity(user, MediaType.APPLICATION_JSON));
 	}
 
 	@Test

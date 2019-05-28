@@ -81,6 +81,11 @@ public class SqlServiceImpl implements SqlService {
 	}
 
 	@Override
+	public List<Account> getAccounts() {
+		return genericDao.selectList(Account.class, "SELECT a FROM Account a");
+	}
+
+	@Override
 	public UserDetail updateUserDetailById(int userDetailId, UserDetail userDetail) {
 		return genericDao.update(updateUserDetailByUserDetail(getUserDetailById(userDetailId), userDetail));
 	}

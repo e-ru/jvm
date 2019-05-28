@@ -83,10 +83,13 @@ public class SqlServiceImplTest {
 		sqlServiceImpl = new SqlServiceImpl(genericDao);
 		when(genericDao.selectList(UserDetail.class, "SELECT u FROM UserDetail u")).thenReturn(new ArrayList<>());
 		when(genericDao.selectList(Role.class, "SELECT r FROM Role r")).thenReturn(new ArrayList<>());
+		when(genericDao.selectList(Account.class, "SELECT a FROM Account a")).thenReturn(new ArrayList<>());
 		sqlServiceImpl.getUserDetails();
 		sqlServiceImpl.getRoles();
+		sqlServiceImpl.getAccounts();
 		verify(genericDao, times(1)).selectList(UserDetail.class, "SELECT u FROM UserDetail u");
 		verify(genericDao, times(1)).selectList(Role.class, "SELECT r FROM Role r");
+		verify(genericDao, times(1)).selectList(Account.class, "SELECT a FROM Account a");
 	}
 
 // TODO: rework update methods
