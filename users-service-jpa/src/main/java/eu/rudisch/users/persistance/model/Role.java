@@ -101,4 +101,10 @@ public class Role implements Serializable {
 			return false;
 		return true;
 	}
+
+	public static Role fromParameter(String roleName) {
+		Role role = new Role();
+		role.setRole(roleName);
+		return role;
+	}
 }

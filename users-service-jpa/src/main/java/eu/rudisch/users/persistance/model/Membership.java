@@ -92,7 +92,7 @@ public class Membership implements Serializable {
 		return this.accounts;
 	}
 
-	public void setAccount(Set<Account> accounts) {
+	public void setAccounts(Set<Account> accounts) {
 		this.accounts = accounts;
 	}
 
@@ -114,7 +114,7 @@ public class Membership implements Serializable {
 		return this.roles;
 	}
 
-	public void setRole(Set<Role> roles) {
+	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
 

@@ -42,14 +42,16 @@ public final class User {
 	}
 
 	public static User fromUserDetail(UserDetail userDetail) {
-		Set<Account> accounts = userDetail.getMembership().getAccounts().stream()
-				.map(accountEntity -> Account.fromParameter(accountEntity.getName(),
-						userDetail.getMembership().getAccountEmailAddress(),
-						userDetail.getMembership().getAccountPphoneNumber()))
-				.collect(Collectors.toSet());
-		Set<String> roles = userDetail.getMembership().getRoles().stream()
-				.map(roleEntity -> roleEntity.getRole())
-				.collect(Collectors.toSet());
+		Set<Account> accounts = null;
+		Set<String> roles = null;
+		if (userDetail.getMembership().getAccounts() != null)
+			accounts = userDetail.getMembership().getAccounts().stream()
+					.map(accountEntity -> Account.fromParameter(accountEntity.getName()))
+					.collect(Collectors.toSet());
+		if (userDetail.getMembership().getRoles() != null)
+			roles = userDetail.getMembership().getRoles().stream()
+					.map(roleEntity -> roleEntity.getRole())
+					.collect(Collectors.toSet());
 		return User.fromParameter(userDetail.getFirstName(), userDetail.getLastName(), accounts, roles);
 	}
 }

@@ -121,4 +121,10 @@ public class SqlServiceResourceIntegrationTest implements SqlService {
 
 	}
 
+	@Override
+	public List<Account> getAccounts() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

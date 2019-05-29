@@ -2,6 +2,8 @@ package eu.rudisch.users.persistance;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import eu.rudisch.users.persistance.model.Account;
 import eu.rudisch.users.persistance.model.Login;
 import eu.rudisch.users.persistance.model.Role;
@@ -45,6 +47,7 @@ public class SqlServiceImpl implements SqlService {
 		return genericDao.find(UserDetail.class, i);
 	}
 
+	@Nullable
 	@Override
 	public UserDetail getUserDetailByUserName(String userName) {
 		UserDetail userDetail;
