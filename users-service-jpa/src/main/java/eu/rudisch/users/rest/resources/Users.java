@@ -1,5 +1,6 @@
 package eu.rudisch.users.rest.resources;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,9 +17,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
+import eu.rudisch.users.business.ValidationHandler;
 import eu.rudisch.users.persistance.SqlService;
-import eu.rudisch.users.persistance.model.Account;
+import eu.rudisch.users.persistance.model.UserDetail;
+import eu.rudisch.users.rest.model.Error;
 import eu.rudisch.users.rest.model.User;
 
 @Path("/users")
@@ -27,15 +31,21 @@ public class Users {
 	@Inject
 	private SqlService sqlService;
 
+	@Inject
+	private ValidationHandler validationHandler;
+
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response postUser(User user) {
-		// TODO: check if accounts are vaild
-		List<Account> accounts = sqlService.getAccounts();
-		accounts.forEach(a -> );
-		
-		return Response.ok("{\"text\": \"hello world\"}").build();
+		if (!validationHandler.validateAccounts(sqlService.getAccounts(), user.getAccounts())
+				|| !validationHandler.validateRoles(sqlService.getRoles(), user.getRoles()))
+			return Response.status(Status.BAD_REQUEST)
+					.entity(Error.fromParameter("Error occurd", validationHandler.getInvalidAccounts(),
+							validationHandler.getInvalidRoles()))
+					.build();
+		UserDetail userDetail = UserDetail.fromUser(user);
+		return Response.created(URI.create("/users/" + sqlService.insertUserDetail(userDetail))).build();
 	}
 
 	@GET
@@ -46,7 +56,6 @@ public class Users {
 				.collect(Collectors.toList());
 		GenericEntity<List<User>> list = new GenericEntity<List<User>>(users) {
 		};
-
 		return Response.ok(list).build();
 	}
 
@@ -54,7 +63,10 @@ public class Users {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUserById(@PathParam("id") int id) {
-		return Response.ok("{\"text\": \"hello world\"}").build();
+		UserDetail userDetail = sqlService.getUserDetailById(id);
+		if (userDetail == null)
+			return Response.status(Status.BAD_REQUEST).build();
+		return Response.ok(User.fromUserDetail(userDetail)).build();
 	}
 
 //	@GET
@@ -68,8 +80,9 @@ public class Users {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response putUserById(@PathParam("id") int id) {
-		return null;
+	public Response putUserById(@PathParam("id") int id, User user) {
+		UserDetail updated = sqlService.updateUserDetailById(id, UserDetail.fromUser(user));
+		return Response.ok(User.fromUserDetail(updated)).build();
 	}
 
 	@PATCH

@@ -19,8 +19,10 @@ public final class TestUtils {
 		Membership membership = new Membership();
 		membership.setAccountEmailAddress(emailAddress);
 		membership.setAccountPhoneNumber("0123455");
-		membership.addAccount(account);
-		membership.addRole(role);
+		if (account != null)
+			membership.addAccount(account);
+		if (role != null)
+			membership.addRole(role);
 
 		Login login = new Login();
 		login.setUserName(userName);

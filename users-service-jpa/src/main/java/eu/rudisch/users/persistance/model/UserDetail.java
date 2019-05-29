@@ -1,7 +1,6 @@
 package eu.rudisch.users.persistance.model;
 
 import java.io.Serializable;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -99,13 +98,18 @@ public class UserDetail implements Serializable {
 	}
 
 	public static UserDetail fromUser(User user) {
-		Set<eu.rudisch.users.rest.model.Account> accounts = user.getAccounts();
-		Set<String> roles = user.getRoles();
-
+		UserDetail userDetail = new UserDetail();
 		Membership membership = new Membership();
-		accounts.forEach(account -> membership.addAccount(Account.fromRestAccount(account)));
-
-		return null;
+		if (user.getAccounts() != null)
+			user.getAccounts().stream()
+					.map(a -> Account.fromRestAccount(a))
+					.forEach(a -> membership.addAccount(a));
+		if (user.getRoles() != null)
+			user.getRoles().stream()
+					.map(r -> Role.fromParameter(r))
+					.forEach(r -> membership.addRole(r));
+		userDetail.setMembership(membership);
+		return userDetail;
 	}
 
 }

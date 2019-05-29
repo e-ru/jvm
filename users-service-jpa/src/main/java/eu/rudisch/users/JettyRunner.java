@@ -12,6 +12,7 @@ import org.glassfish.jersey.internal.inject.AbstractBinder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
+import eu.rudisch.users.business.ValidationHandler;
 import eu.rudisch.users.persistance.SqlService;
 import eu.rudisch.users.persistance.SqlServiceImpl;
 
@@ -32,6 +33,7 @@ public class JettyRunner {
 			@Override
 			protected void configure() {
 				bind(SqlServiceImpl.class).to(SqlService.class);
+				bind(ValidationHandler.class).to(ValidationHandler.class);
 			}
 		};
 		resourceConfig.register(binder);
