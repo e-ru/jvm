@@ -1,4 +1,4 @@
-package com.krishantha.rentcloud.authorizationserver;
+package eu.rudisch.authorizationserver;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
