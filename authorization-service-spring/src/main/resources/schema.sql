@@ -64,6 +64,7 @@ create table if not exists role_user (
 ) engine=innodb ;
 
 -- token store
+/*
 create table if not exists oauth_client_token (
   token_id VARCHAR(256),
   token LONG VARBINARY,
@@ -100,7 +101,7 @@ create table if not exists oauth_approvals (
 	expiresAt TIMESTAMP,
 	lastModifiedAt TIMESTAMP
 );
-
+*/
 
 
 
