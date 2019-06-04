@@ -1,6 +1,6 @@
 package eu.rudisch.authorizationserver.config;
 
-import java.util.Arrays;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -23,6 +23,11 @@ import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFacto
 
 @Configuration
 public class AuthorizationServerConfiguration implements AuthorizationServerConfigurer {
+
+	// https://www.baeldung.com/spring-security-oauth-jwt
+
+	// ( https://github.com/krish/microservices-course-on-youtube,
+	// https://www.baeldung.com/rest-api-spring-oauth2-angular )
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -52,21 +57,21 @@ public class AuthorizationServerConfiguration implements AuthorizationServerConf
 
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-		security.checkTokenAccess("isAuthenticated()").tokenKeyAccess("permitAll()");
-
+		security.checkTokenAccess("isAuthenticated()")
+				.tokenKeyAccess("permitAll()");
 	}
 
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 		clients.jdbc(dataSource).passwordEncoder(passwordEncoder);
-
 	}
 
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 		final TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-		tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(), accessTokenConverter()));
-		endpoints.tokenStore(tokenStore()).tokenEnhancer(tokenEnhancerChain)
+		tokenEnhancerChain.setTokenEnhancers(List.of(tokenEnhancer(), accessTokenConverter()));
+		endpoints.tokenStore(tokenStore())
+				.tokenEnhancer(tokenEnhancerChain)
 				.authenticationManager(authenticationManager);
 	}
 }

@@ -1,118 +1,120 @@
 <FindBugsFilter>
-  <!-- Tools -->
-<Match>
-   <Class name="com.ubivent.server.tools.ConvertSelectXML$Product" />
-</Match>
-<Match>
-   <Class name="com.ubivent.server.tools.ConvertSelectXML" />
-</Match>
-<Match>
-   <Class name="com.ubivent.server.tools.CompareBrowser" />
-</Match>
-<Match>
-   <Class name="com.ubivent.server.apitools.ConvertAllEventVideos" />
-</Match>
-<!-- we don't care about delete return value -->
-<Match>
-   <Bug code="RV" />
-</Match>
-<!-- Hardcoded path to secfolder -->
-<Match>
-   <Bug code="DMI" />
-   <Class name="com.ubivent.server.SecFolder" />
-</Match>
-<!-- Hardcoded path to DB_BACKUP_PATH -->
-<Match>
-   <Bug code="DMI" />
-   <Class name="com.ubivent.server.tasks.ExportBackupDB" />
-</Match>
-<!-- Hardcoded path in copyFinishedGlacierJob to tmpFile -->
-<Match>
-   <Bug code="DMI" />
-   <Class name="com.ubivent.server.tasks.VideoThawingTask" />
-   <Method name="copyFinishedGlacierJob"/>
-</Match>
-<!-- Hardcoded path in startEncodeJob to tmpFolder -->
-<Match>
-   <Bug code="DMI" />
-   <Class name="com.ubivent.server.tools.EncodeVP9" />
-   <Method name="startEncodeJob"/>
-</Match>
-<!-- TODO -->
-<Match>
-	<Bug code="EI2"/>
-	<Class name="com.ubivent.conf.sip.RTPPacket"/>
-	<Local name="payload" />	
-</Match>
-<!-- TODO -->
-<Match>
-	<Bug code="EI2"/>
-	<Class name="com.ubivent.server.livestream.Streamer"/>
-	<Or>
-		<Local name="encKeyID" />
-		<Local name="header" />
-	</Or>	
-</Match>
-<!-- TODO -->
-<Match>
-	<Bug code="EI2"/>
-	<Class name="com.ubivent.server.livestream.webrtc.WebMStream"/>
-	<Local name="_encryptionKeyId" />	
-</Match>
-<!-- TODO -->
-<Match>
-	<Bug code="BSHIFT"/>
-	<Class name="com.ubivent.server.livestream.webrtc.dtls_srtp.BitUtils"/>
-	<Method name="copyBits" />	
-</Match>
-<!-- TODO -->
-<Match>
-	<Bug code="Dm"/>
-	<Class name="com.ubivent.proxy.ServerConnection"/>
-	<Method name="receiveCommand" />	
-</Match>
-<!-- TODO -->
-<Match>
-	<Bug code="Dm"/>
-	<Class name="com.ubivent.proxy.TCPServer"/>
-	<Method name="receiveCommand" />	
-</Match>
-<!-- TODO -->
-<Match>
-	<Bug code="ST"/>
-	<Class name="com.ubivent.server.util.SNSAppender2"/>
-	<Method name="append" />
-	<Field name="lastLine" />	
-</Match>
+	<!-- Tools -->
+	<Match>
+		<Class name="com.ubivent.server.tools.ConvertSelectXML$Product" />
+	</Match>
+	<Match>
+		<Class name="com.ubivent.server.tools.ConvertSelectXML" />
+	</Match>
+	<Match>
+		<Class name="com.ubivent.server.tools.CompareBrowser" />
+	</Match>
+	<Match>
+		<Class name="com.ubivent.server.apitools.ConvertAllEventVideos" />
+	</Match>
+	<!-- we don't care about delete return value -->
+	<Match>
+		<Bug code="RV" />
+	</Match>
+	<!-- Hardcoded path to secfolder -->
+	<Match>
+		<Bug code="DMI" />
+		<Class name="com.ubivent.server.SecFolder" />
+	</Match>
+	<!-- Hardcoded path to DB_BACKUP_PATH -->
+	<Match>
+		<Bug code="DMI" />
+		<Class name="com.ubivent.server.tasks.ExportBackupDB" />
+	</Match>
+	<!-- Hardcoded path in copyFinishedGlacierJob to tmpFile -->
+	<Match>
+		<Bug code="DMI" />
+		<Class name="com.ubivent.server.tasks.VideoThawingTask" />
+		<Method name="copyFinishedGlacierJob" />
+	</Match>
+	<!-- Hardcoded path in startEncodeJob to tmpFolder -->
+	<Match>
+		<Bug code="DMI" />
+		<Class name="com.ubivent.server.tools.EncodeVP9" />
+		<Method name="startEncodeJob" />
+	</Match>
+	<!-- TODO -->
+	<Match>
+		<Bug code="EI2" />
+		<Class name="com.ubivent.conf.sip.RTPPacket" />
+		<Local name="payload" />
+	</Match>
+	<!-- TODO -->
+	<Match>
+		<Bug code="EI2" />
+		<Class name="com.ubivent.server.livestream.Streamer" />
+		<Or>
+			<Local name="encKeyID" />
+			<Local name="header" />
+		</Or>
+	</Match>
+	<!-- TODO -->
+	<Match>
+		<Bug code="EI2" />
+		<Class name="com.ubivent.server.livestream.webrtc.WebMStream" />
+		<Local name="_encryptionKeyId" />
+	</Match>
+	<!-- TODO -->
+	<Match>
+		<Bug code="BSHIFT" />
+		<Class
+			name="com.ubivent.server.livestream.webrtc.dtls_srtp.BitUtils" />
+		<Method name="copyBits" />
+	</Match>
+	<!-- TODO -->
+	<Match>
+		<Bug code="Dm" />
+		<Class name="com.ubivent.proxy.ServerConnection" />
+		<Method name="receiveCommand" />
+	</Match>
+	<!-- TODO -->
+	<Match>
+		<Bug code="Dm" />
+		<Class name="com.ubivent.proxy.TCPServer" />
+		<Method name="receiveCommand" />
+	</Match>
+	<!-- TODO -->
+	<Match>
+		<Bug code="ST" />
+		<Class name="com.ubivent.server.util.SNSAppender2" />
+		<Method name="append" />
+		<Field name="lastLine" />
+	</Match>
 
-<Match>
-   <Bug code="UC" />
-   <Class name="com.ubivent.server.livestream.webrtc.dtls_srtp.RTPPacket" />
-   <Method name="parsePacket" />
-</Match>
-<Match>
-   <Bug code="UrF" />
-   <Class name="com.ubivent.server.adminapi.Status$UbiInstance" />
-   <Field name="name" />
-</Match>
+	<Match>
+		<Bug code="UC" />
+		<Class
+			name="com.ubivent.server.livestream.webrtc.dtls_srtp.RTPPacket" />
+		<Method name="parsePacket" />
+	</Match>
+	<Match>
+		<Bug code="UrF" />
+		<Class name="com.ubivent.server.adminapi.Status$UbiInstance" />
+		<Field name="name" />
+	</Match>
 
-<Match>
-   <Bug code="SQL" />
-   <Class name="com.ubivent.server.adminapi.ChatInfo" />
-   <Method name="getService" />
-</Match>
-<Match>
-   <Bug code="SQL" />
-   <Class name="com.ubivent.server.adminapi.MailingsInfo" />
-   <Or>
-   		<Method name="checkProfileFields" />
-   		<Method name="getMissingProfileFields" />
-   		<Method name="getProfileFields" />
-   </Or>   
-</Match>
-<Match>
-   <Bug code="SQL" />
-   <Class name="com.ubivent.server.tasks.AddToInsightly" />
-   <Method name="call" />
-</Match>
+	<Match>
+		<Bug code="SQL" />
+		<Class name="com.ubivent.server.adminapi.ChatInfo" />
+		<Method name="getService" />
+	</Match>
+	<Match>
+		<Bug code="SQL" />
+		<Class name="com.ubivent.server.adminapi.MailingsInfo" />
+		<Or>
+			<Method name="checkProfileFields" />
+			<Method name="getMissingProfileFields" />
+			<Method name="getProfileFields" />
+		</Or>
+	</Match>
+	<Match>
+		<Bug code="SQL" />
+		<Class name="com.ubivent.server.tasks.AddToInsightly" />
+		<Method name="call" />
+	</Match>
 </FindBugsFilter>
