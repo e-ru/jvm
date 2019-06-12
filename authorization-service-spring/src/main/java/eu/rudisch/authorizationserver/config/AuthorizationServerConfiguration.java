@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurer;
@@ -35,7 +36,9 @@ public class AuthorizationServerConfiguration implements AuthorizationServerConf
 	private DataSource dataSource;
 	@Autowired
 	private AuthenticationManager authenticationManager;
-
+	@Autowired
+	private UserDetailsService userDetailsService;
+	
 	@Bean
 	public TokenStore tokenStore() {
 		return new JwtTokenStore(accessTokenConverter());
@@ -72,6 +75,7 @@ public class AuthorizationServerConfiguration implements AuthorizationServerConf
 		tokenEnhancerChain.setTokenEnhancers(List.of(tokenEnhancer(), accessTokenConverter()));
 		endpoints.tokenStore(tokenStore())
 				.tokenEnhancer(tokenEnhancerChain)
-				.authenticationManager(authenticationManager);
+				.authenticationManager(authenticationManager)
+				.userDetailsService(userDetailsService);
 	}
 }
