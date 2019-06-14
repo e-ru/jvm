@@ -67,3 +67,7 @@ local.properties
 db
 
 .attach_*
+application.yml
+data.txt
+*.jks
+publickey.txt
