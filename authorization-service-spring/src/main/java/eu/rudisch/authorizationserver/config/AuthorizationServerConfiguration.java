@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -25,7 +26,10 @@ import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFacto
 
 @Configuration
 @EnableAuthorizationServer
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class AuthorizationServerConfiguration implements AuthorizationServerConfigurer {
+
+	// !!! https://github.com/adamzareba/company-structure-spring-security-oauth2-authorities
 
 	// https://www.baeldung.com/spring-security-oauth-jwt
 
