@@ -14,7 +14,23 @@ public class AdminController {
 
 	@RequestMapping(value = "/test", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(value = HttpStatus.OK)
-	public @ResponseBody String test() {
-		return "Hello World";
+	public @ResponseBody StringResponse test() {
+		return new StringResponse("Hello World");
+	}
+
+	private class StringResponse {
+		private String response;
+
+		public StringResponse(String s) {
+			this.response = s;
+		}
+
+		public String getResponse() {
+			return response;
+		}
+
+		public void setResponse(String response) {
+			this.response = response;
+		}
 	}
 }
