@@ -76,6 +76,7 @@ public class AuthorizationServerConfiguration implements AuthorizationServerConf
 		clients.jdbc(dataSource).passwordEncoder(passwordEncoder);
 	}
 
+//test
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 		final TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
