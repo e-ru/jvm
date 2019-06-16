@@ -18,6 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Order(SecurityProperties.BASIC_AUTH_ORDER)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+	// https://www.mkyong.com/spring-boot/spring-security-there-is-no-passwordencoder-mapped-for-the-id-null/
+
 	@Autowired
 	private UserDetailsService userDetailsService;
 
