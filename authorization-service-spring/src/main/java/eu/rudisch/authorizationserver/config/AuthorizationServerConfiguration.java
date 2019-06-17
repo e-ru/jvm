@@ -20,8 +20,6 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
 @Configuration
@@ -47,7 +45,8 @@ public class AuthorizationServerConfiguration implements AuthorizationServerConf
 
 	@Bean
 	public TokenStore tokenStore() {
-		return new JwtTokenStore(accessTokenConverter());
+//		return new JwtTokenStore(accessTokenConverter());
+		return new JwtJdbcTokenStore(accessTokenConverter(), dataSource);
 	}
 
 	@Bean
@@ -56,8 +55,8 @@ public class AuthorizationServerConfiguration implements AuthorizationServerConf
 	}
 
 	@Bean
-	public JwtAccessTokenConverter accessTokenConverter() {
-		final JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+	public CustomJwtAccessTokenConverter accessTokenConverter() {
+		final CustomJwtAccessTokenConverter converter = new CustomJwtAccessTokenConverter();
 		final KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("mytest.jks"),
 				"mypass".toCharArray());
 		converter.setKeyPair(keyStoreKeyFactory.getKeyPair("mytest"));
