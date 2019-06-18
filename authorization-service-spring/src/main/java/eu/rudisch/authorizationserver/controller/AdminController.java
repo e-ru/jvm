@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
@@ -18,19 +21,13 @@ public class AdminController {
 		return new StringResponse("Hello World");
 	}
 
+	@Getter
+	@Setter
 	private class StringResponse {
 		private String response;
 
 		public StringResponse(String s) {
 			this.response = s;
-		}
-
-		public String getResponse() {
-			return response;
-		}
-
-		public void setResponse(String response) {
-			this.response = response;
 		}
 	}
 }

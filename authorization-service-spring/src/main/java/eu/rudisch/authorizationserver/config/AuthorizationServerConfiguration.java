@@ -45,7 +45,6 @@ public class AuthorizationServerConfiguration implements AuthorizationServerConf
 
 	@Bean
 	public TokenStore tokenStore() {
-//		return new JwtTokenStore(accessTokenConverter());
 		return new JwtJdbcTokenStore(accessTokenConverter(), dataSource);
 	}
 
@@ -56,7 +55,7 @@ public class AuthorizationServerConfiguration implements AuthorizationServerConf
 
 	@Bean
 	public CustomJwtAccessTokenConverter accessTokenConverter() {
-		final CustomJwtAccessTokenConverter converter = new CustomJwtAccessTokenConverter();
+		final CustomJwtAccessTokenConverter converter = new CustomJwtAccessTokenConverter(dataSource);
 		final KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("mytest.jks"),
 				"mypass".toCharArray());
 		converter.setKeyPair(keyStoreKeyFactory.getKeyPair("mytest"));

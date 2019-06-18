@@ -1,74 +1,90 @@
 package eu.rudisch.authorizationserver.config;
 
 import java.util.Collection;
-import java.util.Collections;
 
 import javax.sql.DataSource;
 
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2RefreshToken;
-import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
-public class JwtJdbcTokenStore extends JdbcTokenStore {
+public class JwtJdbcTokenStore implements TokenStore {
 
-	private CustomJwtAccessTokenConverter jwtTokenEnhancer;
+	private JdbcTokenStore jdbcTokenStore;
+	private JwtTokenStore jwtTokenStore;
 
-	public JwtJdbcTokenStore(CustomJwtAccessTokenConverter jwtTokenEnhancer, DataSource dataSource) {
-		super(dataSource);
-		this.jwtTokenEnhancer = jwtTokenEnhancer;
+	public JwtJdbcTokenStore(JwtAccessTokenConverter jwtTokenEnhancer, DataSource dataSource) {
+		jdbcTokenStore = new JdbcTokenStore(dataSource);
+		jwtTokenStore = new JwtTokenStore(jwtTokenEnhancer);
 	}
 
 	@Override
 	public OAuth2Authentication readAuthentication(OAuth2AccessToken token) {
-		return readAuthentication(token.getValue());
+		return jwtTokenStore.readAuthentication(token);
 	}
 
 	@Override
 	public OAuth2Authentication readAuthentication(String token) {
-		return jwtTokenEnhancer.extractAuthentication(jwtTokenEnhancer.decode(token));
+		return jwtTokenStore.readAuthentication(token);
 	}
 
 	@Override
 	public void storeAccessToken(OAuth2AccessToken token, OAuth2Authentication authentication) {
+		jwtTokenStore.storeAccessToken(token, authentication);
 	}
 
 	@Override
 	public OAuth2AccessToken readAccessToken(String tokenValue) {
-		OAuth2AccessToken accessToken = convertAccessToken(tokenValue);
-		if (jwtTokenEnhancer.isRefreshToken(accessToken)) {
-			throw new InvalidTokenException("Encoded token is a refresh token");
-		}
-		return accessToken;
-	}
-
-	private OAuth2AccessToken convertAccessToken(String tokenValue) {
-		return jwtTokenEnhancer.extractAccessToken(tokenValue, jwtTokenEnhancer.decode(tokenValue));
+		return jwtTokenStore.readAccessToken(tokenValue);
 	}
 
 	@Override
 	public void removeAccessToken(OAuth2AccessToken token) {
+		jwtTokenStore.removeAccessToken(token);
+	}
+
+	@Override
+	public void storeRefreshToken(OAuth2RefreshToken refreshToken, OAuth2Authentication authentication) {
+		jdbcTokenStore.storeRefreshToken(refreshToken, authentication);
+	}
+
+	@Override
+	public OAuth2RefreshToken readRefreshToken(String tokenValue) {
+		return jdbcTokenStore.readRefreshToken(tokenValue);
+	}
+
+	@Override
+	public OAuth2Authentication readAuthenticationForRefreshToken(OAuth2RefreshToken token) {
+		return jdbcTokenStore.readAuthenticationForRefreshToken(token);
+	}
+
+	@Override
+	public void removeRefreshToken(OAuth2RefreshToken token) {
+		jdbcTokenStore.removeRefreshToken(token);
 	}
 
 	@Override
 	public void removeAccessTokenUsingRefreshToken(OAuth2RefreshToken refreshToken) {
-		// gh-807 Approvals (if any) should only be removed when Refresh Tokens are removed (or expired)
+		jwtTokenStore.removeAccessTokenUsingRefreshToken(refreshToken);
 	}
 
 	@Override
 	public OAuth2AccessToken getAccessToken(OAuth2Authentication authentication) {
-		// We don't want to accidentally issue a token, and we have no way to reconstruct the refresh token
-		return null;
+		return jwtTokenStore.getAccessToken(authentication);
 	}
 
 	@Override
 	public Collection<OAuth2AccessToken> findTokensByClientIdAndUserName(String clientId, String userName) {
-		return Collections.emptySet();
+		return jwtTokenStore.findTokensByClientIdAndUserName(clientId, userName);
 	}
 
 	@Override
 	public Collection<OAuth2AccessToken> findTokensByClientId(String clientId) {
-		return Collections.emptySet();
+		return jwtTokenStore.findTokensByClientId(clientId);
 	}
+
 }

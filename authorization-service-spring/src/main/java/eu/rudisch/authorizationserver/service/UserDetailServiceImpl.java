@@ -22,6 +22,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
 		Optional<User> optionalUser = userDetailRepository.findByUsername(name);
+//		Optional<User> optionalUser = userDetailRepository.findByUsername("krish");
 
 		optionalUser.orElseThrow(() -> new UsernameNotFoundException("Username or password wrong"));
 
