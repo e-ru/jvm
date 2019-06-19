@@ -11,14 +11,12 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 @EnableResourceServer
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
 
-	// TODO: change resourceId to something that combines admin and tokens pattern
-
 	private static final String RESOURCE_ID = "oauth2-control-resource";
-	private static final String ADMIN_CREATE_SCOPE = "hasAuthority('create_oauth')";
-	private static final String ADMIN_READ_SCOPE = "hasAuthority('read_oauth')";
-	private static final String ADMIN_UPDATE_SCOPE = "hasAuthority('update_oauth')";
-	private static final String ADMIN_DELETE_SCOPE = "hasAuthority('delete_oauth')";
-	private static final String TOKEN_DELETE_SCOPE = "hasAuthority('delete_refresh_token')";
+	private static final String ADMIN_CREATE_SCOPE = "hasRole('ROLE_oauth_admin') and hasAuthority('create_oauth')";
+	private static final String ADMIN_READ_SCOPE = "hasRole('ROLE_oauth_admin') and hasAuthority('read_oauth')";
+	private static final String ADMIN_UPDATE_SCOPE = "hasRole('ROLE_oauth_admin') and hasAuthority('update_oauth')";
+	private static final String ADMIN_DELETE_SCOPE = "hasRole('ROLE_oauth_admin') and hasAuthority('delete_oauth')";
+	private static final String TOKEN_DELETE_SCOPE = "hasAuthority('revoke_refresh_token')";
 //	private static final String SECURED_WRITE_SCOPE = "#oauth2.hasScope('WRITE')";
 	private static final String ADMIN_PATTERN = "/admin/**";
 	private static final String TOKENS_PATTERN = "/tokens/refreshTokens";

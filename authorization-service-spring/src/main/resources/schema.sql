@@ -62,6 +62,8 @@ create table if not exists role_user (
 
 create table if not exists oauth_refresh_token (
   token_id VARCHAR(256),
+  client_id varchar(255),
+  username varchar(100),
   token LONG VARBINARY,
   authentication LONG VARBINARY
 );
