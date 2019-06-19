@@ -11,11 +11,17 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 @EnableResourceServer
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
 
-	// TODO set useful resource id
-	private static final String RESOURCE_ID = "inventory";
-	private static final String SECURED_READ_SCOPE = "#oauth2.hasScope('READ')";
-	private static final String SECURED_WRITE_SCOPE = "#oauth2.hasScope('WRITE')";
-	private static final String SECURED_PATTERN = "/admin/**";
+	// TODO: change resourceId to something that combines admin and tokens pattern
+
+	private static final String RESOURCE_ID = "oauth2-control-resource";
+	private static final String ADMIN_CREATE_SCOPE = "hasAuthority('create_oauth')";
+	private static final String ADMIN_READ_SCOPE = "hasAuthority('read_oauth')";
+	private static final String ADMIN_UPDATE_SCOPE = "hasAuthority('update_oauth')";
+	private static final String ADMIN_DELETE_SCOPE = "hasAuthority('delete_oauth')";
+	private static final String TOKEN_DELETE_SCOPE = "hasAuthority('delete_refresh_token')";
+//	private static final String SECURED_WRITE_SCOPE = "#oauth2.hasScope('WRITE')";
+	private static final String ADMIN_PATTERN = "/admin/**";
+	private static final String TOKENS_PATTERN = "/tokens/refreshTokens";
 
 	@Override
 	public void configure(ResourceServerSecurityConfigurer resources) {
@@ -25,12 +31,18 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http.requestMatchers()
-				.antMatchers(SECURED_PATTERN)
+				.antMatchers(ADMIN_PATTERN, TOKENS_PATTERN)
 				.and()
 				.authorizeRequests()
-				.antMatchers(HttpMethod.POST, SECURED_PATTERN)
-				.access(SECURED_WRITE_SCOPE)
-				.anyRequest()
-				.access(SECURED_READ_SCOPE);
+				.antMatchers(HttpMethod.POST, ADMIN_PATTERN)
+				.access(ADMIN_CREATE_SCOPE)
+				.antMatchers(HttpMethod.GET, ADMIN_PATTERN)
+				.access(ADMIN_READ_SCOPE)
+				.antMatchers(HttpMethod.PUT, ADMIN_PATTERN)
+				.access(ADMIN_UPDATE_SCOPE)
+				.antMatchers(HttpMethod.DELETE, ADMIN_PATTERN)
+				.access(ADMIN_DELETE_SCOPE)
+				.antMatchers(HttpMethod.DELETE, TOKENS_PATTERN)
+				.access(TOKEN_DELETE_SCOPE);
 	}
 }
