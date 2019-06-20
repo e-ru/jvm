@@ -1,4 +1,4 @@
-package eu.rudisch.authorizationserver.config;
+package eu.rudisch.authorizationserver.token;
 
 import java.util.Collection;
 
