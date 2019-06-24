@@ -15,6 +15,13 @@ import lombok.Setter;
 @RequestMapping("/admin")
 public class AdminController {
 
+	@RequestMapping(value = "/user", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(value = HttpStatus.OK)
+	public @ResponseBody StringResponse getUser() {
+
+		return new StringResponse("Hello World from GET");
+	}
+
 	// #### test region ####
 
 	@RequestMapping(value = "/test", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
