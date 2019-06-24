@@ -13,10 +13,10 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 
 	private static final String RESOURCE_ID = "oauth2-control-resource";
 	private static final String ADMIN_CREATE_SCOPE = "hasRole('ROLE_oauth_admin') and hasAuthority('create_oauth')";
-	private static final String ADMIN_READ_SCOPE = "hasRole('ROLE_oauth_admin') and hasAuthority('read_oauth')";
+	private static final String ADMIN_READ_SCOPE = "hasAuthority('read_oauth')";
 	private static final String ADMIN_UPDATE_SCOPE = "hasRole('ROLE_oauth_admin') and hasAuthority('update_oauth')";
 	private static final String ADMIN_DELETE_SCOPE = "hasRole('ROLE_oauth_admin') and hasAuthority('delete_oauth')";
-	private static final String TOKEN_DELETE_SCOPE = "hasAuthority('revoke_refresh_token')";
+//	private static final String TOKEN_DELETE_SCOPE = "hasAuthority('revoke_refresh_token')";
 //	private static final String SECURED_WRITE_SCOPE = "#oauth2.hasScope('WRITE')";
 	private static final String ADMIN_PATTERN = "/admin/**";
 	private static final String TOKENS_PATTERN = "/tokens/refreshTokens";
@@ -41,6 +41,6 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 				.antMatchers(HttpMethod.DELETE, ADMIN_PATTERN)
 				.access(ADMIN_DELETE_SCOPE)
 				.antMatchers(HttpMethod.DELETE, TOKENS_PATTERN)
-				.access(TOKEN_DELETE_SCOPE);
+				.permitAll();
 	}
 }

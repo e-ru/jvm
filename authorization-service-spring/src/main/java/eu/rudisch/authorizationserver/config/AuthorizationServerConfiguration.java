@@ -25,6 +25,10 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
+import eu.rudisch.authorizationserver.token.CustomJwtAccessTokenConverter;
+import eu.rudisch.authorizationserver.token.CustomTokenEnhancer;
+import eu.rudisch.authorizationserver.token.CustomTokenStore;
+
 @Configuration
 @EnableAuthorizationServer
 @EnableGlobalMethodSecurity(prePostEnabled = true)
