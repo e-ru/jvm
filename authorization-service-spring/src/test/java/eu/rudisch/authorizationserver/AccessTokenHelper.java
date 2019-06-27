@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-public class TokenGeneratorHelper {
+public class AccessTokenHelper {
 	public static String obtainAccessTokenByAuthorizationCode(MockMvc mockMvc, String username, String password, String scope)
 			throws Exception {
 		MockHttpSession session = new MockHttpSession();

@@ -91,6 +91,11 @@ public class AuthorizationServerConfiguration implements AuthorizationServerConf
 		final DefaultOAuth2RequestFactory defaultOAuth2RequestFactory = new DefaultOAuth2RequestFactory(
 				new JdbcClientDetailsService(dataSource));
 		defaultOAuth2RequestFactory.setCheckUserScopes(true);
+
+		// to increase length of auth codes:
+		// create custom AuthorizationCodeServices (RandomValueAuthorizationCodeServices)
+		// set via endpoints.authorizationCodeServices(authorizationCodeServices)
+
 		endpoints.tokenStore(tokenStore())
 				.tokenEnhancer(tokenEnhancerChain)
 				.reuseRefreshTokens(reuseRefreshToken)

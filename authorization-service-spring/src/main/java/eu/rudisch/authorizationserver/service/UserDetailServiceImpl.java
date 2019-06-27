@@ -11,17 +11,17 @@ import org.springframework.stereotype.Service;
 
 import eu.rudisch.authorizationserver.model.AuthUserDetail;
 import eu.rudisch.authorizationserver.model.User;
-import eu.rudisch.authorizationserver.repository.UserDetailRepository;
+import eu.rudisch.authorizationserver.repository.UserRepository;
 
 @Service("userDetailsService")
 public class UserDetailServiceImpl implements UserDetailsService {
 
 	@Autowired
-	private UserDetailRepository userDetailRepository;
+	private UserRepository userRepository;
 
 	@Override
 	public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-		Optional<User> optionalUser = userDetailRepository.findByUsername(name);
+		Optional<User> optionalUser = userRepository.findByUsername(name);
 
 		optionalUser.orElseThrow(() -> new UsernameNotFoundException("Username or password wrong"));
 

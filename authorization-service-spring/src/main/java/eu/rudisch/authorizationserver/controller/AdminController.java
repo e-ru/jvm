@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import eu.rudisch.authorizationserver.model.User;
-import eu.rudisch.authorizationserver.repository.UserDetailRepository;
+import eu.rudisch.authorizationserver.repository.UserRepository;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,7 +22,7 @@ import lombok.Setter;
 public class AdminController {
 
 	@Autowired
-	private UserDetailRepository userDetailRepository;
+	private UserRepository userDetailRepository;
 
 	@RequestMapping(value = "/users", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(value = HttpStatus.OK)

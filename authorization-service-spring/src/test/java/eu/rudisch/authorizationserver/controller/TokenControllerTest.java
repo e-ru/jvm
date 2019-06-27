@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import eu.rudisch.authorizationserver.TokenGeneratorHelper;
+import eu.rudisch.authorizationserver.AccessTokenHelper;
 
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
@@ -47,11 +47,11 @@ public class TokenControllerTest {
 	public void shouldRevokeForeignRefreshTokenAsAdminUser() throws Exception {
 		// create 3 different refresh tokens
 		// create refreshToken for regular user rru
-		TokenGeneratorHelper.obtainAccessTokenByAuthorizationCode(mockMvc, "rru", "rpass", "read_oauth");
+		AccessTokenHelper.obtainAccessTokenByAuthorizationCode(mockMvc, "rru", "rpass", "read_oauth");
 		// create refreshToken for regular user rru2
-		TokenGeneratorHelper.obtainAccessTokenByAuthorizationCode(mockMvc, "rru2", "r2pass", "read_oauth");
+		AccessTokenHelper.obtainAccessTokenByAuthorizationCode(mockMvc, "rru2", "r2pass", "read_oauth");
 		// get access token for admin user eru
-		final String accessToken = TokenGeneratorHelper.obtainAccessTokenByAuthorizationCode(mockMvc, "eru", "epass",
+		final String accessToken = AccessTokenHelper.obtainAccessTokenByAuthorizationCode(mockMvc, "eru", "epass",
 				"create_oauth read_oauth update_oauth delete_oauth");
 		int count = jdbcTemplate.queryForList("SELECT * FROM oauth_refresh_token").size();
 		assertEquals(3, count);
@@ -78,7 +78,7 @@ public class TokenControllerTest {
 	@Test
 	public void shouldRevokeOwnRefreshTokenAsRegularUser_token_user_match_is_correct() throws Exception {
 		// create refreshToken for regular user rru
-		final String accessToken = TokenGeneratorHelper.obtainAccessTokenByAuthorizationCode(mockMvc, "rru", "rpass",
+		final String accessToken = AccessTokenHelper.obtainAccessTokenByAuthorizationCode(mockMvc, "rru", "rpass",
 				"read_oauth");
 		int count = jdbcTemplate.queryForList("SELECT * FROM oauth_refresh_token").size();
 		assertEquals(1, count);
@@ -95,9 +95,9 @@ public class TokenControllerTest {
 	@Test
 	public void shouldRevokeForeignRefreshTokenAsRegularUser_token_user_match_is_not_correct() throws Exception {
 		// create refreshToken for regular user rru
-		TokenGeneratorHelper.obtainAccessTokenByAuthorizationCode(mockMvc, "rru", "rpass", "read_oauth");
+		AccessTokenHelper.obtainAccessTokenByAuthorizationCode(mockMvc, "rru", "rpass", "read_oauth");
 		// create refreshToken for regular user rru2
-		final String accessToken = TokenGeneratorHelper.obtainAccessTokenByAuthorizationCode(mockMvc, "rru2", "r2pass",
+		final String accessToken = AccessTokenHelper.obtainAccessTokenByAuthorizationCode(mockMvc, "rru2", "r2pass",
 				"read_oauth");
 		int count = jdbcTemplate.queryForList("SELECT * FROM oauth_refresh_token").size();
 		assertEquals(2, count);
