@@ -19,12 +19,15 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
+import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
+import eu.rudisch.authorizationserver.code.JwtAuthorizationCodeServices;
 import eu.rudisch.authorizationserver.token.CustomJwtAccessTokenConverter;
 import eu.rudisch.authorizationserver.token.CustomTokenEnhancer;
 import eu.rudisch.authorizationserver.token.CustomTokenStore;
@@ -53,6 +56,13 @@ public class AuthorizationServerConfiguration implements AuthorizationServerConf
 	@Autowired
 	private UserDetailsService userDetailsService;
 
+	private final KeyStoreKeyFactory keyStoreKeyFactory;
+
+	public AuthorizationServerConfiguration() {
+		keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("mytest.jks"),
+				"mypass".toCharArray());
+	}
+
 	@Bean
 	public TokenStore tokenStore() {
 		return new CustomTokenStore(accessTokenConverter(), dataSource);
@@ -66,10 +76,21 @@ public class AuthorizationServerConfiguration implements AuthorizationServerConf
 	@Bean
 	public CustomJwtAccessTokenConverter accessTokenConverter() {
 		final CustomJwtAccessTokenConverter converter = new CustomJwtAccessTokenConverter(dataSource);
-		final KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("mytest.jks"),
-				"mypass".toCharArray());
 		converter.setKeyPair(keyStoreKeyFactory.getKeyPair("mytest"));
 		return converter;
+	}
+
+	@Bean
+	public JwtAccessTokenConverter jwtAccessTokenConverter() {
+		final JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
+		return jwtAccessTokenConverter;
+	}
+
+	@Bean
+	public AuthorizationCodeServices authorizationCodeServices() {
+		final JwtAuthorizationCodeServices authorizationCodeServices = new JwtAuthorizationCodeServices(
+				userDetailsService, dataSource, keyStoreKeyFactory.getKeyPair("mytest"));
+		return authorizationCodeServices;
 	}
 
 	@Override
@@ -88,6 +109,8 @@ public class AuthorizationServerConfiguration implements AuthorizationServerConf
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 		final TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
 		tokenEnhancerChain.setTokenEnhancers(List.of(tokenEnhancer(), accessTokenConverter()));
+//		tokenEnhancerChain.setTokenEnhancers(List.of(tokenEnhancer(), jwtAccessTokenConverter()));
+
 		final DefaultOAuth2RequestFactory defaultOAuth2RequestFactory = new DefaultOAuth2RequestFactory(
 				new JdbcClientDetailsService(dataSource));
 		defaultOAuth2RequestFactory.setCheckUserScopes(true);
@@ -100,6 +123,7 @@ public class AuthorizationServerConfiguration implements AuthorizationServerConf
 				.tokenEnhancer(tokenEnhancerChain)
 				.reuseRefreshTokens(reuseRefreshToken)
 				.requestFactory(defaultOAuth2RequestFactory)
+				.authorizationCodeServices(authorizationCodeServices())
 				.authenticationManager(authenticationManager)
 				.userDetailsService(userDetailsService);
 	}

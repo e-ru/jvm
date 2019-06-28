@@ -18,7 +18,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 public class AccessTokenHelper {
-	public static String obtainAccessTokenByAuthorizationCode(MockMvc mockMvc, String username, String password, String scope)
+	public static String obtainAccessTokenByAuthorizationCode(MockMvc mockMvc, String username, String password,
+			String scope)
 			throws Exception {
 		MockHttpSession session = new MockHttpSession();
 
@@ -26,12 +27,14 @@ public class AccessTokenHelper {
 		String responseType = "code";
 		String clientId = "auth_server";
 		String redirectUrl = "http://localhost:8889/redirect.html";
+		String state = "state";
 
 		String url = authorizeUrl
 				+ "?response_type=" + responseType
 				+ "&scope=" + scope
 				+ "&client_id=" + clientId
-				+ "&redirect_uri=" + redirectUrl;
+				+ "&redirect_uri=" + redirectUrl
+				+ "&state=" + state;
 		String loginUrl = "http://localhost/login";
 
 		MvcResult mvcResult = mockMvc.perform(get(url)
@@ -69,13 +72,15 @@ public class AccessTokenHelper {
 				.session(session)
 				.params(params))
 				.andExpect(status().isFound())
-//				.andExpect(redirectedUrl(redirectUrl)) TODO: add regex to match code pattern (Redirected URL expected:<http://localhost:8889/redirect.html> but was:<http://localhost:8889/redirect.html?code=xxxxxx>)
+//				.andExpect(redirectedUrl(redirectUrl)) TODO: add regex to match code pattern (Redirected URL expected:<http://localhost:8889/redirect.html> but was:<http://localhost:8889/redirect.html?code=xxxxxx&state=state>)
 				.andReturn();
 
 		String resultString = mvcResult.getResponse().getRedirectedUrl();
 		assertTrue(resultString.contains("code"));
+		assertTrue(resultString.contains("state"));
 
-		String code = resultString.substring(resultString.lastIndexOf("=") + 1);
+		resultString = resultString.substring(resultString.indexOf("=") + 1);
+		String code = resultString.substring(0, resultString.indexOf("&"));
 		String tokenPath = "http://localhost/oauth/token";
 
 		params.clear();

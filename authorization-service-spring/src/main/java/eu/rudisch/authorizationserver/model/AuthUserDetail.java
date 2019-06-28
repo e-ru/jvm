@@ -10,9 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class AuthUserDetail extends User implements UserDetails {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public AuthUserDetail(User user) {

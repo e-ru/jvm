@@ -23,23 +23,28 @@ public class CustomJwtAccessTokenConverter extends JwtAccessTokenConverter {
 	@Value("${custom.reuseRefreshToken}")
 	private boolean reuseRefreshToken;
 
-	JdbcClientDetailsService jbcClientDetailsService;
+	private JdbcClientDetailsService jdbcClientDetailsService;
 
 	public CustomJwtAccessTokenConverter(DataSource dataSource) {
-		jbcClientDetailsService = new JdbcClientDetailsService(dataSource);
+		jdbcClientDetailsService = new JdbcClientDetailsService(dataSource);
+	}
+
+	public CustomJwtAccessTokenConverter(JdbcClientDetailsService jdbcClientDetailsService) {
+		this.jdbcClientDetailsService = jdbcClientDetailsService;
 	}
 
 	@Override
 	public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
 		DefaultOAuth2AccessToken result = new DefaultOAuth2AccessToken(accessToken.getValue());
-		result.setScope(accessToken.getScope());
+
+//		Set<String> scopes = ((User) authentication.getUserAuthentication().getPrincipal()).getRoles().
+
+		result.setScope(accessToken.getScope().isEmpty() ? null : accessToken.getScope());
 		Map<String, Object> info = new LinkedHashMap<String, Object>(accessToken.getAdditionalInformation());
-		String tokenId = result.getValue();
-		if (!info.containsKey(TOKEN_ID)) {
-			info.put(TOKEN_ID, tokenId);
-		} else {
-			tokenId = (String) info.get(TOKEN_ID);
-		}
+		if (!info.containsKey(TOKEN_ID))
+			info.put(TOKEN_ID, result.getValue());
+		result.setExpiration(accessToken.getExpiration());
+		result.setTokenType(accessToken.getTokenType());
 		result.setAdditionalInformation(info);
 		result.setValue(encode(result, authentication));
 		result.setRefreshToken(reuseRefreshToken
@@ -49,7 +54,7 @@ public class CustomJwtAccessTokenConverter extends JwtAccessTokenConverter {
 	}
 
 	private OAuth2RefreshToken createRefreshToken(OAuth2Authentication authentication) {
-		ClientDetails clientDetails = jbcClientDetailsService
+		ClientDetails clientDetails = jdbcClientDetailsService
 				.loadClientByClientId(authentication.getOAuth2Request().getClientId());
 		int validitySeconds = clientDetails.getRefreshTokenValiditySeconds();
 		String value = UUID.randomUUID().toString();
