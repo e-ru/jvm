@@ -5,6 +5,8 @@ import java.util.Collection;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
@@ -23,6 +25,8 @@ import eu.rudisch.authorizationserver.token.CustomTokenStore;
 @RequestMapping("/tokens")
 public class TokenController {
 
+	private static final Logger LOGGER = LogManager.getLogger(TokenController.class);
+
 	@Resource(name = "tokenStore")
 	private TokenStore tokenStore;
 
@@ -30,10 +34,16 @@ public class TokenController {
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	@ResponseBody
 	public void revokeRefreshToken(HttpServletRequest request, Authentication authentication,
-			@RequestParam String username, @RequestParam(required = false) String clientId) {
+			@RequestParam String username, @RequestParam(name = "clientid", required = false) String clientId) {
+		if (authentication == null)
+			throw new InsufficientAuthenticationException("The user is not authenticated.");
+		String issuerUsername = (String) authentication.getPrincipal();
+		LOGGER.info(String.format("Revoke token of %s with client id %s, issued by %s", username, clientId,
+				issuerUsername));
+
 		checkAuthentication(username, authentication);
 
-		if (isSelfUser(username, authentication) || isOAuthAdmin(authentication)) {
+		if (isSelfUser(username, issuerUsername) || isOAuthAdmin(authentication)) {
 			if (tokenStore instanceof CustomTokenStore) {
 				((CustomTokenStore) tokenStore).removeRefreshToken(username, clientId);
 			}
@@ -49,8 +59,8 @@ public class TokenController {
 		}
 	}
 
-	private boolean isSelfUser(String username, Authentication authentication) {
-		return username.equals((String) authentication.getPrincipal());
+	private boolean isSelfUser(String username, String issuerUsername) {
+		return username.equals(issuerUsername);
 	}
 
 	private boolean isOAuthAdmin(Authentication authentication) {
