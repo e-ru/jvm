@@ -37,13 +37,6 @@ import eu.rudisch.authorizationserver.token.CustomTokenStore;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class AuthorizationServerConfiguration implements AuthorizationServerConfigurer {
 
-	// !!! https://github.com/adamzareba/company-structure-spring-security-oauth2-authorities
-
-	// https://www.baeldung.com/spring-security-oauth-jwt
-
-	// ( https://github.com/krish/microservices-course-on-youtube,
-	// https://www.baeldung.com/rest-api-spring-oauth2-angular )
-
 	@Value("${custom.reuseRefreshToken}")
 	private boolean reuseRefreshToken;
 
