@@ -59,9 +59,9 @@ INSERT INTO USER (
 	'{bcrypt}$2a$10$cwcOgGpz.UdW0Pd/rqnFlOf1bzII.G933uxfu2iZBa9rtiTNUOKgm',
 	'e@ru.org', 
 	'1', 
-	'1', 
-	'1', 
-	'1'
+	'0', 
+	'0', 
+	'0'
 );
 
 INSERT INTO USER (
@@ -79,9 +79,9 @@ INSERT INTO USER (
 	'{bcrypt}$2a$10$e/7JPkJSy30ty.wV/YAvs.NP.YyK15VWU9dGc1LYIlVORkrcxf5tm',
 	'r@ru.org', 
 	'1', 
-	'1', 
-	'1', 
-	'1'
+	'0', 
+	'0', 
+	'0'
 );
 
 INSERT INTO USER (
@@ -99,9 +99,9 @@ INSERT INTO USER (
 	'{bcrypt}$2a$10$zW0X9Zf3O7VBjoF0p9VrmeCEOGvweqRTTHlJkRhXBW1e5Na18/rga',
 	'r@ru.org', 
 	'1', 
-	'1', 
-	'1', 
-	'1'
+	'0', 
+	'0', 
+	'0'
 );
 
 INSERT INTO ROLE_USER (

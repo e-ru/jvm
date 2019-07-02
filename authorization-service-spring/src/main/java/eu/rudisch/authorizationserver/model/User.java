@@ -30,9 +30,9 @@ public class User implements Serializable {
 		this.password = user.getPassword();
 		this.email = user.getEmail();
 		this.enabled = user.isEnabled();
-		this.accountNonExpired = user.isAccountNonExpired();
-		this.credentialsNonExpired = user.isCredentialsNonExpired();
-		this.accountNonLocked = user.isAccountNonLocked();
+		this.accountExpired = user.isAccountExpired();
+		this.credentialsExpired = user.isCredentialsExpired();
+		this.accountLocked = user.isAccountLocked();
 		this.roles = user.getRoles();
 	}
 
@@ -48,12 +48,12 @@ public class User implements Serializable {
 	private String email;
 	@Column(name = "enabled")
 	private boolean enabled;
-	@Column(name = "accountNonExpired")
-	private boolean accountNonExpired;
-	@Column(name = "credentialsNonExpired")
-	private boolean credentialsNonExpired;
-	@Column(name = "accountNonLocked")
-	private boolean accountNonLocked;
+	@Column(name = "accountExpired")
+	private boolean accountExpired;
+	@Column(name = "credentialsExpired")
+	private boolean credentialsExpired;
+	@Column(name = "accountLocked")
+	private boolean accountLocked;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "role_user", joinColumns = {
