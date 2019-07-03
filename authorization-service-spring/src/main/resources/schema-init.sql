@@ -35,9 +35,9 @@ create table if not exists  user (
   password varchar(1024) not null,
   email varchar(1024) not null,
   enabled tinyint(4) not null,
-  accountExpired tinyint(4) not null,
-  credentialsExpired tinyint(4) not null,
-  accountLocked tinyint(4) not null,
+  accountNonExpired tinyint(4) not null,
+  credentialsNonExpired tinyint(4) not null,
+  accountNonLocked tinyint(4) not null,
   primary key (id),
   unique key username (username)
 ) engine=innodb ;

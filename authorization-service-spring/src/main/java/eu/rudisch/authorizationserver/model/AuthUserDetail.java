@@ -41,17 +41,17 @@ public class AuthUserDetail extends User implements UserDetails {
 
 	@Override
 	public boolean isAccountNonExpired() {
-		return !super.isAccountExpired();
+		return super.isAccountNonExpired();
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return !super.isAccountLocked();
+		return super.isAccountNonLocked();
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		return !super.isCredentialsExpired();
+		return super.isCredentialsNonExpired();
 	}
 
 	@Override
