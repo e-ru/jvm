@@ -102,15 +102,10 @@ public class AuthorizationServerConfiguration implements AuthorizationServerConf
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 		final TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
 		tokenEnhancerChain.setTokenEnhancers(List.of(tokenEnhancer(), accessTokenConverter()));
-//		tokenEnhancerChain.setTokenEnhancers(List.of(tokenEnhancer(), jwtAccessTokenConverter()));
 
 		final DefaultOAuth2RequestFactory defaultOAuth2RequestFactory = new DefaultOAuth2RequestFactory(
 				new JdbcClientDetailsService(dataSource));
 		defaultOAuth2RequestFactory.setCheckUserScopes(true);
-
-		// to increase length of auth codes:
-		// create custom AuthorizationCodeServices (RandomValueAuthorizationCodeServices)
-		// set via endpoints.authorizationCodeServices(authorizationCodeServices)
 
 		endpoints.tokenStore(tokenStore())
 				.tokenEnhancer(tokenEnhancerChain)
