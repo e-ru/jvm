@@ -1,8 +1,10 @@
 package eu.rudisch.authorizationserver.repository;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,5 +50,16 @@ public class RoleRepositoryIntegrationTest {
 
 		List<Role> roles = roleRepository.findByNames(List.of("test_role_one", "test_role_two"));
 		assertEquals(2, roles.size());
+	}
+
+	@Test
+	public void shouldFindRoleByName() {
+		Role role1 = new Role();
+		role1.setName("test_role_one");
+		entityManager.persist(role1);
+		entityManager.flush();
+
+		Optional<Role> optRole = roleRepository.findByName("test_role_one");
+		assertTrue(optRole.isPresent());
 	}
 }

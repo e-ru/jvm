@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,8 +36,10 @@ public class AdminUserController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(value = HttpStatus.OK)
-	public @ResponseBody UserRestRep updateUser(@PathVariable("id") int id, @RequestBody UserRestRep toUpdate) {
+	public @ResponseBody UserRestRep updateUser(@PathVariable("id") int id, @RequestBody UserRestRep toUpdate,
+			Authentication authentication) {
 		LOGGER.info(String.format("Update user with id: %d, user: %s", id, toUpdate.toString()));
-		return userService.updateUser(id, toUpdate);
+		// resource server configuration manages access control - authentication should not be null
+		return userService.updateUser(id, toUpdate, (String) authentication.getPrincipal());
 	}
 }
