@@ -1,4 +1,4 @@
-package eu.rudisch.authorizationserver.controller;
+package eu.rudisch.web.controller;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.BDDMockito.given;
@@ -11,28 +11,22 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.web.FilterChainProxy;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import eu.rudisch.authorizationserver.AccessTokenHelper;
-import eu.rudisch.authorizationserver.AuthorizationServerApplication;
-import eu.rudisch.authorizationserver.model.UserRestRep;
-import eu.rudisch.authorizationserver.services.UserService;
+import eu.rudisch.authorizationadmin.service.UserService;
+import eu.rudisch.web.AccessTokenHelper;
+import eu.rudisch.web.controller.resource.UserRestRep;
 
-@RunWith(SpringRunner.class)
-@WebAppConfiguration
-@SpringBootTest(classes = AuthorizationServerApplication.class)
-@ActiveProfiles("test")
+//@RunWith(SpringRunner.class)
+//@WebAppConfiguration
+//@SpringBootTest(classes = AuthorizationAdminApplication.class)
+//@ActiveProfiles("test")
 public class AdminUserControllerIntegrationTest {
 
 	// https://www.baeldung.com/spring-boot-testing

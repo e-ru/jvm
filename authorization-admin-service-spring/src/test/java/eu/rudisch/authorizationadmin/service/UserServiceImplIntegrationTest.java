@@ -1,4 +1,4 @@
-package eu.rudisch.authorizationserver.services;
+package eu.rudisch.authorizationadmin.service;
 
 import static org.junit.Assert.assertEquals;
 
@@ -15,11 +15,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import eu.rudisch.authorizationserver.model.Role;
-import eu.rudisch.authorizationserver.model.User;
-import eu.rudisch.authorizationserver.model.UserRestRep;
-import eu.rudisch.authorizationserver.repository.RoleRepository;
-import eu.rudisch.authorizationserver.repository.UserRepository;
+import eu.rudisch.authorizationadmin.model.Role;
+import eu.rudisch.authorizationadmin.model.User;
+import eu.rudisch.authorizationadmin.repository.RoleRepository;
+import eu.rudisch.authorizationadmin.repository.UserRepository;
+import eu.rudisch.web.controller.resource.UserRestRep;
 
 @RunWith(SpringRunner.class)
 public class UserServiceImplIntegrationTest {

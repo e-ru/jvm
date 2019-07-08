@@ -16,14 +16,6 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 	// #oauth2.hasScope: granted scope during access token creation
 
 	private static final String RESOURCE_ID = "oauth2-control-resource";
-//	private static final String ADMIN_CREATE_SCOPE = "hasRole('ROLE_oauth_admin') and hasAuthority('create_oauth')";
-	private static final String ADMIN_CREATE_SCOPE = "hasRole('ROLE_oauth_admin') or #oauth2.hasScope('create_oauth')";
-	private static final String ADMIN_READ_SCOPE = "hasAuthority('read_oauth')";
-	private static final String ADMIN_UPDATE_SCOPE = "hasRole('ROLE_oauth_admin') and hasAuthority('update_oauth')";
-	private static final String ADMIN_DELETE_SCOPE = "hasRole('ROLE_oauth_admin') and hasAuthority('delete_oauth')";
-//	private static final String TOKEN_DELETE_SCOPE = "hasAuthority('revoke_refresh_token')";
-//	private static final String SECURED_WRITE_SCOPE = "#oauth2.hasScope('WRITE')";
-	private static final String ADMIN_PATTERN = "/admin/**";
 	private static final String TOKENS_PATTERN = "/tokens/refreshTokens";
 
 	@Override
@@ -34,17 +26,9 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http.requestMatchers()
-				.antMatchers(ADMIN_PATTERN, TOKENS_PATTERN)
+				.antMatchers(TOKENS_PATTERN)
 				.and()
 				.authorizeRequests()
-				.antMatchers(HttpMethod.POST, ADMIN_PATTERN)
-				.access(ADMIN_CREATE_SCOPE)
-				.antMatchers(HttpMethod.GET, ADMIN_PATTERN)
-				.access(ADMIN_READ_SCOPE)
-				.antMatchers(HttpMethod.PUT, ADMIN_PATTERN)
-				.access(ADMIN_UPDATE_SCOPE)
-				.antMatchers(HttpMethod.DELETE, ADMIN_PATTERN)
-				.access(ADMIN_DELETE_SCOPE)
 				.antMatchers(HttpMethod.DELETE, TOKENS_PATTERN)
 				.permitAll();
 	}

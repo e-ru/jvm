@@ -1,4 +1,4 @@
-package eu.rudisch.authorizationserver.controller;
+package eu.rudisch.web.controller;
 
 import java.util.List;
 
@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import eu.rudisch.authorizationserver.model.UserRestRep;
-import eu.rudisch.authorizationserver.services.UserService;
+import eu.rudisch.authorizationadmin.service.UserService;
+import eu.rudisch.web.controller.resource.UserRestRep;
 
 @RestController
 @RequestMapping("/admin/users")
 public class AdminUserController {
-	private static final Logger LOGGER = LogManager.getLogger(TokenController.class);
+	private static final Logger LOGGER = LogManager.getLogger(AdminUserController.class);
 
 	@Autowired
 	private UserService userService;

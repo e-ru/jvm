@@ -1,4 +1,4 @@
-package eu.rudisch.authorizationserver.repository;
+package eu.rudisch.authorizationadmin.repository;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -13,7 +13,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import eu.rudisch.authorizationserver.model.Role;
+import eu.rudisch.authorizationadmin.model.Role;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest

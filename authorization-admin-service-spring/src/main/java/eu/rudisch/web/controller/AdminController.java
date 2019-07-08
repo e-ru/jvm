@@ -1,4 +1,4 @@
-package eu.rudisch.authorizationserver.controller;
+package eu.rudisch.web.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

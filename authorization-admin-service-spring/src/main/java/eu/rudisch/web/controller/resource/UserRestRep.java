@@ -1,8 +1,10 @@
-package eu.rudisch.authorizationserver.model;
+package eu.rudisch.web.controller.resource;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import eu.rudisch.authorizationadmin.model.Role;
+import eu.rudisch.authorizationadmin.model.User;
 import lombok.Data;
 
 @Data

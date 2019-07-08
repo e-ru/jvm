@@ -1,8 +1,8 @@
-package eu.rudisch.authorizationserver.services;
+package eu.rudisch.authorizationadmin.service;
 
 import java.util.List;
 
-import eu.rudisch.authorizationserver.model.UserRestRep;
+import eu.rudisch.web.controller.resource.UserRestRep;
 
 public interface UserService {
 	List<UserRestRep> getUserRepresentations();

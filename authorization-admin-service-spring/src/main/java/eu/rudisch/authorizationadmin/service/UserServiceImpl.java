@@ -1,4 +1,4 @@
-package eu.rudisch.authorizationserver.services;
+package eu.rudisch.authorizationadmin.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,11 +8,11 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import eu.rudisch.authorizationserver.model.Role;
-import eu.rudisch.authorizationserver.model.User;
-import eu.rudisch.authorizationserver.model.UserRestRep;
-import eu.rudisch.authorizationserver.repository.RoleRepository;
-import eu.rudisch.authorizationserver.repository.UserRepository;
+import eu.rudisch.authorizationadmin.model.Role;
+import eu.rudisch.authorizationadmin.model.User;
+import eu.rudisch.authorizationadmin.repository.RoleRepository;
+import eu.rudisch.authorizationadmin.repository.UserRepository;
+import eu.rudisch.web.controller.resource.UserRestRep;
 
 @Service
 public class UserServiceImpl implements UserService {
