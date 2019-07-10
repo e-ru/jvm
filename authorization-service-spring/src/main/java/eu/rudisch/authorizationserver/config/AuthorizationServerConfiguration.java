@@ -1,5 +1,6 @@
 package eu.rudisch.authorizationserver.config;
 
+import java.security.KeyPair;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -48,13 +49,8 @@ public class AuthorizationServerConfiguration implements AuthorizationServerConf
 	private AuthenticationManager authenticationManager;
 	@Autowired
 	private UserDetailsService userDetailsService;
-
-	private final KeyStoreKeyFactory keyStoreKeyFactory;
-
-	public AuthorizationServerConfiguration() {
-		keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("mytest.jks"),
-				"mypass".toCharArray());
-	}
+	@Autowired
+	private KeyPair keyPair;
 
 	@Bean
 	public TokenStore tokenStore() {
@@ -69,7 +65,7 @@ public class AuthorizationServerConfiguration implements AuthorizationServerConf
 	@Bean
 	public CustomJwtAccessTokenConverter accessTokenConverter() {
 		final CustomJwtAccessTokenConverter converter = new CustomJwtAccessTokenConverter(dataSource);
-		converter.setKeyPair(keyStoreKeyFactory.getKeyPair("mytest"));
+		converter.setKeyPair(keyPair);
 		return converter;
 	}
 
@@ -82,8 +78,15 @@ public class AuthorizationServerConfiguration implements AuthorizationServerConf
 	@Bean
 	public AuthorizationCodeServices authorizationCodeServices() {
 		final JwtAuthorizationCodeServices authorizationCodeServices = new JwtAuthorizationCodeServices(
-				userDetailsService, dataSource, keyStoreKeyFactory.getKeyPair("mytest"));
+				userDetailsService, dataSource, keyPair);
 		return authorizationCodeServices;
+	}
+
+	@Bean
+	KeyPair keyPair() {
+		final KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("mytest.jks"),
+				"mypass".toCharArray());
+		return keyStoreKeyFactory.getKeyPair("mytest");
 	}
 
 	@Override

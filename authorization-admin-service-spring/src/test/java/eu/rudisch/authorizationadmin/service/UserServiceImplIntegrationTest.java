@@ -19,7 +19,7 @@ import eu.rudisch.authorizationadmin.model.Role;
 import eu.rudisch.authorizationadmin.model.User;
 import eu.rudisch.authorizationadmin.repository.RoleRepository;
 import eu.rudisch.authorizationadmin.repository.UserRepository;
-import eu.rudisch.web.controller.resource.UserRestRep;
+import eu.rudisch.authorizationadmin.web.controller.resource.UserRestRep;
 
 @RunWith(SpringRunner.class)
 public class UserServiceImplIntegrationTest {

@@ -1,4 +1,4 @@
-package eu.rudisch.web.controller;
+package eu.rudisch.authorizationadmin.web.controller;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import eu.rudisch.authorizationadmin.service.UserService;
-import eu.rudisch.web.controller.resource.UserRestRep;
+import eu.rudisch.authorizationadmin.web.controller.resource.UserRestRep;
 
 @RestController
 @RequestMapping("/admin/users")

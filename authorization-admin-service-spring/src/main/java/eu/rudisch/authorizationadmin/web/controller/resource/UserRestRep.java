@@ -1,4 +1,4 @@
-package eu.rudisch.web.controller.resource;
+package eu.rudisch.authorizationadmin.web.controller.resource;
 
 import java.util.List;
 import java.util.stream.Collectors;

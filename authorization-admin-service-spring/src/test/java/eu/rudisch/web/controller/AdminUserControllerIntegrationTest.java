@@ -20,8 +20,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import eu.rudisch.authorizationadmin.service.UserService;
+import eu.rudisch.authorizationadmin.web.controller.resource.UserRestRep;
 import eu.rudisch.web.AccessTokenHelper;
-import eu.rudisch.web.controller.resource.UserRestRep;
 
 //@RunWith(SpringRunner.class)
 //@WebAppConfiguration
