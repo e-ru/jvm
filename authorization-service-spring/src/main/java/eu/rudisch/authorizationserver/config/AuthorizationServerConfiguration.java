@@ -115,6 +115,7 @@ public class AuthorizationServerConfiguration implements AuthorizationServerConf
 				.reuseRefreshTokens(reuseRefreshToken)
 				.requestFactory(defaultOAuth2RequestFactory)
 				.authorizationCodeServices(authorizationCodeServices())
+				.addInterceptor(new InvalidateSessionAdapter())
 				.authenticationManager(authenticationManager)
 				.userDetailsService(userDetailsService);
 	}
