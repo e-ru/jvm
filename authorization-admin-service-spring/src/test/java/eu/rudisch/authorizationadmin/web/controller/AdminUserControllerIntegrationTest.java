@@ -1,4 +1,4 @@
-package eu.rudisch.web.controller;
+package eu.rudisch.authorizationadmin.web.controller;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.BDDMockito.given;
