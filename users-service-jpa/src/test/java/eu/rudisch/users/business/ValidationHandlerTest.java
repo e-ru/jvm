@@ -22,10 +22,10 @@ class ValidationHandlerTest {
 		a1.setName("internal");
 		Account a2 = new Account();
 		a2.setName("external");
-		eu.rudisch.users.rest.model.Account a3 = eu.rudisch.users.rest.model.Account.fromParameter("external");
+		eu.rudisch.users.rest.model.AccountRep a3 = eu.rudisch.users.rest.model.AccountRep.fromParameter("external");
 
 		List<Account> persAccounts = List.of(a1, a2);
-		Set<eu.rudisch.users.rest.model.Account> restAccounts = Set.of(a3);
+		Set<eu.rudisch.users.rest.model.AccountRep> restAccounts = Set.of(a3);
 		boolean valid = validationHandler.validateAccounts(persAccounts, restAccounts);
 
 		assertTrue(valid);
@@ -39,10 +39,10 @@ class ValidationHandlerTest {
 		a1.setName("internal");
 		Account a2 = new Account();
 		a2.setName("external");
-		eu.rudisch.users.rest.model.Account a3 = eu.rudisch.users.rest.model.Account.fromParameter("wrongAcount");
+		eu.rudisch.users.rest.model.AccountRep a3 = eu.rudisch.users.rest.model.AccountRep.fromParameter("wrongAcount");
 
 		List<Account> persAccounts = List.of(a1, a2);
-		Set<eu.rudisch.users.rest.model.Account> restAccounts = Set.of(a3);
+		Set<eu.rudisch.users.rest.model.AccountRep> restAccounts = Set.of(a3);
 		boolean valid = validationHandler.validateAccounts(persAccounts, restAccounts);
 
 		assertFalse(valid);

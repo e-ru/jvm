@@ -10,7 +10,7 @@ public final class User {
 	private String firstName = null;
 	private String lastName = null;
 
-	private Set<Account> accounts = null;
+	private Set<AccountRep> accounts = null;
 	private Set<String> roles = null;
 
 	private User() {
@@ -24,7 +24,7 @@ public final class User {
 		return lastName;
 	}
 
-	public Set<Account> getAccounts() {
+	public Set<AccountRep> getAccounts() {
 		return accounts;
 	}
 
@@ -32,7 +32,7 @@ public final class User {
 		return roles;
 	}
 
-	public static User fromParameter(String firstName, String lastName, Set<Account> accounts, Set<String> roles) {
+	public static User fromParameter(String firstName, String lastName, Set<AccountRep> accounts, Set<String> roles) {
 		User user = new User();
 		user.firstName = firstName;
 		user.lastName = lastName;
@@ -42,11 +42,11 @@ public final class User {
 	}
 
 	public static User fromUserDetail(UserDetail userDetail) {
-		Set<Account> accounts = null;
+		Set<AccountRep> accounts = null;
 		Set<String> roles = null;
 		if (userDetail.getMembership().getAccounts() != null)
 			accounts = userDetail.getMembership().getAccounts().stream()
-					.map(accountEntity -> Account.fromParameter(accountEntity.getName()))
+					.map(accountEntity -> AccountRep.fromParameter(accountEntity.getName()))
 					.collect(Collectors.toSet());
 		if (userDetail.getMembership().getRoles() != null)
 			roles = userDetail.getMembership().getRoles().stream()

@@ -105,7 +105,7 @@ public class Account implements Serializable {
 		return true;
 	}
 
-	public static Account fromRestAccount(eu.rudisch.users.rest.model.Account restAccount) {
+	public static Account fromRestAccount(eu.rudisch.users.rest.model.AccountRep restAccount) {
 		Account account = new Account();
 
 		account.name = restAccount.getAccountName();

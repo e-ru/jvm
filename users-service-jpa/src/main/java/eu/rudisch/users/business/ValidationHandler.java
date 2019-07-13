@@ -21,7 +21,7 @@ public class ValidationHandler {
 		return invalidRoles;
 	}
 
-	public boolean validateAccounts(List<Account> persAccounts, Set<eu.rudisch.users.rest.model.Account> restAccounts) {
+	public boolean validateAccounts(List<Account> persAccounts, Set<eu.rudisch.users.rest.model.AccountRep> restAccounts) {
 		Set<String> accounts = persAccounts.stream()
 				.map(a -> a.getName())
 				.collect(Collectors.toSet());

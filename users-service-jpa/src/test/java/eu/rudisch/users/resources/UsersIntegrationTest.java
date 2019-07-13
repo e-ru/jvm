@@ -34,7 +34,7 @@ import eu.rudisch.users.TestUtils;
 import eu.rudisch.users.business.ValidationHandler;
 import eu.rudisch.users.persistance.SqlService;
 import eu.rudisch.users.persistance.model.UserDetail;
-import eu.rudisch.users.rest.model.Account;
+import eu.rudisch.users.rest.model.AccountRep;
 import eu.rudisch.users.rest.model.Error;
 import eu.rudisch.users.rest.model.User;
 import eu.rudisch.users.rest.resources.Users;
@@ -82,7 +82,7 @@ class UsersIntegrationTest extends JerseyTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	void shouldCreateUser() {
-		User user = User.fromParameter("bob", "smith", Set.of(Account.fromParameter("internal")),
+		User user = User.fromParameter("bob", "smith", Set.of(AccountRep.fromParameter("internal")),
 				Set.of("member"));
 
 		when(validationHandler.validateAccounts(any(List.class), any(Set.class))).thenReturn(true);
@@ -101,7 +101,7 @@ class UsersIntegrationTest extends JerseyTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	void shouldNotCreateUserInvalidAccount() {
-		User user = User.fromParameter("bob", "smith", Set.of(Account.fromParameter("wrongAccount")),
+		User user = User.fromParameter("bob", "smith", Set.of(AccountRep.fromParameter("wrongAccount")),
 				Set.of("member"));
 
 		when(validationHandler.validateAccounts(any(List.class), any(Set.class))).thenReturn(false);
@@ -120,7 +120,7 @@ class UsersIntegrationTest extends JerseyTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	void shouldNotCreateUserInvalidRole() {
-		User user = User.fromParameter("bob", "smith", Set.of(Account.fromParameter("internal")),
+		User user = User.fromParameter("bob", "smith", Set.of(AccountRep.fromParameter("internal")),
 				Set.of("wrongRole"));
 
 		when(validationHandler.validateAccounts(any(List.class), any(Set.class))).thenReturn(true);

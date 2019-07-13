@@ -15,6 +15,7 @@ import org.glassfish.jersey.servlet.ServletContainer;
 import eu.rudisch.users.business.ValidationHandler;
 import eu.rudisch.users.persistance.SqlService;
 import eu.rudisch.users.persistance.SqlServiceImpl;
+import eu.rudisch.users.security.JwtOAuth2Filter;
 
 public class JettyRunner {
 	private static final Logger LOG = LogManager.getLogger(JettyRunner.class);
@@ -37,6 +38,7 @@ public class JettyRunner {
 			}
 		};
 		resourceConfig.register(binder);
+		resourceConfig.register(JwtOAuth2Filter.class);
 		ServletHolder servlet = new ServletHolder("resources", new ServletContainer(resourceConfig));
 		servletContextHandler.addServlet(servlet, "/*");
 
