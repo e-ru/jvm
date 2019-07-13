@@ -9,46 +9,35 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.web.FilterChainProxy;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
+import eu.rudisch.authorizationadmin.AuthorizationAdminApplication;
 import eu.rudisch.authorizationadmin.service.UserService;
+import eu.rudisch.authorizationadmin.web.controller.AdminUserController;
 import eu.rudisch.authorizationadmin.web.controller.resource.UserRestRep;
-import eu.rudisch.web.AccessTokenHelper;
 
-//@RunWith(SpringRunner.class)
-//@WebAppConfiguration
-//@SpringBootTest(classes = AuthorizationAdminApplication.class)
-//@ActiveProfiles("test")
+@RunWith(SpringRunner.class)
+@ContextConfiguration(classes = AuthorizationAdminApplication.class)
+@WebMvcTest(controllers = AdminUserController.class)
 public class AdminUserControllerIntegrationTest {
 
-	// https://www.baeldung.com/spring-boot-testing
-
 	@Autowired
-	private WebApplicationContext wac;
-
-	@Autowired
-	private FilterChainProxy springSecurityFilterChain;
-
 	private MockMvc mockMvc;
-
-	@Before
-	public void setup() {
-		this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).addFilter(springSecurityFilterChain)
-				.build();
-	}
 
 	@MockBean
 	private UserService userService;
 
 	@Test
+	@WithMockUser(username = "eru", roles = { "oauth_admin", "oauth_viewer" })
 	public void shouldGetAllUserRepresentations() throws Exception {
 		UserRestRep user = new UserRestRep();
 		user.setUsername("test_user");
@@ -57,12 +46,8 @@ public class AdminUserControllerIntegrationTest {
 
 		given(userService.getUserRepresentations()).willReturn(allUsers);
 
-		String accessToken = AccessTokenHelper.obtainAccessTokenByAuthorizationCode(mockMvc, "rru", "rpass",
-				"read_oauth");
-
-		mockMvc.perform(get("http://localhost/admin/users")
-				.contentType(MediaType.APPLICATION_JSON)
-				.header("Authorization", "Bearer " + accessToken))
+		mockMvc.perform(get("/admin/users")
+				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(content()
 						.contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
