@@ -65,10 +65,10 @@ public class JwtOAuth2Filter implements ContainerRequestFilter {
 					.build(); // Reusable verifier instance
 			DecodedJWT jwt = verifier.verify(token);
 
-			Claim authorities = jwt.getClaim("scope");
-			List<String> auth = authorities.asList(String.class);
+			Claim scopes = jwt.getClaim("scope");
+			List<String> sps = scopes.asList(String.class);
 
-			if (!auth.contains(scope))
+			if (!sps.contains(scope))
 				requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
 		} catch (Exception e) {
 			requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
