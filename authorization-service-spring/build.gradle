@@ -29,4 +29,5 @@ dependencies {
     testImplementation 'io.rest-assured:rest-assured:4.0.0'
     testImplementation 'com.h2database:h2:1.4.199'
     
+    testRuntime 'org.junit.vintage:junit-vintage-engine:5.5.0'
 }
