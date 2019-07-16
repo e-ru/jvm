@@ -19,10 +19,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import eu.rudisch.authorizationserver.AccessTokenHelper;
+import eu.rudisch.authorizationserver.AuthorizationServerApplication;
 
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
-@SpringBootTest // (classes = AuthorizationServerApplication.class)
+@SpringBootTest(classes = AuthorizationServerApplication.class)
 @ActiveProfiles("test")
 public class TokenControllerTest {
 
