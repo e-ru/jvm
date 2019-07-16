@@ -1,0 +1,12 @@
+language: java
+jdk: openjdk11
+cache:
+  directories:
+    - .gradle
+script:
+  - "cd users-service-jpa"
+  - "../gradlew test"
+  - "cd ../database"
+  - "../gradlew test"
+on:
+  branch: master

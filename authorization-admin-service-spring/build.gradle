@@ -4,6 +4,10 @@ plugins {
 
 apply plugin: 'application'
 
+application {
+	mainClassName = 'eu.rudisch.authorizationadmin.AuthorizationAdminApplication'
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.1.5.RELEASE'
     implementation 'org.springframework.boot:spring-boot-starter-web:2.1.5.RELEASE'

@@ -5,9 +5,9 @@
 
 apply plugin: 'application'
 
-//application {
-//	mainClassName = 'de.rudisch.users.Main'
-//}
+application {
+	mainClassName = 'eu.rudisch.users.Main'
+}
 //
 //jar {
 //	manifest {

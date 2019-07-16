@@ -6,7 +6,6 @@ test {
 		if (folder.isDirectory()) {
 			File[] children = folder.listFiles();
 			for (File child : children) {
-				println "Hello World"
 				child.delete();
 			}
 		}
