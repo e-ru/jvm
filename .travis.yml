@@ -12,11 +12,7 @@ script:
   - "../gradlew test"
   - "cd ../database"
   - "../gradlew test"
-  - "cd ../authorization-service-spring"
-  - "../gradlew test"
   - "cd ../authorization-admin-service-spring"
   - "../gradlew test"
-after_failure:
-  - if [ -f /home/travis/build/e-ru/jvm/authorization-service-spring/build/reports/tests/test/index.html ]; then lynx -dump /home/travis/build/e-ru/jvm/authorization-service-spring/build/reports/tests/test/index.html; fi
 on:
   branch: master

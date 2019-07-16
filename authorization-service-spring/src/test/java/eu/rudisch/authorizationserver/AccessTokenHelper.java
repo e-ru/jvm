@@ -19,8 +19,7 @@ import org.springframework.util.MultiValueMap;
 
 public class AccessTokenHelper {
 	public static String obtainAccessTokenByAuthorizationCode(MockMvc mockMvc, String username, String password,
-			String scope)
-			throws Exception {
+			String scope) throws Exception {
 		MockHttpSession session = new MockHttpSession();
 
 		String authorizeUrl = "http://localhost/oauth/authorize";
