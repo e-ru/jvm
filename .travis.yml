@@ -1,0 +1,14 @@
+language: java
+jdk: openjdk11
+cache:
+  directories:
+    - .gradle
+matrix:
+  include:
+    - before_script:
+        - "cd users-service-jpa"
+      script:
+        - "../gradlew test"
+        - "../gradlew compileJava"
+on:
+  branch: master
