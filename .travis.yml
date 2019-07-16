@@ -3,17 +3,10 @@ jdk: openjdk11
 cache:
   directories:
     - .gradle
-matrix:
-  include:
-    - before_script:
-        - "cd users-service-jpa"
-      script:
-        - "../gradlew test"
-        - "../gradlew compileJava"
-    - before_script:
-        - "cd database"
-      script:
-        - "../gradlew test"
-        - "../gradlew compileJava"
+script:
+  - "cd users-service-jpa"
+  - "../gradlew test"
+  - "cd ../database"
+  - "../gradlew test"
 on:
   branch: master
