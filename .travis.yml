@@ -10,5 +10,10 @@ matrix:
       script:
         - "../gradlew test"
         - "../gradlew compileJava"
+    - before_script:
+        - "cd database"
+      script:
+        - "../gradlew test"
+        - "../gradlew compileJava"
 on:
   branch: master
