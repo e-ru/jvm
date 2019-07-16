@@ -8,5 +8,9 @@ script:
   - "../gradlew test"
   - "cd ../database"
   - "../gradlew test"
+  - "cd ../authorization-service-spring"
+  - "../gradlew test"
+  - "cd ../authorization-admin-service-spring"
+  - "../gradlew test"
 on:
   branch: master
