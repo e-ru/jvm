@@ -13,14 +13,14 @@ test {
 }
 
 dependencies {
-	implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.2'
-	implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.16'
-	implementation group: 'org.apache.commons', name: 'commons-dbcp2', version: '2.6.0'
+	implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: project.log4jCoreVersion
+	implementation group: 'mysql', name: 'mysql-connector-java', version: project.mysqlConnectorJavaVersion
+	implementation group: 'org.apache.commons', name: 'commons-dbcp2', version: project.commonsDbcp2Version
 	
-	implementation 'com.google.guava:guava:27.0.1-jre'
+	implementation group: 'com.google.guava', name: 'guava', version: project.guavaVersion
 
-	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.4.2'
-	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.4.2'
-	testImplementation group: 'com.h2database', name: 'h2', version: '1.4.199'
+	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: project.junit5Version
+	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: project.junit5Version
+	testImplementation group: 'com.h2database', name: 'h2', version: project.h2Version
 }
 

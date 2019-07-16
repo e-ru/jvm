@@ -9,25 +9,25 @@ application {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.1.5.RELEASE'
-    implementation 'org.springframework.boot:spring-boot-starter-web:2.1.5.RELEASE'
-    implementation 'org.springframework.cloud:spring-cloud-starter-oauth2:2.1.2.RELEASE'
-    implementation 'org.springframework.cloud:spring-cloud-starter-security:2.1.2.RELEASE'
-    implementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.1.5.RELEASE'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: project.springBootStarterDataJpaVersion
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: project.springBootStarterWebVersion
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-oauth2', version: project.springCloudStarterOauth2Version
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-security', version: project.springCloudStarterSecurityVersion
+    implementation group: 'org.springframework.security.oauth.boot', name: 'spring-security-oauth2-autoconfigure', version: project.springSecurityOauth2AutoconfigureVersion
     
-    implementation 'org.projectlombok:lombok:1.18.6'
-    implementation 'org.apache.commons:commons-lang3:3.9'
+    implementation group: 'org.projectlombok', name: 'lombok', version: project.lombokVersion
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: project.commonsLang3Version
     
-    implementation 'javax.xml.bind:jaxb-api:2.3.1'
-    implementation 'javax.activation:activation:1.1'
-    implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
+    implementation group: 'javax.xml.bind', name: 'jaxb-api', version: project.jaxbApiVersion
+    implementation group: 'javax.activation', name: 'activation', version: project.javaxActivationVersion
+    implementation group: 'org.glassfish.jaxb', name: 'jaxb-runtime', version: project.jaxbRuntimeVersion
     
-    runtime 'mysql:mysql-connector-java:8.0.15'
+    runtime group: 'mysql', name: 'mysql-connector-java', version: project.mysqlConnectorJavaVersion
     
-    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.1.3.RELEASE'
-    testImplementation 'org.springframework.security:spring-security-test:5.1.5.RELEASE'
-    testImplementation 'io.rest-assured:rest-assured:4.0.0'
-    testImplementation 'com.h2database:h2:1.4.199'
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: project.springBootStarterTestVersion
+    testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: project.springSecurityTestVersion
+    testImplementation group: 'io.rest-assured', name: 'rest-assured', version: project.restAssuredVersion
+    testImplementation group: 'com.h2database', name: 'h2', version: project.h2Version
     
-    testRuntime 'org.junit.vintage:junit-vintage-engine:5.5.0'
+    testRuntime group: 'org.junit.vintage', name: 'junit-vintage-engine', version: project.junit5Version
 }
