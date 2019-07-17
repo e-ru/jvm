@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -26,7 +25,6 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
 import eu.rudisch.authorizationserver.code.JwtAuthorizationCodeServices;
 import eu.rudisch.authorizationserver.token.CustomJwtAccessTokenConverter;
@@ -82,12 +80,12 @@ public class AuthorizationServerConfiguration implements AuthorizationServerConf
 		return authorizationCodeServices;
 	}
 
-	@Bean
-	KeyPair keyPair() {
-		final KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("mytest.jks"),
-				"mypass".toCharArray());
-		return keyStoreKeyFactory.getKeyPair("mytest");
-	}
+//	@Bean
+//	KeyPair keyPair() {
+//		final KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("mytest.jks"),
+//				"mypass".toCharArray());
+//		return keyStoreKeyFactory.getKeyPair("mytest");
+//	}
 
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {

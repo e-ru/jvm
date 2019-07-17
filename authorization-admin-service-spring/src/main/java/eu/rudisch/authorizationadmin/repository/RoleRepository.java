@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import eu.rudisch.authorizationadmin.model.Role;
 
 public interface RoleRepository extends JpaRepository<Role, Integer> {
-	public static final String ROLE_AUTH_ADMIN = "ROLE_oauth_admin";
+	String ROLE_AUTH_ADMIN = "ROLE_oauth_admin";
 
 	Optional<Role> findByName(String name);
 

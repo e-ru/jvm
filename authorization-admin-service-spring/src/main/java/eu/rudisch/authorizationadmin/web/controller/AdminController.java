@@ -34,7 +34,7 @@ public class AdminController {
 	private class StringResponse {
 		private String response;
 
-		public StringResponse(String s) {
+		StringResponse(String s) {
 			this.response = s;
 		}
 	}

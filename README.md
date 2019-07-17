@@ -33,3 +33,11 @@ matrix:
 on:
   branch: master
 ```
+
+### output logs
+
+```
+  - "cd build/reports/tests/test/classes"
+  - "ls"
+  - "cat eu.rudisch.authorizationserver.TokenControllerTest.html"
+```
