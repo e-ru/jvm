@@ -1,7 +1,3 @@
-addons:
-  apt:
-    packages:
-      - lynx
 language: java
 jdk: openjdk11
 cache:
@@ -11,6 +7,8 @@ script:
   - "cd users-service-jpa"
   - "../gradlew test"
   - "cd ../database"
+  - "../gradlew test"
+  - "cd ../authorization-service-spring"
   - "../gradlew test"
   - "cd ../authorization-admin-service-spring"
   - "../gradlew test"

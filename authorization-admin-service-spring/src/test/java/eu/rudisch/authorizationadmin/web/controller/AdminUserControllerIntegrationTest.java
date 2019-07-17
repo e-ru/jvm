@@ -22,7 +22,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import eu.rudisch.authorizationadmin.AuthorizationAdminApplication;
 import eu.rudisch.authorizationadmin.service.UserService;
-import eu.rudisch.authorizationadmin.web.controller.AdminUserController;
 import eu.rudisch.authorizationadmin.web.controller.resource.UserRestRep;
 
 @RunWith(SpringRunner.class)
