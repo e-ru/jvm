@@ -12,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.web.FilterChainProxy;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -25,7 +24,6 @@ import eu.rudisch.authorizationserver.AuthorizationServerApplication;
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
 @SpringBootTest(classes = AuthorizationServerApplication.class)
-@TestPropertySource(locations = "classpath:custom-test.yml")
 @ActiveProfiles("test")
 public class TokenControllerTest {
 
