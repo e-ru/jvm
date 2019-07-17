@@ -30,6 +30,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	public static final String TOKENS_PATTERN = "/tokens/refreshTokens";
 
 	@Autowired
+	private CustomProperties customProperties;
+
+	@Autowired
 	private JwtExtractor jwtExtractor;
 
 	@Autowired
@@ -47,9 +50,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	KeyPair keyPair() {
-		final KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("mytest.jks"),
-				"mypass".toCharArray());
-		return keyStoreKeyFactory.getKeyPair("mytest");
+		final KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(
+				new ClassPathResource(customProperties.getKeyStorePath()),
+				customProperties.getKeyStorePassword().toCharArray());
+		return keyStoreKeyFactory.getKeyPair(customProperties.getKeyStoreAlias());
 	}
 
 	@Override

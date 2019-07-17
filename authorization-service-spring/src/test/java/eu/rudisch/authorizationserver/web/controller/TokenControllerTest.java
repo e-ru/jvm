@@ -1,4 +1,4 @@
-package eu.rudisch.authorizationserver;
+package eu.rudisch.authorizationserver.web.controller;
 
 
 import static org.junit.Assert.assertEquals;

@@ -7,7 +7,7 @@ import java.util.UUID;
 
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.DefaultExpiringOAuth2RefreshToken;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.DefaultOAuth2RefreshToken;
@@ -18,10 +18,12 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
+import eu.rudisch.authorizationserver.config.CustomProperties;
+
 public class CustomJwtAccessTokenConverter extends JwtAccessTokenConverter {
 
-	@Value("${custom.reuseRefreshToken}")
-	private boolean reuseRefreshToken;
+	@Autowired
+	private CustomProperties customProperties;
 
 	private JdbcClientDetailsService jdbcClientDetailsService;
 
@@ -45,7 +47,7 @@ public class CustomJwtAccessTokenConverter extends JwtAccessTokenConverter {
 		result.setTokenType(accessToken.getTokenType());
 		result.setAdditionalInformation(info);
 		result.setValue(encode(result, authentication));
-		result.setRefreshToken(reuseRefreshToken
+		result.setRefreshToken(customProperties.isReuseRefreshtoken()
 				? accessToken.getRefreshToken()
 				: createRefreshToken(authentication));
 		return result;

@@ -6,7 +6,6 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,9 +35,8 @@ import eu.rudisch.authorizationserver.token.CustomTokenStore;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class AuthorizationServerConfiguration implements AuthorizationServerConfigurer {
 
-	@Value("${custom.reuseRefreshToken}")
-	private boolean reuseRefreshToken;
-
+	@Autowired
+	private CustomProperties customProperties;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	@Autowired
@@ -110,7 +108,7 @@ public class AuthorizationServerConfiguration implements AuthorizationServerConf
 
 		endpoints.tokenStore(tokenStore())
 				.tokenEnhancer(tokenEnhancerChain)
-				.reuseRefreshTokens(reuseRefreshToken)
+				.reuseRefreshTokens(customProperties.isReuseRefreshtoken())
 				.requestFactory(defaultOAuth2RequestFactory)
 				.authorizationCodeServices(authorizationCodeServices())
 				.addInterceptor(new InvalidateSessionAdapter())
