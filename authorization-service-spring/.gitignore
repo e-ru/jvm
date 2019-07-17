@@ -1,1 +1,2 @@
 !/src/test/resources/*.jks
+src/main/resources/custom.yml

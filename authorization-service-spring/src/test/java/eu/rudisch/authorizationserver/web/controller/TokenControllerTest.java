@@ -1,6 +1,5 @@
 package eu.rudisch.authorizationserver.web.controller;
 
-
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
