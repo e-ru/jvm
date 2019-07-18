@@ -3,6 +3,7 @@ package eu.rudisch.authorizationserver.code;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.security.KeyPair;
+import java.util.List;
 import java.util.Set;
 
 import javax.sql.DataSource;
@@ -28,6 +29,8 @@ import eu.rudisch.authorizationserver.AuthorizationServerApplication;
 import eu.rudisch.authorizationserver.Utils;
 import eu.rudisch.authorizationserver.config.CustomProperties;
 import eu.rudisch.authorizationserver.model.AuthUserDetail;
+import eu.rudisch.authorizationserver.model.Permission;
+import eu.rudisch.authorizationserver.model.Role;
 import eu.rudisch.authorizationserver.model.User;
 
 @ExtendWith(SpringExtension.class)
@@ -68,20 +71,28 @@ class JwtAuthorizationCodeServicesTest {
 				jbcClientDetailsService, genKeyPair());
 
 		String userName = "test_user";
+		String role = "test_role";
+		String permission = "test_permission";
 		String clientId = "test_clientId";
 		Set<String> scope = Set.of("test_scope");
 		Set<String> resourceIds = Set.of("test_resource");
 		String redirectUri = "test_redirectUri";
 
-		User user = new User();
-		user.setUsername(userName);
+		Permission p = new Permission();
+		Role r = new Role();
+		User u = new User();
+		p.setName(permission);
+		r.setName(role);
+		r.setPermissions(List.of(p));
+		u.setUsername(userName);
+		u.setRoles(List.of(r));
 		OAuth2Request oAuth2Request = new OAuth2Request(null, clientId, null, true, scope, resourceIds, redirectUri,
 				null,
 				null);
-		AuthUserDetail authUserDetail = new AuthUserDetail(user);
+		AuthUserDetail authUserDetail = new AuthUserDetail(u);
 
 		Mockito.when(oAuth2Authentication.getUserAuthentication()).thenReturn(authentication);
-		Mockito.when(authentication.getPrincipal()).thenReturn(user);
+		Mockito.when(authentication.getPrincipal()).thenReturn(u);
 		Mockito.when(oAuth2Authentication.getOAuth2Request()).thenReturn(oAuth2Request);
 
 		Mockito.when(userDetailsService.loadUserByUsername(userName)).thenReturn(authUserDetail);
