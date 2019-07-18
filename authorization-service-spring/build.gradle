@@ -24,10 +24,12 @@ dependencies {
     
     runtime group: 'mysql', name: 'mysql-connector-java', version: project.mysqlConnectorJavaVersion
     
-    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: project.springBootStarterTestVersion
+    testImplementation (group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: project.springBootStarterTestVersion) {
+	    exclude group: 'junit', module: 'junit' //by both name and group
+	}
     testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: project.springSecurityTestVersion
     testImplementation group: 'io.rest-assured', name: 'rest-assured', version: project.restAssuredVersion
     testImplementation group: 'com.h2database', name: 'h2', version: project.h2Version
     
-    testRuntime group: 'org.junit.vintage', name: 'junit-vintage-engine', version: project.junit5Version
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: project.junit5Version
 }
