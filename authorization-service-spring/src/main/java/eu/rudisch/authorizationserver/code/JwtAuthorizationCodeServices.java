@@ -13,8 +13,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.sql.DataSource;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -40,26 +38,33 @@ import eu.rudisch.authorizationserver.model.User;
 
 public class JwtAuthorizationCodeServices implements AuthorizationCodeServices {
 
-	private final int DEFAULT_AUTH_CODE_DURATION = 30;
+	private static final int DEFAULT_AUTH_CODE_DURATION = 30;
 
-	private final String SUBJECT = "sub";
-	private final String CLAIM_REDIRECT_URL = "rdr";
-	private final String CLAIM_USER = "usr";
-	private final String CLAIM_ID = "jti";
-	private final String CLAIM_EXP = "exp";
-	private final String CLAIM_PERMISSIONS = "pms";
+	private static final String SUBJECT = "sub";
+	private static final String CLAIM_REDIRECT_URL = "rdr";
+	private static final String CLAIM_USER = "usr";
+	private static final String CLAIM_ID = "jti";
+	private static final String CLAIM_EXP = "exp";
+	private static final String CLAIM_PERMISSIONS = "pms";
 
 	private JsonParser objectMapper = JsonParserFactory.create();
 
 	private UserDetailsService userDetailsService;
-	private JdbcClientDetailsService jbcClientDetailsService;
+	private JdbcClientDetailsService jdbcClientDetailsService;
 	private Signer signer;
 	private SignatureVerifier verifier;
 
+//	public JwtAuthorizationCodeServices(UserDetailsService userDetailsService,
+//			DataSource dataSource, KeyPair keyPair) {
+//		this.userDetailsService = userDetailsService;
+//		jdbcClientDetailsService = new JdbcClientDetailsService(dataSource);
+//		setSignerAndVerifer(keyPair);
+//	}
+
 	public JwtAuthorizationCodeServices(UserDetailsService userDetailsService,
-			DataSource dataSource, KeyPair keyPair) {
+			JdbcClientDetailsService jdbcClientDetailsService, KeyPair keyPair) {
 		this.userDetailsService = userDetailsService;
-		jbcClientDetailsService = new JdbcClientDetailsService(dataSource);
+		this.jdbcClientDetailsService = jdbcClientDetailsService;
 		setSignerAndVerifer(keyPair);
 	}
 
@@ -120,7 +125,7 @@ public class JwtAuthorizationCodeServices implements AuthorizationCodeServices {
 			UserDetails userDetails = userDetailsService.loadUserByUsername(user);
 			Authentication authentication = new CodeAuthentication(userDetails);
 
-			ClientDetails clientDetails = jbcClientDetailsService.loadClientByClientId(clientId);
+			ClientDetails clientDetails = jdbcClientDetailsService.loadClientByClientId(clientId);
 			Set<String> resourceIds = clientDetails.getResourceIds();
 
 			OAuth2Request auth2Request = new OAuth2Request(null, clientId, null, false, scope, resourceIds, redirectUrl,

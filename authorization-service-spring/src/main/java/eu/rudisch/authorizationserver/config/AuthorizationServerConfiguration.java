@@ -74,7 +74,7 @@ public class AuthorizationServerConfiguration implements AuthorizationServerConf
 	@Bean
 	public AuthorizationCodeServices authorizationCodeServices() {
 		final JwtAuthorizationCodeServices authorizationCodeServices = new JwtAuthorizationCodeServices(
-				userDetailsService, dataSource, keyPair);
+				userDetailsService, new JdbcClientDetailsService(dataSource), keyPair);
 		return authorizationCodeServices;
 	}
 
