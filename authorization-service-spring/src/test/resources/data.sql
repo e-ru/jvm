@@ -20,7 +20,7 @@ INSERT INTO oauth_client_details (
 	'{}'
 );
 
-INSERT INTO PERMISSION (
+INSERT INTO permission (
 	NAME
 ) VALUES
  	('read_oauth'),
@@ -34,7 +34,7 @@ INSERT INTO role (
 	('ROLE_oauth_admin'),
 	('ROLE_oauth_viewer');
 
-INSERT INTO PERMISSION_ROLE (
+INSERT INTO permission_role (
 	PERMISSION_ID, 
 	ROLE_ID
 ) VALUES
@@ -44,7 +44,7 @@ INSERT INTO PERMISSION_ROLE (
 	(4,1), 
 	(1,2);
      
-INSERT INTO USER (
+INSERT INTO user (
 	id, 
 	username,
 	password, 
@@ -64,7 +64,7 @@ INSERT INTO USER (
 	'1'
 );
 
-INSERT INTO USER (
+INSERT INTO user (
 	id, 
 	username,
 	password, 
@@ -84,7 +84,7 @@ INSERT INTO USER (
 	'1'
 );
 
-INSERT INTO USER (
+INSERT INTO user (
 	id, 
 	username,
 	password, 
@@ -104,7 +104,7 @@ INSERT INTO USER (
 	'1'
 );
 
-INSERT INTO ROLE_USER (
+INSERT INTO role_user (
 	ROLE_ID, 
 	USER_ID
 ) VALUES (
