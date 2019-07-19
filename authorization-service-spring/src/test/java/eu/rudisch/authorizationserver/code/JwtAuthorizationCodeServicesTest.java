@@ -2,7 +2,8 @@ package eu.rudisch.authorizationserver.code;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.security.KeyPair;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 import java.util.Set;
 
@@ -10,6 +11,7 @@ import javax.sql.DataSource;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,28 +28,41 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import eu.rudisch.authorizationserver.AuthorizationServerApplication;
-import eu.rudisch.authorizationserver.Utils;
-import eu.rudisch.authorizationserver.config.CustomProperties;
 import eu.rudisch.authorizationserver.model.AuthUserDetail;
 import eu.rudisch.authorizationserver.model.Permission;
 import eu.rudisch.authorizationserver.model.Role;
 import eu.rudisch.authorizationserver.model.User;
+import eu.rudisch.authorizationserver.service.JwtExtractorImpl;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = AuthorizationServerApplication.class)
 @ActiveProfiles("test")
 class JwtAuthorizationCodeServicesTest {
 
+	static final String PRIVATE_KEY = "MIIBVgIBADANBgkqhkiG9w0BAQEFAASCAUAwggE8AgEAAkEAxqFI9Pl7k4t0t8c2\n" +
+			"hG6aaakGs7xfSkZuFd27FtmLy8ZuZ1jj1ycdVMUd2FLlyuasng3QPf6MqoLA8hTW\n" +
+			"sDQFHwIDAQABAkEAqP9w432g9tggZnzIlcTE/EEjwqjzKm7iGxicpcRSfPzGAtpZ\n" +
+			"WuHA0OWifbyiUsB4YCUrnYC70FW9XbgHPkPzAQIhAPpL/dLomIZ30ogPTx1SOZQo\n" +
+			"FMDBT1TqSskJCb3vO4IpAiEAyyfqU3Xjc+KTAEiKk+DmV2lGprlgk0Yyw3IXMcYi\n" +
+			"hgcCIQDmNEY7WNoPstzbbtkg6qMydLrBngnM27/0rm9bVVCyIQIhAMJEwzFYVE8m\n" +
+			"5UeqFspekCYah/M65f0vba+0VDXGsJDVAiAaj/5XS8gVG8XUF4z/TZC+lHq+cRyO\n" +
+			"JHubIYg6U/wzLQ==";
+
 	@TestConfiguration
-	static class UserServiceImplTestContextConfiguration {
+	static class JwtAuthorizationCodeServicesTestContextConfiguration {
 		@Bean
 		public DataSource dataSource() {
 			return Mockito.mock(DataSource.class);
 		}
+
+		@Bean
+		public JwtAuthorizationCodeServices jwtAuthorizationCodeServices() {
+			return Mockito.mock(JwtAuthorizationCodeServices.class);
+		}
 	}
 
 	@Autowired
-	private CustomProperties customProperties;
+	private JwtAuthorizationCodeServices jwtAuthorizationCodeServices;
 
 	@MockBean
 	private UserDetailsService userDetailsService;
@@ -59,17 +74,11 @@ class JwtAuthorizationCodeServicesTest {
 	private Authentication authentication;
 	@MockBean
 	private OAuth2Authentication oAuth2Authentication;
-
-	public KeyPair genKeyPair() {
-		return Utils.genKeyPair(customProperties.getKeyStorePath(), customProperties.getKeyStorePassword(),
-				customProperties.getKeyStoreAlias());
-	}
+	@InjectMocks
+	private JwtExtractorImpl jwtExtractor;
 
 	@Test
-	void createAuthorizationCode() {
-		JwtAuthorizationCodeServices jwtAuthorizationCodeServices = new JwtAuthorizationCodeServices(userDetailsService,
-				jbcClientDetailsService, genKeyPair());
-
+	void createAuthorizationCode() throws InvalidKeySpecException, NoSuchAlgorithmException {
 		String userName = "test_user";
 		String role = "test_role";
 		String permission = "test_permission";
@@ -87,8 +96,7 @@ class JwtAuthorizationCodeServicesTest {
 		u.setUsername(userName);
 		u.setRoles(List.of(r));
 		OAuth2Request oAuth2Request = new OAuth2Request(null, clientId, null, true, scope, resourceIds, redirectUri,
-				null,
-				null);
+				null, null);
 		AuthUserDetail authUserDetail = new AuthUserDetail(u);
 
 		Mockito.when(oAuth2Authentication.getUserAuthentication()).thenReturn(authentication);
@@ -101,7 +109,7 @@ class JwtAuthorizationCodeServicesTest {
 
 		String code = jwtAuthorizationCodeServices.createAuthorizationCode(oAuth2Authentication);
 
-		OAuth2Authentication ret = jwtAuthorizationCodeServices.consumeAuthorizationCode(code);
+		jwtAuthorizationCodeServices.consumeAuthorizationCode(code);
 
 		assertNotNull(jwtAuthorizationCodeServices);
 	}
