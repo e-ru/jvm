@@ -5,8 +5,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.DefaultExpiringOAuth2RefreshToken;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
@@ -24,16 +22,8 @@ public class CustomJwtAccessTokenConverter extends JwtAccessTokenConverter {
 
 	@Autowired
 	private CustomProperties customProperties;
-
+	@Autowired
 	private JdbcClientDetailsService jdbcClientDetailsService;
-
-	public CustomJwtAccessTokenConverter(DataSource dataSource) {
-		jdbcClientDetailsService = new JdbcClientDetailsService(dataSource);
-	}
-
-	public CustomJwtAccessTokenConverter(JdbcClientDetailsService jdbcClientDetailsService) {
-		this.jdbcClientDetailsService = jdbcClientDetailsService;
-	}
 
 	@Override
 	public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
