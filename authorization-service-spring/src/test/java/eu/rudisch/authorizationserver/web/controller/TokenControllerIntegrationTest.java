@@ -25,7 +25,7 @@ import eu.rudisch.authorizationserver.AuthorizationServerApplication;
 @WebAppConfiguration
 @SpringBootTest(classes = AuthorizationServerApplication.class)
 @ActiveProfiles("test")
-public class TokenControllerTest {
+public class TokenControllerIntegrationTest {
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;

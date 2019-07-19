@@ -27,27 +27,44 @@ public class JwtAuthorizationCodeServices implements AuthorizationCodeServices {
 
 	private static final int DEFAULT_AUTH_CODE_DURATION = 30;
 
-	private static final String SUBJECT = "sub";
-	private static final String CLAIM_REDIRECT_URL = "rdr";
-	private static final String CLAIM_USER = "usr";
-	private static final String CLAIM_ID = "jti";
-	private static final String CLAIM_EXP = "exp";
-	private static final String CLAIM_PERMISSIONS = "pms";
-
-	private JsonParser objectMapper = JsonParserFactory.create();
+	public static final String SUBJECT = "sub";
+	public static final String CLAIM_REDIRECT_URL = "rdr";
+	public static final String CLAIM_USER = "usr";
+	public static final String CLAIM_ID = "jti";
+	public static final String CLAIM_EXP = "exp";
+	public static final String CLAIM_PERMISSIONS = "pms";
 
 	@Autowired
 	private JwtExtractor jwtExtractor;
 	@Autowired
 	private JwtAuthorizationCodeServicesHelperService helperService;
 
+	private JsonParser objectMapper = JsonParserFactory.create();
+
+	private long authCodeDuration = DEFAULT_AUTH_CODE_DURATION;
+
+	Date expires() {
+		return new Date(System.currentTimeMillis() + Duration.ofSeconds(authCodeDuration).toMillis());
+	}
+
+	boolean expired(Long exp) {
+		return exp - System.currentTimeMillis() < 0;
+	}
+
+	@SuppressWarnings("unchecked")
+	Set<String> scope(Object permissions) {
+		return ((List<String>) permissions).stream()
+				.collect(Collectors.toSet());
+	}
+
+	public void setAuthCodeDuration(long authCodeDuration) {
+		this.authCodeDuration = authCodeDuration;
+	}
+
 	@Override
 	public String createAuthorizationCode(OAuth2Authentication authentication) {
 		String content;
 		try {
-			long now = System.currentTimeMillis();
-			Duration expire = Duration.ofSeconds(DEFAULT_AUTH_CODE_DURATION);
-
 			Map<String, Object> codeMap = new HashMap<>();
 			User user = (User) authentication.getUserAuthentication().getPrincipal();
 			OAuth2Request auth2Request = authentication.getOAuth2Request();
@@ -55,7 +72,7 @@ public class JwtAuthorizationCodeServices implements AuthorizationCodeServices {
 			codeMap.put(SUBJECT, auth2Request.getClientId());
 			codeMap.put(CLAIM_REDIRECT_URL, auth2Request.getRedirectUri());
 			codeMap.put(CLAIM_USER, user.getUsername());
-			codeMap.put(CLAIM_EXP, new Date(now + expire.toMillis()));
+			codeMap.put(CLAIM_EXP, expires());
 			codeMap.put(CLAIM_ID, UUID.randomUUID().toString());
 			codeMap.put(CLAIM_PERMISSIONS, auth2Request.getScope());
 			content = objectMapper.formatMap(codeMap);
@@ -72,15 +89,11 @@ public class JwtAuthorizationCodeServices implements AuthorizationCodeServices {
 			String claimsStr = jwt.getClaims();
 			Map<String, Object> claims = objectMapper.parseMap(claimsStr);
 
-			long now = System.currentTimeMillis();
-			long exp = (Long) claims.get(CLAIM_EXP);
-			if (exp - now < 0)
+			if (expired((Long) claims.get(CLAIM_EXP)))
 				throw new OAuth2Exception("Authentication code expired");
 
 			String clientId = (String) claims.get(SUBJECT);
-			@SuppressWarnings("unchecked")
-			Set<String> scope = ((List<String>) claims.get(CLAIM_PERMISSIONS)).stream()
-					.collect(Collectors.toSet());
+			Set<String> scope = scope(claims.get(CLAIM_PERMISSIONS));
 			String redirectUrl = (String) claims.get(CLAIM_REDIRECT_URL);
 			String user = (String) claims.get(CLAIM_USER);
 
