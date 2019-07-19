@@ -1,9 +1,9 @@
 DROP TABLE if exists oauth_client_details;
+DROP TABLE if exists permission_role;
+DROP TABLE if exists role_user;
 DROP TABLE if exists permission;
 DROP TABLE if exists role;
 DROP TABLE if exists user;
-DROP TABLE if exists permission_role;
-DROP TABLE if exists role_user;
 DROP TABLE if exists oauth_refresh_token;
 
 create table if not exists  oauth_client_details (

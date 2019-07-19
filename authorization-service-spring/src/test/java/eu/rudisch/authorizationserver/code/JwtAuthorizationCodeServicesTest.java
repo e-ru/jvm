@@ -26,7 +26,6 @@ import org.springframework.security.oauth2.common.util.JsonParser;
 import org.springframework.security.oauth2.common.util.JsonParserFactory;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Request;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import eu.rudisch.authorizationserver.AuthorizationServerApplication;
@@ -38,7 +37,6 @@ import eu.rudisch.authorizationserver.service.JwtExtractorImpl;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = AuthorizationServerApplication.class)
-@ActiveProfiles("test")
 class JwtAuthorizationCodeServicesTest {
 
 	static final String USERNAME = "test_user";
@@ -53,11 +51,6 @@ class JwtAuthorizationCodeServicesTest {
 
 	@TestConfiguration
 	static class JwtAuthorizationCodeServicesTestContextConfiguration {
-//		@Bean
-//		public DataSource dataSource() {
-//			return Mockito.mock(DataSource.class);
-//		}
-
 		@Bean
 		public JwtAuthorizationCodeServices jwtAuthorizationCodeServices() {
 			return Mockito.mock(JwtAuthorizationCodeServices.class);
@@ -67,19 +60,8 @@ class JwtAuthorizationCodeServicesTest {
 	@Autowired
 	private JwtAuthorizationCodeServices jwtAuthorizationCodeServices;
 
-//	@MockBean
-//	private UserDetailsService userDetailsService;
-//	@MockBean
-//	private JdbcClientDetailsService jbcClientDetailsService;
-//	@MockBean
-//	private ClientDetails clientDetails;
-//	@MockBean
-//	private Authentication authentication;
-//	@MockBean
-//	private OAuth2Authentication oAuth2Authentication;
 	@InjectMocks
 	private JwtExtractorImpl jwtExtractor;
-//	@InjectMocks
 	@MockBean
 	private JwtAuthorizationCodeServicesHelperServiceImpl helperService;
 

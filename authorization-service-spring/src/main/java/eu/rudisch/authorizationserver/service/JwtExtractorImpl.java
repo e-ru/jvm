@@ -24,12 +24,16 @@ public class JwtExtractorImpl implements JwtExtractor {
 	@Autowired
 	private KeyPair keyPair;
 
+	KeyPair getKeyPair() {
+		return keyPair;
+	}
+
 	PrivateKey privateKey() {
-		return keyPair.getPrivate();
+		return getKeyPair().getPrivate();
 	}
 
 	RSAPublicKey publicKey() {
-		return (RSAPublicKey) keyPair.getPublic();
+		return (RSAPublicKey) getKeyPair().getPublic();
 	}
 
 	Signer signer(PrivateKey privateKey) {

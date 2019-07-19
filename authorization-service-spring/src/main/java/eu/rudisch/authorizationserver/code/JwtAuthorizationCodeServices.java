@@ -57,6 +57,14 @@ public class JwtAuthorizationCodeServices implements AuthorizationCodeServices {
 				.collect(Collectors.toSet());
 	}
 
+	String encode(String content) {
+		return jwtExtractor.encode(content);
+	}
+
+	Jwt extract(String code) {
+		return jwtExtractor.extract(code);
+	}
+
 	public void setAuthCodeDuration(long authCodeDuration) {
 		this.authCodeDuration = authCodeDuration;
 	}
@@ -79,15 +87,13 @@ public class JwtAuthorizationCodeServices implements AuthorizationCodeServices {
 		} catch (Exception e) {
 			throw new IllegalStateException("Cannot convert authentication to JSON", e);
 		}
-		return jwtExtractor.encode(content);
+		return encode(content);
 	}
 
 	@Override
 	public OAuth2Authentication consumeAuthorizationCode(String code) throws InvalidGrantException {
 		try {
-			Jwt jwt = jwtExtractor.extract(code);
-			String claimsStr = jwt.getClaims();
-			Map<String, Object> claims = objectMapper.parseMap(claimsStr);
+			Map<String, Object> claims = objectMapper.parseMap(extract(code).getClaims());
 
 			if (expired((Long) claims.get(CLAIM_EXP)))
 				throw new OAuth2Exception("Authentication code expired");
