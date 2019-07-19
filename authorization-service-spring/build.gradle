@@ -16,7 +16,7 @@ dependencies {
     implementation group: 'org.springframework.security.oauth.boot', name: 'spring-security-oauth2-autoconfigure', version: project.springSecurityOauth2AutoconfigureVersion
     
     implementation group: 'org.projectlombok', name: 'lombok', version: project.lombokVersion
-    implementation group: 'org.apache.commons', name: 'commons-lang3', version: project.commonsLang3Version
+    implementation group: 'org.apache.commons', name: 'commons-text', version: project.commonsTextVersion
     
     implementation group: 'javax.xml.bind', name: 'jaxb-api', version: project.jaxbApiVersion
     implementation group: 'javax.activation', name: 'activation', version: project.javaxActivationVersion

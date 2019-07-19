@@ -15,7 +15,7 @@ public class RestTokenKeyFetcher {
 	String getTokenKey() {
 		final RestTemplate restTemplate = new RestTemplate();
 		TokenKey tokenKey = restTemplate.getForObject(oauthServer + "/oauth/token_key", TokenKey.class);
-		return tokenKey.getValue();
+		return tokenKey != null ? tokenKey.getValue() : "";
 	}
 
 }
