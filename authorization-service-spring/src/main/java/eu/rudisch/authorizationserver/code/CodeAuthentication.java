@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class CodeAuthentication implements Authentication {
+	private static final long serialVersionUID = 1L;
 
 	private UserDetails userDetails;
 

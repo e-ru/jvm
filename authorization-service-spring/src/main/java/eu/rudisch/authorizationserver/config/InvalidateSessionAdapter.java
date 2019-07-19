@@ -12,11 +12,10 @@ public class InvalidateSessionAdapter extends HandlerInterceptorAdapter {
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		if (modelAndView != null
-				&& modelAndView.getView() instanceof RedirectView) {
+		if (modelAndView != null && modelAndView.getView() instanceof RedirectView) {
 			RedirectView redirect = (RedirectView) modelAndView.getView();
-			String url = redirect.getUrl();
-			if (url.contains("code=") || url.contains("error=")) {
+			String url = redirect != null ? redirect.getUrl() : null;
+			if (url != null && (url.contains("code=") || url.contains("error="))) {
 				HttpSession session = request.getSession(false);
 				if (session != null) {
 					session.invalidate();

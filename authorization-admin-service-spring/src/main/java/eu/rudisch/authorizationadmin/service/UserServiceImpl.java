@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserRestRep updateUser(int id, UserRestRep toUpdate, String issuer) {
 		User user = userRepository.getOne(id);
-		boolean selfUpdate = user != null && user.getUsername().equals(issuer);
+		boolean selfUpdate = user.getUsername().equals(issuer);
 
 		String password = toUpdate.getPassword() != null && toUpdate.getPassword().equals(toUpdate.getPasswordRepeat())
 				? toUpdate.getPassword()
