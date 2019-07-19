@@ -72,18 +72,14 @@ public class AuthorizationServerConfiguration implements AuthorizationServerConf
 	}
 
 	@Bean
-	public AuthorizationCodeServices authorizationCodeServices() {
-		final JwtAuthorizationCodeServices authorizationCodeServices = new JwtAuthorizationCodeServices(
-				userDetailsService, new JdbcClientDetailsService(dataSource), keyPair);
-		return authorizationCodeServices;
+	public JdbcClientDetailsService jdbcClientDetailsService() {
+		return new JdbcClientDetailsService(dataSource);
 	}
 
-//	@Bean
-//	KeyPair keyPair() {
-//		final KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("mytest.jks"),
-//				"mypass".toCharArray());
-//		return keyStoreKeyFactory.getKeyPair("mytest");
-//	}
+	@Bean
+	public AuthorizationCodeServices authorizationCodeServices() {
+		return new JwtAuthorizationCodeServices();
+	}
 
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {

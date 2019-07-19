@@ -48,7 +48,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 
 	@Bean
-	KeyPair keyPair() {
+	KeyPair getKeyPair() {
 		return Utils.genKeyPair(customProperties.getKeyStorePath(), customProperties.getKeyStorePassword(),
 				customProperties.getKeyStoreAlias());
 	}

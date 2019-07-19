@@ -1,9 +1,5 @@
 package eu.rudisch.authorizationserver.code;
 
-import java.security.KeyPair;
-import java.security.PrivateKey;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
 import java.time.Duration;
 import java.util.Date;
 import java.util.HashMap;
@@ -13,15 +9,11 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.jwt.Jwt;
-import org.springframework.security.jwt.JwtHelper;
-import org.springframework.security.jwt.crypto.sign.RsaSigner;
-import org.springframework.security.jwt.crypto.sign.RsaVerifier;
-import org.springframework.security.jwt.crypto.sign.SignatureVerifier;
-import org.springframework.security.jwt.crypto.sign.Signer;
 import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
 import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
@@ -32,9 +24,9 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Request;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
-import org.springframework.util.Assert;
 
 import eu.rudisch.authorizationserver.model.User;
+import eu.rudisch.authorizationserver.service.JwtExtractor;
 
 public class JwtAuthorizationCodeServices implements AuthorizationCodeServices {
 
@@ -49,32 +41,12 @@ public class JwtAuthorizationCodeServices implements AuthorizationCodeServices {
 
 	private JsonParser objectMapper = JsonParserFactory.create();
 
+	@Autowired
 	private UserDetailsService userDetailsService;
+	@Autowired
 	private JdbcClientDetailsService jdbcClientDetailsService;
-	private Signer signer;
-	private SignatureVerifier verifier;
-
-//	public JwtAuthorizationCodeServices(UserDetailsService userDetailsService,
-//			DataSource dataSource, KeyPair keyPair) {
-//		this.userDetailsService = userDetailsService;
-//		jdbcClientDetailsService = new JdbcClientDetailsService(dataSource);
-//		setSignerAndVerifer(keyPair);
-//	}
-
-	public JwtAuthorizationCodeServices(UserDetailsService userDetailsService,
-			JdbcClientDetailsService jdbcClientDetailsService, KeyPair keyPair) {
-		this.userDetailsService = userDetailsService;
-		this.jdbcClientDetailsService = jdbcClientDetailsService;
-		setSignerAndVerifer(keyPair);
-	}
-
-	private void setSignerAndVerifer(KeyPair keyPair) {
-		PrivateKey privateKey = keyPair.getPrivate();
-		Assert.state(privateKey instanceof RSAPrivateKey, "KeyPair must be an RSA ");
-		signer = new RsaSigner((RSAPrivateKey) privateKey);
-		RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
-		verifier = new RsaVerifier(publicKey);
-	}
+	@Autowired
+	private JwtExtractor jwtExtractor;
 
 	@Override
 	public String createAuthorizationCode(OAuth2Authentication authentication) {
@@ -97,15 +69,13 @@ public class JwtAuthorizationCodeServices implements AuthorizationCodeServices {
 		} catch (Exception e) {
 			throw new IllegalStateException("Cannot convert authentication to JSON", e);
 		}
-
-		String code = JwtHelper.encode(content, signer).getEncoded();
-		return code;
+		return jwtExtractor.encode(content);
 	}
 
 	@Override
 	public OAuth2Authentication consumeAuthorizationCode(String code) throws InvalidGrantException {
 		try {
-			Jwt jwt = JwtHelper.decodeAndVerify(code, verifier);
+			Jwt jwt = jwtExtractor.extract(code);
 			String claimsStr = jwt.getClaims();
 			Map<String, Object> claims = objectMapper.parseMap(claimsStr);
 
