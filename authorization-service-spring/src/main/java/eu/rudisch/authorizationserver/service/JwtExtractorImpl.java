@@ -24,13 +24,11 @@ public class JwtExtractorImpl implements JwtExtractor {
 	@Autowired
 	private KeyPair keyPair;
 
-	@Override
-	public PrivateKey privateKey() {
+	PrivateKey privateKey() {
 		return keyPair.getPrivate();
 	}
 
-	@Override
-	public RSAPublicKey publicKey() {
+	RSAPublicKey publicKey() {
 		return (RSAPublicKey) keyPair.getPublic();
 	}
 

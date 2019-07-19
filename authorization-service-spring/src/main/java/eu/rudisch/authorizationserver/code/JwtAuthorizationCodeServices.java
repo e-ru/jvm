@@ -10,19 +10,14 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.jwt.Jwt;
 import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
 import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.common.util.JsonParser;
 import org.springframework.security.oauth2.common.util.JsonParserFactory;
-import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Request;
-import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 
 import eu.rudisch.authorizationserver.model.User;
@@ -42,11 +37,9 @@ public class JwtAuthorizationCodeServices implements AuthorizationCodeServices {
 	private JsonParser objectMapper = JsonParserFactory.create();
 
 	@Autowired
-	private UserDetailsService userDetailsService;
-	@Autowired
-	private JdbcClientDetailsService jdbcClientDetailsService;
-	@Autowired
 	private JwtExtractor jwtExtractor;
+	@Autowired
+	private JwtAuthorizationCodeServicesHelperService helperService;
 
 	@Override
 	public String createAuthorizationCode(OAuth2Authentication authentication) {
@@ -84,24 +77,14 @@ public class JwtAuthorizationCodeServices implements AuthorizationCodeServices {
 			if (exp - now < 0)
 				throw new OAuth2Exception("Authentication code expired");
 
-			String user = (String) claims.get(CLAIM_USER);
 			String clientId = (String) claims.get(SUBJECT);
-			String redirectUrl = (String) claims.get(CLAIM_REDIRECT_URL);
-
 			@SuppressWarnings("unchecked")
 			Set<String> scope = ((List<String>) claims.get(CLAIM_PERMISSIONS)).stream()
 					.collect(Collectors.toSet());
+			String redirectUrl = (String) claims.get(CLAIM_REDIRECT_URL);
+			String user = (String) claims.get(CLAIM_USER);
 
-			UserDetails userDetails = userDetailsService.loadUserByUsername(user);
-			Authentication authentication = new CodeAuthentication(userDetails);
-
-			ClientDetails clientDetails = jdbcClientDetailsService.loadClientByClientId(clientId);
-			Set<String> resourceIds = clientDetails.getResourceIds();
-
-			OAuth2Request auth2Request = new OAuth2Request(null, clientId, null, false, scope, resourceIds, redirectUrl,
-					null, null);
-
-			return new OAuth2Authentication(auth2Request, authentication);
+			return helperService.oAuth2Authentication(clientId, scope, redirectUrl, user);
 		} catch (Exception e) {
 			throw new InvalidTokenException("Cannot convert code to OAuth2Authentication", e);
 		}

@@ -39,15 +39,6 @@ import eu.rudisch.authorizationserver.service.JwtExtractorImpl;
 @ActiveProfiles("test")
 class JwtAuthorizationCodeServicesTest {
 
-	static final String PRIVATE_KEY = "MIIBVgIBADANBgkqhkiG9w0BAQEFAASCAUAwggE8AgEAAkEAxqFI9Pl7k4t0t8c2\n" +
-			"hG6aaakGs7xfSkZuFd27FtmLy8ZuZ1jj1ycdVMUd2FLlyuasng3QPf6MqoLA8hTW\n" +
-			"sDQFHwIDAQABAkEAqP9w432g9tggZnzIlcTE/EEjwqjzKm7iGxicpcRSfPzGAtpZ\n" +
-			"WuHA0OWifbyiUsB4YCUrnYC70FW9XbgHPkPzAQIhAPpL/dLomIZ30ogPTx1SOZQo\n" +
-			"FMDBT1TqSskJCb3vO4IpAiEAyyfqU3Xjc+KTAEiKk+DmV2lGprlgk0Yyw3IXMcYi\n" +
-			"hgcCIQDmNEY7WNoPstzbbtkg6qMydLrBngnM27/0rm9bVVCyIQIhAMJEwzFYVE8m\n" +
-			"5UeqFspekCYah/M65f0vba+0VDXGsJDVAiAaj/5XS8gVG8XUF4z/TZC+lHq+cRyO\n" +
-			"JHubIYg6U/wzLQ==";
-
 	@TestConfiguration
 	static class JwtAuthorizationCodeServicesTestContextConfiguration {
 		@Bean
@@ -76,6 +67,8 @@ class JwtAuthorizationCodeServicesTest {
 	private OAuth2Authentication oAuth2Authentication;
 	@InjectMocks
 	private JwtExtractorImpl jwtExtractor;
+	@InjectMocks
+	private JwtAuthorizationCodeServicesHelperServiceImpl helperService;
 
 	@Test
 	void createAuthorizationCode() throws InvalidKeySpecException, NoSuchAlgorithmException {
