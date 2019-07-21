@@ -1,5 +1,5 @@
 custom:
-  reuseRefreshToken: true
+  reuseRefreshToken: false
   keyStorePath: mytest.jks
   keyStoreAlias: mytest
   keyStorePassword: mypass

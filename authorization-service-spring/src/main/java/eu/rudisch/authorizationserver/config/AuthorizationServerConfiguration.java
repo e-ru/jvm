@@ -60,7 +60,7 @@ public class AuthorizationServerConfiguration implements AuthorizationServerConf
 
 	@Bean
 	public CustomJwtAccessTokenConverter accessTokenConverter() {
-		final CustomJwtAccessTokenConverter converter = new CustomJwtAccessTokenConverter(dataSource);
+		final CustomJwtAccessTokenConverter converter = new CustomJwtAccessTokenConverter();
 		converter.setKeyPair(keyPair);
 		return converter;
 	}
