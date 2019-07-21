@@ -22,7 +22,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import eu.rudisch.authorizationserver.AuthorizationServerApplication;
@@ -33,7 +32,7 @@ import eu.rudisch.authorizationserver.model.User;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = AuthorizationServerApplication.class)
-@ActiveProfiles("test")
+//@ActiveProfiles("test")
 public class JwtAuthorizationCodeServicesHelperServiceImplTest {
 
 	@TestConfiguration
