@@ -32,7 +32,6 @@ import eu.rudisch.authorizationserver.model.User;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = AuthorizationServerApplication.class)
-//@ActiveProfiles("test")
 public class JwtAuthorizationCodeServicesHelperServiceImplTest {
 
 	@TestConfiguration

@@ -24,8 +24,10 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 import eu.rudisch.authorizationserver.code.JwtAuthorizationCodeServices;
+import eu.rudisch.authorizationserver.token.CustomJdbcTokenStore;
 import eu.rudisch.authorizationserver.token.CustomJwtAccessTokenConverter;
 import eu.rudisch.authorizationserver.token.CustomTokenEnhancer;
 import eu.rudisch.authorizationserver.token.CustomTokenStore;
@@ -50,7 +52,7 @@ public class AuthorizationServerConfiguration implements AuthorizationServerConf
 
 	@Bean
 	public TokenStore tokenStore() {
-		return new CustomTokenStore(accessTokenConverter(), dataSource);
+		return new CustomTokenStore(new JwtTokenStore(accessTokenConverter()), new CustomJdbcTokenStore(dataSource));
 	}
 
 	@Bean

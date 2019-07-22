@@ -8,5 +8,5 @@ public interface IssuerDetailService {
 
 	String getIssuerUsername();
 
-	boolean isOAuthAdmin();
+	boolean checkRole(String role);
 }

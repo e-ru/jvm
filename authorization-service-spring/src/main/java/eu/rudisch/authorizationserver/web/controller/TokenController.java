@@ -26,6 +26,8 @@ public class TokenController {
 
 	private static final Logger LOGGER = LogManager.getLogger(TokenController.class);
 
+	private static final String ROLE_OAUTH_ADMIN = "ROLE_oauth_admin";
+
 	@Resource(name = "tokenStore")
 	private TokenStore tokenStore;
 
@@ -43,7 +45,8 @@ public class TokenController {
 		LOGGER.info(String.format("Revoke token of %s with client id %s", username, clientId));
 
 		issuerDetailService.extractDetails(jwtExtractor.extract(request));
-		if (username.equals(issuerDetailService.getIssuerUsername()) || issuerDetailService.isOAuthAdmin()) {
+		if (username.equals(issuerDetailService.getIssuerUsername())
+				|| issuerDetailService.checkRole(ROLE_OAUTH_ADMIN)) {
 			if (tokenStore instanceof CustomTokenStore) {
 				((CustomTokenStore) tokenStore).removeRefreshToken(username, clientId);
 			}

@@ -11,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.web.FilterChainProxy;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -22,9 +20,7 @@ import eu.rudisch.authorizationserver.AccessTokenHelper;
 import eu.rudisch.authorizationserver.AuthorizationServerApplication;
 
 @ExtendWith(SpringExtension.class)
-@WebAppConfiguration
 @SpringBootTest(classes = AuthorizationServerApplication.class)
-@ActiveProfiles("test")
 public class TokenControllerIntegrationTest {
 
 	@Autowired

@@ -24,9 +24,9 @@ public class CustomJdbcTokenStore extends JdbcTokenStore {
 
 	private static final Log LOG = LogFactory.getLog(CustomJdbcTokenStore.class);
 
-	private static final String REFRESH_TOKEN_INSERT_STATEMENT = "insert into oauth_refresh_token (token_id, client_id, username, token, authentication) values (?, ?, ?, ?, ?)";
-	private static final String REFRESH_TOKEN_SELECT_BY_USERNAME_STATEMENT = "select token_id, token from oauth_refresh_token where username = ?";
-	private static final String REFRESH_TOKEN_INSERT_STATEMENT_BY_USERNAME_AND_CLIENT_ID = "select token_id, token from oauth_refresh_token where username = ? and client_id = ?";
+	static final String REFRESH_TOKEN_INSERT_STATEMENT = "insert into oauth_refresh_token (token_id, client_id, username, token, authentication) values (?, ?, ?, ?, ?)";
+	static final String REFRESH_TOKEN_SELECT_BY_USERNAME_STATEMENT = "select token_id, token from oauth_refresh_token where username = ?";
+	static final String REFRESH_TOKEN_INSERT_STATEMENT_BY_USERNAME_AND_CLIENT_ID = "select token_id, token from oauth_refresh_token where username = ? and client_id = ?";
 
 	private final JdbcTemplate jdbcTemplate;
 
