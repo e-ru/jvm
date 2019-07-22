@@ -17,22 +17,24 @@ public class IssuerDetailServiceImpl implements IssuerDetailService {
 
 	private static final String CLAIM_USER_NAME = "user_name";
 	private static final String CLAIM_AUTHORITIES = "authorities";
-	private static final String ROLE_OAUTH_ADMIN = "ROLE_oauth_admin";
 
 	private JsonParser objectMapper = JsonParserFactory.create();
 
 	private String issuerUsername;
-	private boolean oAuthAdmin;
+	private List<String> authorities;
+
+	@SuppressWarnings("unchecked")
+	void setAuthorities(Object authorities) {
+		this.authorities = (List<String>) authorities;
+	}
 
 	@Override
 	public void extractDetails(Jwt jwt) {
 		Map<String, Object> claims = objectMapper.parseMap(jwt.getClaims());
 		issuerUsername = (String) claims.get(CLAIM_USER_NAME);
-		@SuppressWarnings("unchecked")
-		List<String> authorities = (List<String>) claims.get(CLAIM_AUTHORITIES);
-		oAuthAdmin = authorities.contains(ROLE_OAUTH_ADMIN);
+		setAuthorities(claims.get(CLAIM_AUTHORITIES));
 
-		LOGGER.info(String.format("IssuerUsername %s, isOAuthAdmin %b", issuerUsername, oAuthAdmin));
+		LOGGER.info(String.format("IssuerUsername %s, authorities %s", issuerUsername, authorities));
 	}
 
 	@Override
@@ -41,7 +43,7 @@ public class IssuerDetailServiceImpl implements IssuerDetailService {
 	}
 
 	@Override
-	public boolean isOAuthAdmin() {
-		return oAuthAdmin;
+	public boolean checkRole(String role) {
+		return authorities.contains(role);
 	}
 }

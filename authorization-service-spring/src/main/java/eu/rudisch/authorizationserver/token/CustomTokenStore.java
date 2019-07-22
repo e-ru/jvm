@@ -2,13 +2,10 @@ package eu.rudisch.authorizationserver.token;
 
 import java.util.Collection;
 
-import javax.sql.DataSource;
-
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 public class CustomTokenStore implements TokenStore {
@@ -16,9 +13,9 @@ public class CustomTokenStore implements TokenStore {
 	private JwtTokenStore jwtTokenStore;
 	private CustomJdbcTokenStore customJdbcTokenStore;
 
-	public CustomTokenStore(JwtAccessTokenConverter jwtTokenEnhancer, DataSource dataSource) {
-		jwtTokenStore = new JwtTokenStore(jwtTokenEnhancer);
-		customJdbcTokenStore = new CustomJdbcTokenStore(dataSource);
+	public CustomTokenStore(JwtTokenStore jwtTokenStore, CustomJdbcTokenStore customJdbcTokenStore) {
+		this.jwtTokenStore = jwtTokenStore;
+		this.customJdbcTokenStore = customJdbcTokenStore;
 	}
 
 	@Override
