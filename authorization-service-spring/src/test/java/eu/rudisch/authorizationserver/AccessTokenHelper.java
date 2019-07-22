@@ -75,6 +75,7 @@ public class AccessTokenHelper {
 				.andReturn();
 
 		String resultString = mvcResult.getResponse().getRedirectedUrl();
+		assertNotNull(resultString);
 		assertTrue(resultString.contains("code"));
 		assertTrue(resultString.contains("state"));
 
