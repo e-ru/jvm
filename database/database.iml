@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module relativePaths="true" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true" LANGUAGE_LEVEL="JDK_11">
+    <exclude-output/>
+    <orderEntry type="inheritedJdk"/>
+    <content url="file://$MODULE_DIR$/">
+      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false"/>
+      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true"/>
+      <excludeFolder url="file://$MODULE_DIR$/.gradle"/>
+      <excludeFolder url="file://$MODULE_DIR$/build"/>
+    </content>
+    <orderEntry type="sourceFolder" forTests="false"/>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-core/2.12.0/1723837573e4c5dbc8840f9f6e8f79b245b94bb/log4j-core-2.12.0.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-core/2.12.0/259b7766eec03263c1c1a1f40484b624108b01c9/log4j-core-2.12.0-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/mysql/mysql-connector-java/8.0.16/6088b7a25188ab4b3ab865422a8ec77ade29236/mysql-connector-java-8.0.16.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/mysql/mysql-connector-java/8.0.16/59ae3d4de603e6aae7dafb4a0d7b85e0a9e187f1/mysql-connector-java-8.0.16-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-dbcp2/2.6.0/78d0e99c4bc815a9f20cf6837761e91b7fc6eef4/commons-dbcp2-2.6.0.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-dbcp2/2.6.0/e1f52b1b1bd39b1b2343ed6becfe23ec0deb84f8/commons-dbcp2-2.6.0-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/28.0-jre/54fed371b4b8a8cce1e94a9abd9620982d3aa54b/guava-28.0-jre.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/28.0-jre/2d1dca555245ef4bacb35f25299f323d8dd10b27/guava-28.0-jre-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-api/2.12.0/8b50b487ac0c0bff1af79d56c6454ea68f40c150/log4j-api-2.12.0.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-api/2.12.0/b52dca271c11244ac235fc56e5f59f5cd22b7876/log4j-api-2.12.0-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protobuf-java/3.6.1/d06d46ecfd92ec6d0f3b423b4cd81cb38d8b924/protobuf-java-3.6.1.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protobuf-java/3.6.1/b0782bcd21ad5c52031e74efbc4c3d6a6df96130/protobuf-java-3.6.1-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-pool2/2.6.1/4a285ecdea96fd7b621091b334224c527ae420fb/commons-pool2-2.6.1.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-pool2/2.6.1/3667c52f277d64d6a8e8542297b74cd2282fd39a/commons-pool2-2.6.1-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.2/4bfc12adfe4842bf07b657f0369c4cb522955686/commons-logging-1.2.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.2/ecf26c7507d67782a3bbd148d170b31dfad001aa/commons-logging-1.2-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/com.google.guava/failureaccess/1.0.1/1dcf1de382a0bf95a3d8b0849546c88bac1292c9/failureaccess-1.0.1.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/com.google.guava/failureaccess/1.0.1/1d064e61aad6c51cc77f9b59dc2cccc78e792f5a/failureaccess-1.0.1-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/com.google.guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/b421526c5f297295adef1c886e5246c39d4ac629/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES/>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/3.0.2/25ea2e8b0c338a877313bd4672d3fe056ea78f0d/jsr305-3.0.2.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/3.0.2/b19b5927c2c25b6c70f093767041e641ae0b1b35/jsr305-3.0.2-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/org.checkerframework/checker-qual/2.8.1/eb2e8ab75598548cc8acf9a1ca227e480e01881e/checker-qual-2.8.1.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/org.checkerframework/checker-qual/2.8.1/4b07e85f804e861360ee09ddd4550bc6b3fcfcad/checker-qual-2.8.1-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/com.google.errorprone/error_prone_annotations/2.3.2/d1a0c5032570e0f64be6b4d9c90cdeb103129029/error_prone_annotations-2.3.2.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/com.google.errorprone/error_prone_annotations/2.3.2/6e986bccd3d116d8bc1aaac8534d068ea8edd2ae/error_prone_annotations-2.3.2-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/com.google.j2objc/j2objc-annotations/1.3/ba035118bc8bac37d7eff77700720999acd9986d/j2objc-annotations-1.3.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/com.google.j2objc/j2objc-annotations/1.3/d26c56180205cbb50447c3eca98ecb617cf9f58b/j2objc-annotations-1.3-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/org.codehaus.mojo/animal-sniffer-annotations/1.17/f97ce6decaea32b36101e37979f8b647f00681fb/animal-sniffer-annotations-1.17.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/org.codehaus.mojo/animal-sniffer-annotations/1.17/8fb5b5ad9c9723951b9fccaba5bb657fa6064868/animal-sniffer-annotations-1.17-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library>
+        <CLASSES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-engine/5.5.0/e689e3c86c7c65c984d4dfd778717af778f739ce/junit-jupiter-engine-5.5.0.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-engine/5.5.0/8ec3dea4adb7c618bf3db07a44ad7cf74bdb8493/junit-jupiter-engine-5.5.0-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library>
+        <CLASSES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-api/5.5.0/49cb319db20265a033394c397b55fc654c40c1df/junit-jupiter-api-5.5.0.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-api/5.5.0/2d1a80b6d542d1cde3c0167ddf5c99790c31c78e/junit-jupiter-api-5.5.0-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library>
+        <CLASSES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/com.h2database/h2/1.4.199/7bf08152984ed8859740ae3f97fae6c72771ae45/h2-1.4.199.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/com.h2database/h2/1.4.199/cda9ec0b80ed4eefc4d1cd37781548725a59a738/h2-1.4.199-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library>
+        <CLASSES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-engine/1.5.0/7e648d5ec565b0cc1179808ec3f51a30950dea6f/junit-platform-engine-1.5.0.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-engine/1.5.0/a7f51e039bef9654ae88adfcc25c2ecda24ae89f/junit-platform-engine-1.5.0-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library>
+        <CLASSES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-commons/1.5.0/cebf068a2d727ebc32d98693fbb385c7f11a9c9e/junit-platform-commons-1.5.0.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-commons/1.5.0/ec997bdfcd8bf38409ab873a2b69f49ef031b322/junit-platform-commons-1.5.0-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library>
+        <CLASSES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/org.apiguardian/apiguardian-api/1.1.0/fc9dff4bb36d627bdc553de77e1f17efd790876c/apiguardian-api-1.1.0.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/org.apiguardian/apiguardian-api/1.1.0/f3c15fe970af864390c8d0634c9f16aca1b064a8/apiguardian-api-1.1.0-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library>
+        <CLASSES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/org.opentest4j/opentest4j/1.2.0/28c11eb91f9b6d8e200631d46e20a7f407f2a046/opentest4j-1.2.0.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar://C:/Users/erudisch.TECHYOO/.gradle/caches/modules-2/files-2.1/org.opentest4j/opentest4j/1.2.0/41d55b3c2254de9837b4ec8923cbd371b8a7eab5/opentest4j-1.2.0-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+  </component>
+  <component name="ModuleRootManager"/>
+</module>

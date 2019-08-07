@@ -1,7 +1,7 @@
 buildscript {
 	ext {
-		kotlinVersion = '1.2.71'
-		springBootVersion = '2.1.4.RELEASE'
+		kotlinVersion = rootProject.kotlinVersion
+		springBootVersion = rootProject.springBootStarterWebVersion
 	}
 	repositories {
 		mavenCentral()
@@ -18,7 +18,7 @@ buildscript {
 //  id "io.freefair.lombok" version "3.7.5"
 // }
 
-// apply plugin: 'application'
+//apply plugin: 'application'
 apply plugin: 'kotlin'
 apply plugin: 'kotlin-spring'
 apply plugin: 'kotlin-jpa'
@@ -26,6 +26,10 @@ apply plugin: 'kotlin-allopen'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+
+//application {
+//    mainClassName = 'eu.rudisch.authorization.admin.AuthorizationAdminApplication'
+//}
 
 group = 'eu.rudisch'
 version = '0.0.1-SNAPSHOT'
@@ -54,9 +58,10 @@ test {
 	useJUnitPlatform()
 }
 
-// application {
-//	mainClassName = 'eu.rudisch.authorizationadmin.AuthorizationAdminApplication'
-// }
+task runAuthorizationAdminApplication(type: JavaExec) {
+    main = 'eu.rudisch.authorization.admin.AuthorizationAdminApplication'
+    classpath = sourceSets.main.runtimeClasspath
+}
 
 dependencies {
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: project.springBootStarterDataJpaVersion
@@ -81,6 +86,6 @@ dependencies {
     testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: project.springSecurityTestVersion
     testImplementation group: 'io.rest-assured', name: 'rest-assured', version: project.restAssuredVersion
     testImplementation group: 'com.h2database', name: 'h2', version: project.h2Version
-    
+
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: project.junit5Version
 }

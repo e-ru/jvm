@@ -50,10 +50,13 @@ ext.h2Version = '1.4.199'
 ext.junit5Version = '5.5.0'
 ext.mockitoVersion = '3.0.0'
 
+ext.kotlinVersion = "1.3.41"
+
 configure(subprojects) {
 	apply plugin: 'java'
 	apply plugin: 'checkstyle'
 	apply plugin: 'eclipse'
+	apply plugin: 'idea'
 	apply plugin: 'com.github.spotbugs'
 
 	checkstyle {
