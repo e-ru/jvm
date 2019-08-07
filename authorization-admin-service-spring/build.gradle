@@ -5,7 +5,7 @@ plugins {
 apply plugin: 'application'
 
 application {
-	mainClassName = 'eu.rudisch.authorizationadmin.AuthorizationAdminApplication'
+	mainClassName = 'eu.rudisch.authorization.admin.AuthorizationAdminApplication'
 }
 
 dependencies {
