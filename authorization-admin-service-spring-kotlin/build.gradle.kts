@@ -1,62 +1,18 @@
-buildscript {
-	ext {
-		kotlinVersion = '1.2.71'
-		springBootVersion = '2.1.4.RELEASE'
-	}
-	repositories {
-		mavenCentral()
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
-		classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
-		classpath("org.jetbrains.kotlin:kotlin-noarg:${kotlinVersion}")
-	}
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+plugins {
+	kotlin("plugin.jpa") version "1.2.71"
+	id("org.springframework.boot") version "2.1.5.RELEASE"
+	id("io.spring.dependency-management") version "1.0.7.RELEASE"
+	kotlin("jvm") version "1.2.71"
+	kotlin("plugin.spring") version "1.2.71"
+	kotlin("plugin.allopen") version "1.2.71"
+	kotlin("kapt") version "1.2.71"
 }
 
-// plugins {
-//  id "io.freefair.lombok" version "3.7.5"
-// }
-
-// apply plugin: 'application'
-apply plugin: 'kotlin'
-apply plugin: 'kotlin-spring'
-apply plugin: 'kotlin-jpa'
-apply plugin: 'kotlin-allopen'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
-
-group = 'eu.rudisch'
-version = '0.0.1-SNAPSHOT'
-
-
-compileKotlin {
-	kotlinOptions {
-		freeCompilerArgs = ['-Xjsr305=strict']
-		jvmTarget = '1.8'
-	}
-}
-compileTestKotlin {
-	kotlinOptions {
-		freeCompilerArgs = ['-Xjsr305=strict']
-		jvmTarget = '1.8'
-	}
-}
-
-allOpen {
-	annotation('javax.persistence.Entity')
-	annotation('javax.persistence.Embeddable')
-	annotation('javax.persistence.MappedSuperclass')
-}
-
-test {
-	useJUnitPlatform()
-}
-
-// application {
-//	mainClassName = 'eu.rudisch.authorizationadmin.AuthorizationAdminApplication'
-// }
+group = "com.example"
+version = "0.0.1-SNAPSHOT"
+java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: project.springBootStarterDataJpaVersion
@@ -83,4 +39,21 @@ dependencies {
     testImplementation group: 'com.h2database', name: 'h2', version: project.h2Version
     
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: project.junit5Version
+}
+
+tasks.withType<KotlinCompile> {
+	kotlinOptions {
+		freeCompilerArgs = listOf("-Xjsr305=strict")
+		jvmTarget = "1.8"
+	}
+}
+
+allOpen {
+	annotation("javax.persistence.Entity")
+	annotation("javax.persistence.Embeddable")
+	annotation("javax.persistence.MappedSuperclass")
+}
+
+tasks.withType<Test> {
+	useJUnitPlatform()
 }
