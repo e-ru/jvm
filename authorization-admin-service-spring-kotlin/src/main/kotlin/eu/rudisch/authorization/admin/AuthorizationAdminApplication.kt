@@ -1,5 +1,3 @@
-//@file:JvmName("AuthorizationAdminApplication")
-
 package eu.rudisch.authorization.admin
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
