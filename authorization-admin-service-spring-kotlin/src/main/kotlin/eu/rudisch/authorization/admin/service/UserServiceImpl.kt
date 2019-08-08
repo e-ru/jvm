@@ -1,7 +1,6 @@
 package eu.rudisch.authorization.admin.service
 
 import eu.rudisch.authorization.admin.model.Role
-import eu.rudisch.authorization.admin.model.User
 import eu.rudisch.authorization.admin.web.controller.resource.UserRestRep
 import eu.rudisch.authorization.admin.repository.UserRepository
 import eu.rudisch.authorization.admin.repository.RoleRepository
@@ -30,7 +29,7 @@ class UserServiceImpl : UserService {
 		val user = userRepository!!.getOne(id)
 		val selfUpdate = user.username == issuer
 
-		val password = if (toUpdate.password != null && toUpdate.password == toUpdate.passwordRepeat)
+		val password = if (toUpdate.password == toUpdate.passwordRepeat)
 			toUpdate.password
 		else
 			user.password

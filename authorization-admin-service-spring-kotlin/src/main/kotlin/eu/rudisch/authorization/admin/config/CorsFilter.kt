@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletResponse
 class CorsFilter : Filter {
 	override fun doFilter(request: ServletRequest?, response: ServletResponse?, chain: FilterChain?) {
 		if (response is HttpServletResponse) {
-			val response = response as HttpServletResponse
 			response.setHeader("Access-Control-Allow-Origin", "*")
 			response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE")
 			response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type")

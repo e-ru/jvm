@@ -26,6 +26,6 @@ data class Role(
 		@JoinTable(name = "permission_role",
 				joinColumns = [JoinColumn(name = "role_id", referencedColumnName = "id")],
 				inverseJoinColumns = [JoinColumn(name = "permission_id", referencedColumnName = "id")])
-		val permissions: MutableList<Permission>
+		val permissions: List<Permission>
 ) : Serializable {
 }
