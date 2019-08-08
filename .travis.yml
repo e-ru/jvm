@@ -12,5 +12,7 @@ script:
   - "../gradlew test"
   - "cd ../authorization-admin-service-spring"
   - "../gradlew test"
+  - "cd ../authorization-admin-service-spring-kotlin"
+  - "../gradlew test"
 on:
   branch: master

@@ -7,12 +7,12 @@
  * in the user guide at https://docs.gradle.org/5.0/userguide/multi_project_builds.html
  */
 
-rootProject.name = 'jvm'
+rootProject.name = "jvm"
 
-include 'database'
-include 'users-service-sql-native'
-include 'users-service-jpa'
-include 'server'
-include 'authorization-service-spring'
-include 'authorization-admin-service-spring'
-//include 'restsql'
+include "database"
+include "users-service-sql-native"
+include "users-service-jpa"
+include "server"
+include "authorization-service-spring"
+include "authorization-admin-service-spring"
+include "authorization-admin-service-spring-kotlin"

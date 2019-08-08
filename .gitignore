@@ -71,3 +71,6 @@ application.yml
 data.txt
 *.jks
 publickey.txt
+
+.idea
+.vscode
