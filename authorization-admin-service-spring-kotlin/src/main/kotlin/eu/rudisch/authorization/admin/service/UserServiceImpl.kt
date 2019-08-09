@@ -1,6 +1,7 @@
 package eu.rudisch.authorization.admin.service
 
 import eu.rudisch.authorization.admin.model.Role
+import eu.rudisch.authorization.admin.model.User
 import eu.rudisch.authorization.admin.web.controller.resource.UserRestRep
 import eu.rudisch.authorization.admin.repository.UserRepository
 import eu.rudisch.authorization.admin.repository.RoleRepository
@@ -27,29 +28,47 @@ class UserServiceImpl : UserService {
 
 	override fun updateUser(id: Int, toUpdate: UserRestRep, issuer: String): UserRestRep {
 		val user = userRepository!!.getOne(id)
-		val selfUpdate = user.username == issuer
+		val password = getPassword(toUpdate, user)
+		val roles = checkRoles(user.roles, roleRepository!!.findByNames(toUpdate.roleNames))
 
-		val password = if (toUpdate.password == toUpdate.passwordRepeat)
+		val userToStore = if (user.username == issuer)
+			updatePartial(toUpdate, user, password, roles)
+		else
+			updateComplete(toUpdate, password, roles)
+
+		userRepository.save(userToStore)
+		return UserRestRep.fromUser(userToStore)
+	}
+
+	internal fun getPassword(toUpdate: UserRestRep, user: User): String {
+		return if (toUpdate.password == toUpdate.passwordRepeat)
 			toUpdate.password
 		else
 			user.password
+	}
 
-		if (!selfUpdate) {
-			user.username = toUpdate.username
-			user.enabled = toUpdate.enabled
-			user.accountNonExpired = !toUpdate.accountExpired
-			user.accountNonLocked = !toUpdate.accountLocked
-		}
-		user.password = password
-		user.email = toUpdate.email
-		user.credentialsNonExpired = !toUpdate.credentialsExpired
+	internal fun updateComplete(toUpdate: UserRestRep, password: String, roles: List<Role>): User {
+		return User(toUpdate.id,
+				toUpdate.username,
+				password,
+				toUpdate.email,
+				toUpdate.enabled,
+				!toUpdate.accountExpired,
+				!toUpdate.accountLocked,
+				!toUpdate.credentialsExpired,
+				roles)
+	}
 
-		val roles = checkRoles(user.roles, roleRepository!!.findByNames(toUpdate.roleNames))
-		user.roles = roles
-
-		userRepository.save(user)
-
-		return UserRestRep.fromUser(user)
+	internal fun updatePartial(toUpdate: UserRestRep, user: User, password: String, roles: List<Role>): User {
+		return User(toUpdate.id,
+				user.username,
+				password,
+				toUpdate.email,
+				user.enabled,
+				user.accountNonExpired,
+				user.accountNonLocked,
+				user.credentialsNonExpired,
+				roles)
 	}
 
 	internal fun checkRoles(existing: List<Role>, toReplace: List<Role>): List<Role> {
@@ -66,5 +85,4 @@ class UserServiceImpl : UserService {
 				.filter { r -> r.name == role }
 				.findFirst()
 	}
-
 }

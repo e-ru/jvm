@@ -55,7 +55,9 @@ allOpen {
 }
 
 test {
-	useJUnitPlatform()
+    useJUnitPlatform {
+        includeEngines 'junit-jupiter'
+    }
 }
 
 task runAuthorizationAdminApplication(type: JavaExec) {
@@ -87,5 +89,10 @@ dependencies {
     testImplementation group: 'io.rest-assured', name: 'rest-assured', version: project.restAssuredVersion
     testImplementation group: 'com.h2database', name: 'h2', version: project.h2Version
 
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: project.junit5Version
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: project.junit5Version
+//    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: project.junit5Version
+//    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: project.junit5Version
+//    testImplementation group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.5.1'
+//
+//    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: project.junit5Version
 }

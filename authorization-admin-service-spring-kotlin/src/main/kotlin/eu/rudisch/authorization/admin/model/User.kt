@@ -1,6 +1,7 @@
 package eu.rudisch.authorization.admin.model
 
 import java.io.Serializable
+import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
@@ -20,24 +21,24 @@ data class User	(
 		val id: Int,
 
 		@Column(name = "username")
-		var username: String,
+		val username: String,
 		@Column(name = "password")
-		var password: String,
+		val password: String,
 		@Column(name = "email")
-		var email: String,
+		val email: String,
 		@Column(name = "enabled")
-		var enabled: Boolean,
+		val enabled: Boolean,
 		@Column(name = "accountNonExpired")
-		var accountNonExpired: Boolean,
+		val accountNonExpired: Boolean,
 		@Column(name = "credentialsNonExpired")
-		var credentialsNonExpired: Boolean,
+		val credentialsNonExpired: Boolean,
 		@Column(name = "accountNonLocked")
-		var accountNonLocked: Boolean,
+		val accountNonLocked: Boolean,
 
 		@JvmSuppressWildcards
-		@ManyToMany(fetch = FetchType.EAGER)
+		@ManyToMany(cascade= [CascadeType.ALL], fetch = FetchType.EAGER)
 		@JoinTable(name = "role_user",
 				joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")],
 				inverseJoinColumns = [JoinColumn(name = "role_id", referencedColumnName = "id")])
-		var roles: List<Role>
+		val roles: List<Role>
 ) : Serializable
