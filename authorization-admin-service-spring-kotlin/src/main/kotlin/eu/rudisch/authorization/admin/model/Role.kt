@@ -1,6 +1,7 @@
 package eu.rudisch.authorization.admin.model
 
 import java.io.Serializable
+import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
@@ -22,7 +23,7 @@ data class Role(
 		@Column(name = "name")
 		val name: String,
 
-		@ManyToMany(fetch = FetchType.EAGER)
+		@ManyToMany(cascade= [CascadeType.ALL], fetch = FetchType.EAGER)
 		@JoinTable(name = "permission_role",
 				joinColumns = [JoinColumn(name = "role_id", referencedColumnName = "id")],
 				inverseJoinColumns = [JoinColumn(name = "permission_id", referencedColumnName = "id")])
