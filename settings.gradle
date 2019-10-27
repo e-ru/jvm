@@ -16,3 +16,5 @@ include "server"
 include "authorization-service-spring"
 include "authorization-admin-service-spring"
 include "authorization-admin-service-spring-kotlin"
+include "math"
+
