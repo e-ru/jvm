@@ -66,8 +66,8 @@ configure(subprojects) {
 	apply plugin: 'eclipse'
 	apply plugin: 'idea'
 	apply plugin: 'com.github.spotbugs'
-    apply plugin: 'kotlin'
-    apply plugin: 'kotlin-kapt'
+//    apply plugin: 'kotlin'
+//    apply plugin: 'kotlin-kapt'
 
 	checkstyle {
 		toolVersion '8.20'
