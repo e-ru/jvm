@@ -6,26 +6,22 @@ import java.util.concurrent.CopyOnWriteArrayList
 import java.util.function.Consumer
 
 @Service
-class MessageProcessor {
+class Processor<T> {
 
 	companion object {
-		private val logger = LoggerFactory.getLogger(MessageProcessor::class.java)
-		private lateinit var listeners: CopyOnWriteArrayList<Consumer<String>>
+		private val logger = LoggerFactory.getLogger(Processor::class.java)
 	}
+	private val listeners: CopyOnWriteArrayList<Consumer<T>> = CopyOnWriteArrayList()
 
-	init {
-		listeners = CopyOnWriteArrayList()
-	}
-
-	fun register(listener: Consumer<String>) {
+	fun register(listener: Consumer<T>) {
 		logger.info("Added a listener, for a total of $listeners.size listener(s)")
 		listeners.add(listener)
 	}
 
-	fun process(message: String) {
-		logger.info("process: $message")
+	fun process(t: T) {
+		logger.info("process: $t")
 		listeners.forEach {
-			it.accept(message)
+			it.accept(t)
 		}
 	}
 }
