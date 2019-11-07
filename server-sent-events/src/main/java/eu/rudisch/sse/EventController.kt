@@ -3,9 +3,11 @@ package eu.rudisch.sse
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.http.codec.ServerSentEvent
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux
+import java.net.URI
 import java.time.LocalTime
 
 @RestController
@@ -19,16 +21,13 @@ class EventController(
 	}
 
 	@PostMapping()
-	@ResponseStatus(value = HttpStatus.CREATED)
-	fun send(@RequestBody event: String) {
+	fun send(@RequestBody event: String) : ResponseEntity<String>{
 		logger.info("Received '{}'", event)
 		sseFluxProcessor.process(
-				ServerSentEvent.builder<String>()
-						.id(event)
-						.event("periodic-event")
-						.data("SSE - " + LocalTime.now().toString())
-						.build()
+				"sse-event",
+				"SSE - data: $event LocalTime.now().toString()"
 		)
+		return ResponseEntity.created(URI("https://localhost:9393/events")).build<String>()
 	}
 
 	@GetMapping()

@@ -4,6 +4,9 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.http.codec.ServerSentEvent
 import reactor.core.publisher.Flux
+import java.time.Duration
+import java.time.LocalTime
+import java.time.temporal.TemporalUnit
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.CopyOnWriteArrayList
 import java.util.function.Consumer
@@ -19,10 +22,16 @@ class FluxProcessor<T> {
 
 	private val history: ConcurrentHashMap<String, ServerSentEvent<T>> = ConcurrentHashMap()
 
-	fun process(t: ServerSentEvent<T>) {
-		logger.info("process: $t")
+	fun process(event: String, data: T) {
+		logger.info("process: $data")
 		listeners.forEach {
-			it.accept(t)
+			val sse = ServerSentEvent.builder<T>()
+					.id("dummy-Id")
+					.event(event)
+					.data(data)
+					.retry(Duration.ofMillis(3000))
+					.build()
+			it.accept(sse)
 		}
 	}
 
