@@ -7,13 +7,8 @@ import org.springframework.http.codec.ServerSentEvent
 @Configuration
 class ProcessorConfiguration {
 
-	@Bean("stringProcessor")
-	fun stringProcessor() : Processor<String>{
-		return Processor()
-	}
-
 	@Bean("sseProcessor")
-	fun sseProcessor() : Processor<ServerSentEvent<String>>{
-		return Processor()
+	fun sseProcessor(): FluxProcessor<ServerSentEvent<String>> {
+		return FluxProcessor()
 	}
 }
