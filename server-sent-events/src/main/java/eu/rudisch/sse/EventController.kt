@@ -12,7 +12,7 @@ import java.time.LocalTime
 @RequestMapping("/events")
 class EventController(
 		@Qualifier("sseProcessor")
-		private val sseFluxProcessor: FluxProcessor<ServerSentEvent<String>>) {
+		private val sseFluxProcessor: FluxProcessor<String>) {
 
 	companion object {
 		private val logger = LoggerFactory.getLogger(EventController::class.java)

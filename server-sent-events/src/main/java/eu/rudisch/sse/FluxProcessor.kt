@@ -2,7 +2,9 @@ package eu.rudisch.sse
 
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import org.springframework.http.codec.ServerSentEvent
 import reactor.core.publisher.Flux
+import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.CopyOnWriteArrayList
 import java.util.function.Consumer
 
@@ -13,16 +15,18 @@ class FluxProcessor<T> {
 		private val logger = LoggerFactory.getLogger(FluxProcessor::class.java)
 	}
 
-	private val listeners: CopyOnWriteArrayList<Consumer<T>> = CopyOnWriteArrayList()
+	private val listeners: CopyOnWriteArrayList<Consumer<ServerSentEvent<T>>> = CopyOnWriteArrayList()
 
-	fun process(t: T) {
+	private val history: ConcurrentHashMap<String, ServerSentEvent<T>> = ConcurrentHashMap()
+
+	fun process(t: ServerSentEvent<T>) {
 		logger.info("process: $t")
 		listeners.forEach {
 			it.accept(t)
 		}
 	}
 
-	fun emit(): Flux<T> {
+	fun emit(): Flux<ServerSentEvent<T>> {
 		// Some FluxSink documentation and code samples:
 		// - https://projectreactor.io/docs/core/release/reference/#producing.create
 		// - https://www.baeldung.com/reactor-core
@@ -34,7 +38,7 @@ class FluxProcessor<T> {
 		}
 	}
 
-	private fun register(listener: Consumer<T>) {
+	private fun register(listener: Consumer<ServerSentEvent<T>>) {
 		logger.info("Added a listener, for a total of $listeners.size listener(s)")
 		listeners.add(listener)
 	}
