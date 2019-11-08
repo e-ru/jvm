@@ -21,11 +21,11 @@ class EventController(
 	}
 
 	@PostMapping()
-	fun send(@RequestBody event: String) : ResponseEntity<String>{
-		logger.info("Received '{}'", event)
+	fun send(@RequestBody data: String) : ResponseEntity<String>{
+		logger.info("Received '{}'", data)
 		sseFluxProcessor.process(
 				"sse-event",
-				"SSE - data: $event LocalTime.now().toString()"
+				"SSE - data: $data ${LocalTime.now()}"
 		)
 		return ResponseEntity.created(URI("https://localhost:9393/events")).build<String>()
 	}
